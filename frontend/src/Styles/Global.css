@@ -1,21 +1,28 @@
 
-.PrimaryColor{
-    color: #0C8BC1;
-}
-.Primary Text{
+
+.PrimaryText{
     color: #031D38;
 }
 .SecondaryText{
-    color: #918E89;
-}
-
-.WhitePrimary{
     color: #FEFEFE;
 }
 
-.bg-white{
-    color: #E8E9EB;
+.ThirdText{
+    color: #918E89;
 }
+
+.FourthText{
+    color: #000000;
+}
+
+.bg-Primary{
+    background-color: #0C8BC1;
+}
+
+.bg-Secondary{
+    background-color: #FEFEFE;
+}
+
 
 
 main {
