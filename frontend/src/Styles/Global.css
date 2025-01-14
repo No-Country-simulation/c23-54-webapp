@@ -1,0 +1,29 @@
+
+.PrimaryColor{
+    color: #0C8BC1;
+}
+.Primary Text{
+    color: #031D38;
+}
+.SecondaryText{
+    color: #918E89;
+}
+
+.WhitePrimary{
+    color: #FEFEFE;
+}
+
+.bg-white{
+    color: #E8E9EB;
+}
+
+
+main {
+    flex: 1;
+}
+
+.Contenido {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
