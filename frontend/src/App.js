@@ -5,11 +5,16 @@ import './App.css';
 import './Styles/Global.css';
 import Login from "./Pages/Login/Login";
 import NotFound from "./Pages/NotFound/NotFound";
+import Register from "./Pages/Register/Register";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Login/>, 
+  },
+  {
+    path: "/Registrarse",
+    element: <Register/>,	
   },
   {
     path: "*",
