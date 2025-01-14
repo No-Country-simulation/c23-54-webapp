@@ -17,6 +17,7 @@ const Login = () => {
     }
 
     setError(false)
+    window.location.href = '/home';
     alert('Iniciaste sesión: ' + email);
 
   }
