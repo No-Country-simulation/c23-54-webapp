@@ -16,12 +16,14 @@ const modalityRoutes = require('./backend/routes/modalityRoutes');
 const notificationRoutes = require('./backend/routes/notificationRoutes');
 const roleRoutes = require('./backend/routes/roleRoutes');
 const userRoleRoutes = require('./backend/routes/userRoleRoutes');
+const AuthRoutes = require('./backend/routes/authRoutes');
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
 // Rutas
+app.use('/api/auth', AuthRoutes.routes);
 app.use('/api/users', userRoutes);
 app.use('/api/actions', actionRoutes);
 app.use('/api/applicationStatuses', applicationStatusRoutes);
