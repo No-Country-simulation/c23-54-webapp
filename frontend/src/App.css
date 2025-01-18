@@ -120,12 +120,12 @@ p, h1, h2, h3, h4, h5, h6, div{
 }
 
 .padding-template{
-  padding: 20px 10px;
+  padding: 20px 40px;
 }
 
 .error-message{
   color: var(--red-0);
-  font-size: 12px;
+  font-size: 14px;
 }
 
 /* REGISTER */
@@ -134,6 +134,8 @@ p, h1, h2, h3, h4, h5, h6, div{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  gap: 20px;
 }
 
 .register__header{
@@ -143,7 +145,6 @@ p, h1, h2, h3, h4, h5, h6, div{
 }
 
 .register__footer{
-  margin: 20px 0 0 0;
   padding: 40px;
   width: 100%;
   background-color: var(--blue-1);
@@ -153,17 +154,33 @@ p, h1, h2, h3, h4, h5, h6, div{
 }
 
 .register__footer img{
+  height: 100%;
   width: 50%;
 }
 
 
 @media (width > 468px){
   .page__container__template{
+    min-height: calc(100vh - 20vh);
+    width: 70%;
+  }
+
+  .register__main{
+    width: 60%;
+    padding: 0;
+    margin: 0 auto;
+  }
+}
+
+@media (width > 768px){
+  .page__container__template{
+    min-height: calc(100vh - 20vh);
     width: 40%;
   }
 
   .register__main{
     width: 60%;
+    padding: 0;
     margin: 0 auto;
   }
 }
