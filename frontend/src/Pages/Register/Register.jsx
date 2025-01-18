@@ -1,62 +1,140 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import Logo from '../../Assets/icons/Logo.png'
+import { yupResolver } from "@hookform/resolvers/yup";
+import OutlinedButton from "../../Components/OutlinedButton/OutlinedButton"
+import { useForm } from "react-hook-form"
+import * as yup from "yup";
+import BgButton from "../../Components/BgButton/BgButton";
+import Logo from '../../Assets/icons/Logo.png';
+import ErrorMessage from "../../Components/Alerts/ErrorMessage/ErrorMessage";
+
+const registerSchema = yup.object().shape({
+    email: yup
+        .string()
+        .email("Debes introducir un email válido.")
+        .required("El email es obligatorio"),
+
+    password: yup
+        .string("El formato de la contraseña es incorrecto")
+        .min(8, "La contraseña debe contener al menos 8 caracteres")
+        .required("La contraseña es obligatoria"),
+
+    confirmPassword: yup
+        .string("El formato de la contraseña es incorrecto")
+        .oneOf([yup.ref("password")], "Las contraseñas deben coincidir")
+        .required("Debes confirmar tu contraseña")
+})
 
 const Register = () => {
 
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        resolver: yupResolver(registerSchema)
+    });
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [error, setError] = useState(false);
-
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (email === '' || password === '') {
-            setError(true)
-            return;
-        }
-
-        setError(false)
-        alert('Iniciaste sesión: ' + email);
+    const onSubmit = (data) => {
+        console.log("data: ", data)
     }
 
     return (
-        <div className='d-flex flex-column justify-content-center align-items-center shadow-login' style={{ height: '100vh' }}>
-            <div className='bg-Secondary p-3 col-10 col-sm-8 col-md-9 col-lg-6'>
+        <div className="page__container">
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="page__container__template register__container" >
+                <div className="register__header padding-template">
 
-                <div className='d-flex justify-content-between fs-4'>
-                    <p className='ThirdText  '>¡Crea tu cuenta!</p>
-                    <Link to="/" className='PrimaryColor text-decoration-none' >Inicia Sesión</Link>
+                    <p className="text-gray">¡Crea tu cuenta!</p>
+
+                    <div>
+                        <OutlinedButton
+                            title={"Inicia Sesión"}
+                            otherClases="non-shadow"
+                            onClick={console.log(`Save: `)}
+                        />
+
+                    </div>
+
+
                 </div>
 
-                <form className="col-9 col-sm-8 col-md-6 col-lg-6 mx-auto" onSubmit={handleSubmit}>
-                    <div className="mb-3 d-flex flex-column">
-                        <label htmlFor="email" className="FourthText">Correo Electronico</label>
-                        <input type="email" className="input-login" id="email" placeholder="Ingrese correo  electronico" onChange={(e) => (setEmail(e.target.value))} />
-                        {(error || email !== '') && <p className='text-danger m-0 p-0'>Ingrese el correo electronico</p>}
+                <div className="register__main padding-template">
+
+                    <div className="input-container">
+                        <label
+                            className="input-label"
+                            htmlFor="email">
+                            Correo Electronico
+                        </label>
+
+                        <input
+                            className="input-field"
+                            type="text"
+                            {...register("email")}
+                            placeholder="Juanperez222@gmail.com"
+                        />
+
+                        {errors && errors.email?.message && (
+                            <ErrorMessage
+                                message={errors.email?.message}
+                            />
+                        )}
                     </div>
 
-                    <div className="mb-3 d-flex flex-column">
-                        <label htmlFor="password" className="FourthText">Contraseña</label>
-                        <input type="password" className="input-login" id="password" placeholder="Ingrese su clave" onChange={(e) => (setPassword(e.target.value))} />
-                        {(error || password !== '') && <p className='text-danger m-0 p-0'>Ingrese la contraseña</p>}
+                    <div className="input-container">
+                        <label
+                            className="input-label"
+                            htmlFor="password">
+                            Contraseña
+                        </label>
+
+                        <input
+                            className="input-field"
+                            type="password"
+                            {...register("password")}
+                            placeholder="Ingrese una contraseña segura"
+                        />
+
+                        {errors && errors.password?.message && (
+                            <ErrorMessage
+                                message={errors.password?.message}
+                            />
+                        )}
                     </div>
 
-                    <div className="mb-3 d-flex flex-column">
-                        <label htmlFor="password" className="FourthText">Confirmar contraseña</label>
-                        <input type="password" className="input-login" id="password" placeholder="Confirme la contraseña" onChange={(e) => (setConfirmPassword(e.target.value))} />
-                        {(error || confirmPassword != password) && <p className='text-danger m-0 p-0'>La contraseña es distinta</p>}
+                    <div className="input-container">
+                        <label
+                            className="input-label"
+                            htmlFor="confirmPassword">
+                            Confirmar Contraseña
+                        </label>
+
+                        <input
+                            className="input-field"
+                            type="text"
+                            {...register("confirmPassword")}
+                            placeholder="Vuelva a introducir su clave"
+                        />
+
+                        {errors && errors.confirmPassword?.message && (
+                            <ErrorMessage
+                                message={errors.confirmPassword?.message}
+                            />
+                        )}
                     </div>
 
-                    <button type="submit" className="bg-Primary SecondaryText w-100 border-0 p-1 rounded-1 mb-3" onClick={handleSubmit}>Iniciar Sesion</button>
-                </form>
-            </div>
+                    <BgButton
+                        title={"Registrarse"}
+                        type="submit"
+                        disabled={errors && Object.keys(errors).length > 0 ? true : false}
+                    />
+                </div>
 
-            <div className='bg-Primary justify-content-center align-items-center d-flex flex-column p-2 col-10 col-sm-8 col-md-9 col-lg-6'>
-                <img src={Logo} className='w-50'></img>
-            </div>
+                <div className="register__footer padding-template">
+                    <img src={Logo} alt="Logo" />
+                </div>
+            </form>
+
         </div>
     )
 }

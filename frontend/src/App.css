@@ -1,8 +1,169 @@
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;700&display=swap');
 
+:root{
+
+  --bg-basic: #E8E9EB;
+  --text-primary: #031D38;
+  --text-secondary: #0C8BC1;
+  --text-terciary: #918E89;
+
+  --blue-0: #031D38;
+  --blue-1: #0C8BC1;
+
+  --cian-0: #89CBD0;
+
+  --gray-0: #918E89;
+  --gray-1: #E8E9EB;
+
+  --white-0: #FEFEFE;
+
+
+  --red-0: #E72B2B;
+  --red-1: #df7171;
+
+  --shadow-b-1: 0px 2px 4px 0px rgba(0,0,0,.25);
+
+
+  --radius-5: 5px;
+}
+
 body {
   font-family: 'Dosis', sans-serif;
   background-color: #E8E9EB;
 
 }
 
+p, h1, h2, h3, h4, h5, h6, div{
+  padding: 0;
+  margin: 0;
+}
+
+/* GLOBALS */
+
+.page__container{
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.button{
+  padding: 10px 20px;
+  border: none;
+  outline: none;
+  background: none;
+  border-radius: var(--radius-5);
+  width: 100%;
+  box-shadow: var(--shadow-b-1);
+}
+
+
+.button-blue{
+  color: var(--white-0);
+  background-color: var(--text-secondary);
+}
+
+.button-disabled{
+  color: var(--gray-0);
+  background-color: var(--gray-1);
+}
+
+.text-blue{
+  color: var(--text-secondary) !important;
+}
+
+.text-gray{
+  color: var(--gray-0);
+}
+
+.text-white{
+  color: var(--white-0);
+}
+
+.non-shadow{
+  box-shadow: none !important;
+}
+
+.page__container__template{
+  width: 90%;
+  background-color: var(--white-0);
+  border-radius: var(--radius-5);
+  border: 1px solid var(--gray-0);
+  box-shadow: var(--shadow-b-1);
+}
+
+.input-container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 20px 0;
+  padding: 0 10px;
+}
+
+.input-label{
+
+}
+
+.input-field{
+  background: none;
+  border: none;
+  outline: none;
+  padding: 5px 10px;
+  border-bottom: 2px solid var(--blue-1);
+}
+
+.input-field::placeholder{
+  font-size: 15px;
+}
+
+.padding-template{
+  padding: 20px 10px;
+}
+
+.error-message{
+  color: var(--red-0);
+  font-size: 12px;
+}
+
+/* REGISTER */
+
+.register__container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.register__header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.register__footer{
+  margin: 20px 0 0 0;
+  padding: 40px;
+  width: 100%;
+  background-color: var(--blue-1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.register__footer img{
+  width: 50%;
+}
+
+
+@media (width > 468px){
+  .page__container__template{
+    width: 40%;
+  }
+
+  .register__main{
+    width: 60%;
+    margin: 0 auto;
+  }
+}
