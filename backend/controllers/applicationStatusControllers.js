@@ -12,11 +12,11 @@ const getAllApplicationStatuses = async (req, res) => {
 
 // Create a new application status
 const createApplicationStatus = async (req, res) => {
-  const { name, description } = req.body;
+  const { status, description } = req.body;
 
   try {
     const newApplicationStatus = await ApplicationStatus.create({
-      name,
+      status,
       description
     });
     res.status(201).json(newApplicationStatus);
@@ -44,12 +44,12 @@ const getApplicationStatusById = async (req, res) => {
 // Update an application status by ID
 const updateApplicationStatus = async (req, res) => {
   const { id } = req.params;
-  const { name, description } = req.body;
+  const { status, description } = req.body;
 
   try {
     const applicationStatus = await ApplicationStatus.findByPk(id);
     if (applicationStatus) {
-      applicationStatus.name = name || applicationStatus.name;
+      applicationStatus.status = status || applicationStatus.staus;
       applicationStatus.description = description || applicationStatus.description;
 
       await applicationStatus.save();

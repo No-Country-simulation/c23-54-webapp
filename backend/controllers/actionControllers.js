@@ -12,17 +12,12 @@ const getAllActions = async (req, res) => {
 
 // Create a new action
 const createAction = async (req, res) => {
-  const { name, description, start_date, end_date, status, userId, cityId } = req.body;
+  const { name_action, description_action } = req.body;
 
   try {
     const newAction = await Action.create({
-      name,
-      description,
-      start_date,
-      end_date,
-      status,
-      userId,
-      cityId
+      name_action,
+      description_action,
     });
     res.status(201).json(newAction);
   } catch (error) {
@@ -49,19 +44,13 @@ const getActionById = async (req, res) => {
 // Update an action by ID
 const updateAction = async (req, res) => {
   const { id } = req.params;
-  const { name, description, start_date, end_date, status, userId, cityId } = req.body;
+  const { name_action, description_action } = req.body;
 
   try {
     const action = await Action.findByPk(id);
     if (action) {
-      action.name = name || action.name;
-      action.description = description || action.description;
-      action.start_date = start_date || action.start_date;
-      action.end_date = end_date || action.end_date;
-      action.status = status || action.status;
-      action.userId = userId || action.userId;
-      action.cityId = cityId || action.cityId;
-
+      action.action_name = name_action || action.name_action;
+      action.description = description_action || action.description_action;
       await action.save();
       res.status(200).json(action);
     } else {

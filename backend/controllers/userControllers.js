@@ -13,14 +13,16 @@ const getAllUsers = async (req, res) => {
 
 // Create a new user
 const createUser = async (req, res) => {
-  const { name, email, password, status, phone, address, cityId } = req.body;
+  const { name, email, password, registration_date, status, last_access_date, phone, address, cityId } = req.body;
 
   try {
     const newUser = await User.create({
       name,
       email,
       password,
+      registration_date,
       status,
+      last_access_date,
       phone,
       address,
       cityId
@@ -51,7 +53,7 @@ const getUserById = async (req, res) => {
 // Update a user by ID
 const updateUser = async (req, res) => {
   const { id } = req.params;
-  const { name, email, password, status, phone, address, cityId } = req.body;
+  const { name, email, password, status, last_access_date, phone, address, cityId } = req.body;
 
   try {
     const user = await User.findByPk(id);
@@ -60,6 +62,7 @@ const updateUser = async (req, res) => {
       user.email = email || user.email;
       user.password = password || user.password;
       user.status = status || user.status;
+      user.last_access_date = last_access_date || user.last_access_date;
       user.phone = phone || user.phone;
       user.address = address || user.address;
       user.cityId = cityId || user.cityId;

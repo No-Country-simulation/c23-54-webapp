@@ -12,7 +12,7 @@ const getAllNotifications = async (req, res) => {
 
 // Create a new notification
 const createNotification = async (req, res) => {
-  const { ID_user, ID_job_offer, message, type, send_date } = req.body;
+  const { ID_user, ID_job_offer, message, type, send_date, read } = req.body;
 
   try {
     const newNotification = await Notification.create({
@@ -20,7 +20,8 @@ const createNotification = async (req, res) => {
       ID_job_offer,
       message,
       type,
-      send_date
+      send_date,
+      read
     });
     res.status(201).json(newNotification);
   } catch (error) {
@@ -47,7 +48,7 @@ const getNotificationById = async (req, res) => {
 // Update a notification by ID
 const updateNotification = async (req, res) => {
   const { id } = req.params;
-  const { ID_user, ID_job_offer, message, type, send_date } = req.body;
+  const { ID_user, ID_job_offer, message, type, send_date, read } = req.body;
 
   try {
     const notification = await Notification.findByPk(id);
@@ -57,6 +58,7 @@ const updateNotification = async (req, res) => {
       notification.message = message || notification.message;
       notification.type = type || notification.type;
       notification.send_date = send_date || notification.send_date;
+      notification.read = read || notification.read;
 
       await notification.save();
       res.status(200).json(notification);

@@ -12,10 +12,11 @@ const getAllCities = async (req, res) => {
 
 // Create a new city
 const createCity = async (req, res) => {
-  const { name } = req.body;
+  const { ID_country, name } = req.body;
 
   try {
     const newCity = await City.create({
+      ID_country,
       name
     });
     res.status(201).json(newCity);
@@ -43,13 +44,13 @@ const getCityById = async (req, res) => {
 // Update a city by ID
 const updateCity = async (req, res) => {
   const { id } = req.params;
-  const { name } = req.body;
+  const { ID_country, name } = req.body;
 
   try {
     const city = await City.findByPk(id);
     if (city) {
+      city.ID_country = ID_country || city.ID_country;
       city.name = name || city.name;
-
       await city.save();
       res.status(200).json(city);
     } else {

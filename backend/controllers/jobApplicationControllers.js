@@ -12,10 +12,11 @@ const getAllJobApplications = async (req, res) => {
 
 // Create a new job application
 const createJobApplication = async (req, res) => {
-  const { ID_user, ID_job_offer, application_date, ID_application_status, comments } = req.body;
+  const { ID_application, ID_user, ID_job_offer, application_date, ID_application_status, comments } = req.body;
 
   try {
     const newJobApplication = await JobApplication.create({
+      ID_application,
       ID_user,
       ID_job_offer,
       application_date,
@@ -47,11 +48,12 @@ const getJobApplicationById = async (req, res) => {
 // Update a job application by ID
 const updateJobApplication = async (req, res) => {
   const { id } = req.params;
-  const { ID_user, ID_job_offer, application_date, ID_application_status, comments } = req.body;
+  const { ID_application, ID_user, ID_job_offer, application_date, ID_application_status, comments } = req.body;
 
   try {
     const jobApplication = await JobApplication.findByPk(id);
     if (jobApplication) {
+      jobApplication.ID_application = ID_application || jobApplication.ID_application;
       jobApplication.ID_user = ID_user || jobApplication.ID_user;
       jobApplication.ID_job_offer = ID_job_offer || jobApplication.ID_job_offer;
       jobApplication.application_date = application_date || jobApplication.application_date;

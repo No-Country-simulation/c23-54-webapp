@@ -12,7 +12,7 @@ const getAllChangeHistories = async (req, res) => {
 
 // Create a new change history
 const createChangeHistory = async (req, res) => {
-  const { ID_user, ID_entity, ID_action, change_date, details } = req.body;
+  const { ID_user, ID_entity, ID_action, change_date, change_description } = req.body;
 
   try {
     const newChangeHistory = await ChangeHistory.create({
@@ -20,7 +20,7 @@ const createChangeHistory = async (req, res) => {
       ID_entity,
       ID_action,
       change_date,
-      details
+      change_description
     });
     res.status(201).json(newChangeHistory);
   } catch (error) {
@@ -47,7 +47,7 @@ const getChangeHistoryById = async (req, res) => {
 // Update a change history by ID
 const updateChangeHistory = async (req, res) => {
   const { id } = req.params;
-  const { ID_user, ID_entity, ID_action, change_date, details } = req.body;
+  const { ID_user, ID_entity, ID_action, change_date, change_description } = req.body;
 
   try {
     const changeHistory = await ChangeHistory.findByPk(id);
@@ -56,7 +56,7 @@ const updateChangeHistory = async (req, res) => {
       changeHistory.ID_entity = ID_entity || changeHistory.ID_entity;
       changeHistory.ID_action = ID_action || changeHistory.ID_action;
       changeHistory.change_date = change_date || changeHistory.change_date;
-      changeHistory.details = details || changeHistory.details;
+      changeHistory.change_description = change_description || changeHistory.change_description;
 
       await changeHistory.save();
       res.status(200).json(changeHistory);
