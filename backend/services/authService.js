@@ -41,7 +41,6 @@ class AuthService {
 
     async cityExists(ID_city) {
         const city = await City.count({ where: { ID_city } })
-        console.log(city)
         if (!city) throw CustomError.badRequest('City does not exist');
 
     }
@@ -68,9 +67,10 @@ class AuthService {
         await this.countUserByEmail(registerUserDto.email);
 
         try {
+
             registerUserDto.password = this.encryptPassword(registerUserDto.password);
-            //FIXME: falta manejar el error cuando no existe la ciudad
-            this.cityExists(registerUserDto.ID_city);
+
+            await this.cityExists(registerUserDto.ID_city);
 
             const user = await User.create(registerUserDto);
             const token = await this.generateToken(user);
