@@ -1,12 +1,14 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import OutlinedButton from "../../Components/OutlinedButton/OutlinedButton"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import * as yup from "yup";
 import BgButton from "../../Components/BgButton/BgButton";
 import Logo from '../../Assets/icons/Logo.png';
 import ErrorMessage from "../../Components/Alerts/ErrorMessage/ErrorMessage";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useRef, useState } from "react";
+
+import JoditEditor from 'jodit-react';
 
 
 const registerSchemaStepOne = yup.object().shape({
@@ -47,20 +49,24 @@ const registerSchemaStepTwo = yup.object().shape({
 
     role: yup
         .number()
-        .required("El tipo de usuario es obligatorio")
+        .required("El tipo de usuario es obligatorio"),
+    description: yup
+        .string()
 })
 
 const Register = () => {
 
     const [currentStep, setCurrentStep] = useState(1);
     const [formData, setFormData] = useState({});
-
     const navigate = useNavigate();
 
     const [citiesList, setCitiesList] = useState([]);
     const [rolesList, setRolesList] = useState([]);
 
+
+
     const {
+        control,
         register,
         handleSubmit,
         formState: { errors, isValid },
@@ -78,17 +84,21 @@ const Register = () => {
 
 
     const finalStepSubmit = (data) => {
+
         setFormData({
             ...formData,
             ...data
         })
-        console.log(formData);
+
+        console.log("FormData: ", formData);
     }
 
     const redirectToLogin = () => {
         reset();
         navigate('/login')
     }
+
+    const editor = useRef(null);
 
     return (
         <div className="page__container">
@@ -113,7 +123,7 @@ const Register = () => {
 
                 </div>
 
-                <div className="register__main padding-template">
+                <div className="register__main">
 
                     {currentStep === 1 ? (
                         <>
@@ -191,154 +201,202 @@ const Register = () => {
                         :
 
                         currentStep === 2 ? (
-                            <>
-                                <div className="input-container">
-                                    <label
-                                        className="input-label"
-                                        htmlFor="username">
-                                        Nombre de Usuario
-                                    </label>
+                            <div className="register__second__step__container">
+                                <div className="register__second__step__section">
+                                    <h4>Datos de Cuenta y personales</h4>
 
-                                    <input
-                                        className="input-field"
-                                        type="text"
-                                        {...register("username")}
-                                        placeholder="juanperez01"
-                                    />
+                                    <div className="input-container">
+                                        <label
+                                            className="input-label"
+                                            htmlFor="username">
+                                            Nombre de Usuario
+                                            <span className="tip-text-obligatory"> *(Obligatorio)</span>
+                                        </label>
 
-                                    {errors && errors.username?.message && (
-                                        <ErrorMessage
-                                            message={errors.username?.message}
+                                        <input
+                                            className="input-field"
+                                            type="text"
+                                            {...register("username")}
+                                            placeholder="juanperez01"
                                         />
-                                    )}
+
+                                        {errors && errors.username?.message && (
+                                            <ErrorMessage
+                                                message={errors.username?.message}
+                                            />
+                                        )}
+                                    </div>
+
+                                    <div className="input-container">
+                                        <label
+                                            className="input-label"
+                                            htmlFor="name">
+                                            Nombre completo
+                                            <span className="tip-text-obligatory"> *(Obligatorio)</span>
+                                        </label>
+
+                                        <input
+                                            className="input-field"
+                                            type="text"
+                                            {...register("name")}
+                                            placeholder="Juan Perez"
+                                        />
+
+                                        {errors && errors.name?.message && (
+                                            <ErrorMessage
+                                                message={errors.name?.message}
+                                            />
+                                        )}
+
+
+
+                                    </div>
+
+                                    <div className="input-container">
+                                        <label
+                                            className="input-label"
+                                            htmlFor="city">
+                                            Ciudad
+                                            <span className="tip-text-obligatory"> *(Obligatorio)</span>
+                                        </label>
+
+                                        <select
+                                            className="input-field"
+                                            type="text"
+                                            {...register("city")}
+                                            placeholder="Ingrese una ciudad"
+                                        >
+                                            <option
+                                                value={1}
+                                            >options</option>
+                                        </select>
+
+                                        {errors && errors.city?.message && (
+                                            <ErrorMessage
+                                                message={errors.city?.message}
+                                            />
+                                        )}
+
+                                    </div>
+
+                                    <div className="input-container">
+                                        <label
+                                            className="input-label"
+                                            htmlFor="role">
+                                            Tipo de usuario
+                                            <span className="tip-text-obligatory"> *(Obligatorio)</span>
+                                        </label>
+
+                                        <select
+                                            className="input-field"
+                                            type="text"
+                                            {...register("role")}
+                                            placeholder="Ingrese una ciudad"
+                                        >
+                                            <option
+                                                value={1}
+                                            >options</option>
+                                        </select>
+
+                                        {errors && errors.role?.message && (
+                                            <ErrorMessage
+                                                message={errors.role?.message}
+                                            />
+                                        )}
+
+                                    </div>
+
+
+                                    <h4>Datos de Contacto</h4>
+                                    <div className="input-container">
+                                        <label
+                                            className="input-label"
+                                            htmlFor="phone">
+                                            Telefono
+                                            <span className="tip-text"> (Opcional)</span>
+                                        </label>
+
+                                        <input
+                                            className="input-field"
+                                            type="text"
+                                            {...register("phone")}
+                                            placeholder="+12 345678"
+                                        />
+
+                                        {errors && errors.phone?.message && (
+                                            <ErrorMessage
+                                                message={errors.phone?.message}
+                                            />
+                                        )}
+
+                                    </div>
+
+
+                                    <div className="input-container">
+                                        <label
+                                            className="input-label"
+                                            htmlFor="address">
+                                            Dirección
+                                            <span className="tip-text"> (Opcional)</span>
+                                        </label>
+
+                                        <input
+                                            className="input-field"
+                                            type="text"
+                                            {...register("address")}
+                                            placeholder="+12 345678"
+                                        />
+
+                                        {errors && errors.address?.message && (
+                                            <ErrorMessage
+                                                message={errors.address?.message}
+                                            />
+                                        )}
+
+                                    </div>
+
                                 </div>
 
-                                <div className="input-container">
-                                    <label
-                                        className="input-label"
-                                        htmlFor="name">
-                                        Nombre completo
-                                    </label>
+                                <div className="register__second__step__section">
 
-                                    <input
-                                        className="input-field"
-                                        type="text"
-                                        {...register("name")}
-                                        placeholder="Juan Perez"
-                                    />
-
-                                    {errors && errors.name?.message && (
-                                        <ErrorMessage
-                                            message={errors.name?.message}
-                                        />
-                                    )}
-
-                                </div>
-
-
-                                <div className="input-container">
-                                    <label
-                                        className="input-label"
-                                        htmlFor="phone">
-                                        Telefono
-                                    </label>
-
-                                    <input
-                                        className="input-field"
-                                        type="text"
-                                        {...register("phone")}
-                                        placeholder="+12 345678"
-                                    />
-
-                                    {errors && errors.phone?.message && (
-                                        <ErrorMessage
-                                            message={errors.phone?.message}
-                                        />
-                                    )}
-
-                                </div>
-
-
-                                <div className="input-container">
-                                    <label
-                                        className="input-label"
-                                        htmlFor="address">
-                                        Dirección
-                                    </label>
-
-                                    <input
-                                        className="input-field"
-                                        type="text"
-                                        {...register("address")}
-                                        placeholder="+12 345678"
-                                    />
-
-                                    {errors && errors.address?.message && (
-                                        <ErrorMessage
-                                            message={errors.address?.message}
-                                        />
-                                    )}
-
-                                </div>
-
-                                <div className="input-container">
-                                    <label
-                                        className="input-label"
-                                        htmlFor="city">
-                                        Ciudad
-                                    </label>
-
-                                    <select
-                                        className="input-field"
-                                        type="text"
-                                        {...register("city")}
-                                        placeholder="Ingrese una ciudad"
+                                    <div
+                                        className="input-container"
                                     >
-                                        <option
-                                            value={1}
-                                        >options</option>
-                                    </select>
+                                        <label
+                                            className="input-label"
+                                            htmlFor="address">
+                                            Cuenta algo mundo sobre ti!
+                                            <span className="tip-text"> (Opcional)</span>
+                                        </label>
 
-                                    {errors && errors.city?.message && (
-                                        <ErrorMessage
-                                            message={errors.city?.message}
+                                        <Controller
+                                            name="description"
+                                            control={control}
+                                            defaultValue=""
+                                            render={({ field }) => (
+                                                <JoditEditor
+                                                    ref={editor}
+                                                    value={field.value}
+                                                    onBlur={field.onBlur}
+                                                    onChange={(content) => field.onChange(content)}
+                                                />
+                                            )}
                                         />
-                                    )}
+                                        {errors.description?.message && (
+                                            <ErrorMessage message={errors.description?.message} />
+                                        )}
 
+                                        {errors.description?.message && <ErrorMessage message={errors.description?.message} />}
+
+                                    </div>
+
+                                    <BgButton
+                                        title={"Completar Registro"}
+                                        type="submit"
+                                        disabled={!isValid}
+                                    />
                                 </div>
-
-                                <div className="input-container">
-                                    <label
-                                        className="input-label"
-                                        htmlFor="role">
-                                        Tipo de usuario
-                                    </label>
-
-                                    <select
-                                        className="input-field"
-                                        type="text"
-                                        {...register("role")}
-                                        placeholder="Ingrese una ciudad"
-                                    >
-                                        <option
-                                            value={1}
-                                        >options</option>
-                                    </select>
-
-                                    {errors && errors.role?.message && (
-                                        <ErrorMessage
-                                            message={errors.role?.message}
-                                        />
-                                    )}
-
-                                </div>
-
-                                <BgButton
-                                    title={"Completar Registro"}
-                                    type="submit"
-                                    disabled={!isValid}
-                                />
-                            </>
+                            </div>
                         ) : null
                     }
 

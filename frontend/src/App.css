@@ -48,7 +48,6 @@ p, h1, h2, h3, h4, h5, h6, div{
   align-items: center;
 }
 
-
 .button{
   padding: 10px 20px;
   border: none;
@@ -84,6 +83,16 @@ p, h1, h2, h3, h4, h5, h6, div{
 
 .non-shadow{
   box-shadow: none !important;
+}
+
+.tip-text-obligatory{
+  color: var(--red-0);
+  font-size: 12px;
+}
+
+.tip-text{
+  color: var(--gray-0);
+  font-size: 12px;
 }
 
 .page__container__template{
@@ -144,6 +153,9 @@ p, h1, h2, h3, h4, h5, h6, div{
   justify-content: space-between;
 }
 
+.register__main{
+  padding: 10px;
+}
 .register__footer{
   padding: 40px;
   width: 100%;
@@ -159,6 +171,16 @@ p, h1, h2, h3, h4, h5, h6, div{
 }
 
 
+
+.rich-text-container{
+  height: 100%;
+  word-break: break-all;
+  border: 1px solid var(--gray-0);
+  padding: 5px;
+  border-radius: var(--radius-5);
+  flex-grow: 1;
+}
+
 @media (width > 468px){
   .page__container__template{
     min-height: calc(100vh - 20vh);
@@ -166,10 +188,11 @@ p, h1, h2, h3, h4, h5, h6, div{
   }
 
   .register__main{
-    width: 60%;
-    padding: 0;
+    width: 100%;
     margin: 0 auto;
+    padding: 20px;
   }
+
 }
 
 @media (width > 768px){
@@ -179,8 +202,8 @@ p, h1, h2, h3, h4, h5, h6, div{
   }
 
   .register__main{
-    width: 60%;
-    padding: 0;
+    width: 100%;
+    padding: 10px 40px;
     margin: 0 auto;
   }
 }
