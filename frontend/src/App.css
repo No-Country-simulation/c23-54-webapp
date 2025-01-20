@@ -18,6 +18,8 @@
   --white-0: #FEFEFE;
 
 
+  --green-0: #2be744;
+
   --red-0: #E72B2B;
   --red-1: #df7171;
 
@@ -36,6 +38,10 @@ body {
 p, h1, h2, h3, h4, h5, h6, div{
   padding: 0;
   margin: 0;
+}
+
+p{
+  word-break: break-all;
 }
 
 /* GLOBALS */
@@ -137,6 +143,11 @@ p, h1, h2, h3, h4, h5, h6, div{
   font-size: 14px;
 }
 
+
+.success-message{
+  color: var(--green-0);
+  font-size: 14px;
+}
 /* REGISTER */
 
 .register__container{
@@ -184,6 +195,39 @@ p, h1, h2, h3, h4, h5, h6, div{
   justify-content: space-between;
 }
 
+/* TOASTS */
+
+.toast__container{
+  position: fixed;
+  bottom: 0;
+
+  padding: 10px ;
+  margin-bottom: 30px;
+  
+  width: 95%;
+  
+  border-radius: var(--radius-5);
+  border: solid 1px var(--gray-0);
+  background-color: var(--white-0);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  box-shadow: var(--shadow-b-1);
+}
+
+.toast__icon{
+  flex: 1;
+}
+
+.toast__text{
+  flex: 100;
+}
+
+
+
 @media (width > 468px){
   .page__container__template{
     min-height: calc(100vh - 20vh);
@@ -194,6 +238,10 @@ p, h1, h2, h3, h4, h5, h6, div{
     width: 100%;
     margin: 0 auto;
     padding: 20px;
+  }
+
+  .toast__container{
+    width: 70%;
   }
 
 }
@@ -215,5 +263,14 @@ p, h1, h2, h3, h4, h5, h6, div{
     display: flex;
     gap: 20px;
     flex-direction: row;
+  }
+
+  .toast__container{
+    width: 20%;
+    top: 0;
+    right: 0;
+
+    margin: 40px 40px 0 0;
+    height: fit-content;
   }
 }

@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 
 import JoditEditor from 'jodit-react';
+import AlertToast from "../../Components/Alerts/Toasts/AlertToast";
+import SuccessToast from "../../Components/Alerts/Toasts/SuccessToast";
 
 
 const registerSchemaStepOne = yup.object().shape({
@@ -25,7 +27,7 @@ const registerSchemaStepOne = yup.object().shape({
     confirmPassword: yup
         .string("El formato de la contraseña es incorrecto")
         .oneOf([yup.ref("password")], "Las contraseñas deben coincidir")
-        .required("Debes confirmar tu contraseña")
+        .required("Debes confirmar tu contraseña"),
 })
 
 const registerSchemaStepTwo = yup.object().shape({
@@ -43,29 +45,36 @@ const registerSchemaStepTwo = yup.object().shape({
     address: yup
         .string(),
 
+    country: yup
+        .number()
+        .typeError("Debe seleccionar algo")
+        .required("El país es obligatorio"),
+
     city: yup
         .number()
+        .typeError("Debe seleccionar algo")
         .required("La ciudad es obligatoria"),
 
     role: yup
         .number()
+        .typeError("Debe seleccionar algo")
         .required("El tipo de usuario es obligatorio"),
     description: yup
         .string()
 })
 
-const citiesApi = `${process.env.SV_HOST}${process.env.RALL_CITIES}`;
-const countriesApi = `${process.env.SV_HOST}${process.env.RALL_COUNTRIES}`;
-const rolesApi = `${process.env.SV_HOST}${process.env.RALL_ROLES}`;
-
-const registerApi = `${process.env.SV_HOST}${process.env.C_USER}`;
 
 const Register = () => {
 
     const [currentStep, setCurrentStep] = useState(1);
     const [formData, setFormData] = useState({});
+    const [selectedCountry, setSelectedCountry] = useState(null);
 
     const [isLoading, setIsLoading] = useState(false);
+    const [showAlertToast, setShowALertToast] = useState(false);
+
+    const [showSuccessToast, setSuccessALertToast] = useState(false);
+    const [messageToast, setMessageToast] = useState("");
 
     const navigate = useNavigate();
 
@@ -91,14 +100,49 @@ const Register = () => {
         setCurrentStep(2);
     };
 
-    const finalStepSubmit = (data) => {
+    const finalStepSubmit = async (data) => {
 
-        setFormData({
-            ...formData,
-            ...data
-        })
 
-        console.log("FormData: ", formData);
+
+        try {
+            setFormData({
+                ...formData,
+                ...data,
+                status: "Active"
+            })
+
+            const registerApi = `${process.env.REACT_APP_SV_HOST}${process.env.REACT_APP_C_USER}`;
+
+            const registerFetch = await fetch(registerApi, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+
+            if (registerFetch.status === 400) {
+                setShowALertToast(true);
+                setMessageToast("Error al registrarse, intentelo de nuevo más tarde");
+                setTimeout(() => {
+                    setShowALertToast(false)
+                }, 2000)
+            }
+
+            setSuccessALertToast(true);
+            setMessageToast("Registro exitoso, sera redigirido instantaneamete");
+            setTimeout(() => {
+                setSuccessALertToast(false)
+            }, 2000)
+
+        } catch (error) {
+            setShowALertToast(true);
+            setMessageToast("Error al registrarse, intentelo de nuevo más tarde");
+            setTimeout(() => {
+                setShowALertToast(false)
+            }, 2000)
+        }
+
     }
 
     const redirectToLogin = () => {
@@ -106,37 +150,64 @@ const Register = () => {
         navigate('/login')
     }
 
+    console.log(formData)
     useEffect(() => {
 
         const getDataForSelects = async () => {
 
+            const countriesApi = fetch(`${process.env.REACT_APP_SV_HOST}${process.env.REACT_APP_RALL_COUNTRIES}`);
+            const citiesApi = fetch(`${process.env.REACT_APP_SV_HOST}${process.env.REACT_APP_RALL_CITIES}`);
+            const rolesApi = fetch(`${process.env.REACT_APP_SV_HOST}${process.env.REACT_APP_RALL_ROLES}`);
+
             setIsLoading(true);
 
             try {
-                const [resultCountries, resultCities, resultRoles] = Promise.all([countriesApi, citiesApi, rolesApi]);
+
+                const [resultCountries, resultCities, resultRoles] = await Promise.all([countriesApi, citiesApi, rolesApi]);
 
 
                 const countries = await resultCountries.json();
                 const cities = await resultCities.json();
-                const roles = resultRoles.json();
+                const citiesFilteredByCountry = cities.filter((city) => String(city.ID_country) === String(selectedCountry));
+                const roles = await resultRoles.json();
 
-                setCitiesList(cities);
+
                 setCountriesList(countries);
-                setRolesList(roles);
+                setCitiesList(citiesFilteredByCountry);
+                setRolesList(roles)
 
                 setIsLoading(false);
 
             } catch (error) {
-                console.log(error)
+                setShowALertToast(true);
+                setMessageToast("Error al conectar con los servidores, intentalo de nuevo más adelante");
+                setTimeout(() => {
+                    setShowALertToast(false)
+                }, 2000)
             }
-
-
         }
 
-    }, [])
+        getDataForSelects()
+    }, [selectedCountry])
+
+    const handleSelectedCountry = (value) => {
+        setSelectedCountry(value);
+    }
 
     return (
         <div className="page__container">
+            {showAlertToast && (
+                <AlertToast
+                    message_toast={messageToast}
+                />
+            )}
+
+            {showSuccessToast && (
+                <SuccessToast
+                    message_toast={messageToast}
+                />
+            )}
+
             <form
                 onSubmit={handleSubmit(currentStep === 1 ? goToNextStep : finalStepSubmit)}
                 className="page__container__template register__container" >
@@ -298,18 +369,28 @@ const Register = () => {
 
                                         <select
                                             className="input-field"
-                                            type="text"
                                             {...register("country")}
                                             placeholder="Ingrese una ciudad"
+                                            onChange={(e) => {
+                                                const selectedValue = e.target.value
+                                                handleSelectedCountry(selectedValue);
+                                            }}
                                         >
 
+                                            <option
+                                                value={null}
+                                            >
+                                                Seleccione un pais
+                                            </option>
                                             {countriesList && countriesList.map((country) => (
 
                                                 <option
+                                                    key={country.ID_country}
                                                     value={country.ID_country}
                                                 >
                                                     {country.name}
                                                 </option>
+
                                             ))}
                                         </select>
 
@@ -335,9 +416,22 @@ const Register = () => {
                                             {...register("city")}
                                             placeholder="Ingrese una ciudad"
                                         >
+
                                             <option
-                                                value={1}
-                                            >options</option>
+                                                value={null}
+                                            >
+                                                Seleccione una ciudad
+                                            </option>
+                                            {citiesList && citiesList.map((city) => (
+
+                                                <option
+                                                    key={city.ID_city}
+                                                    value={city.ID_city}
+                                                >
+                                                    {city.name}
+                                                </option>
+
+                                            ))}
                                         </select>
 
                                         {errors && errors.city?.message && (
@@ -363,8 +457,20 @@ const Register = () => {
                                             placeholder="Ingrese una ciudad"
                                         >
                                             <option
-                                                value={1}
-                                            >options</option>
+                                                value={null}
+                                            >
+                                                Seleccione un tipo de usuario
+                                            </option>
+                                            {rolesList && rolesList.map((role) => (
+
+                                                <option
+                                                    key={role.ID_role}
+                                                    value={role.ID_role}
+                                                >
+                                                    {role.name}
+                                                </option>
+
+                                            ))}
                                         </select>
 
                                         {errors && errors.role?.message && (
