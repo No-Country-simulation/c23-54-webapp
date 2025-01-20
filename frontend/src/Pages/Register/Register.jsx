@@ -6,7 +6,7 @@ import BgButton from "../../Components/BgButton/BgButton";
 import Logo from '../../Assets/icons/Logo.png';
 import ErrorMessage from "../../Components/Alerts/ErrorMessage/ErrorMessage";
 import { useNavigate } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import JoditEditor from 'jodit-react';
 
@@ -54,17 +54,26 @@ const registerSchemaStepTwo = yup.object().shape({
         .string()
 })
 
+const citiesApi = `${process.env.SV_HOST}${process.env.RALL_CITIES}`;
+const countriesApi = `${process.env.SV_HOST}${process.env.RALL_COUNTRIES}`;
+const rolesApi = `${process.env.SV_HOST}${process.env.RALL_ROLES}`;
+
+const registerApi = `${process.env.SV_HOST}${process.env.C_USER}`;
+
 const Register = () => {
 
     const [currentStep, setCurrentStep] = useState(1);
     const [formData, setFormData] = useState({});
+
+    const [isLoading, setIsLoading] = useState(false);
+
     const navigate = useNavigate();
 
     const [citiesList, setCitiesList] = useState([]);
+    const [countriesList, setCountriesList] = useState([]);
     const [rolesList, setRolesList] = useState([]);
 
-
-
+    const editor = useRef(null);
     const {
         control,
         register,
@@ -82,7 +91,6 @@ const Register = () => {
         setCurrentStep(2);
     };
 
-
     const finalStepSubmit = (data) => {
 
         setFormData({
@@ -98,7 +106,34 @@ const Register = () => {
         navigate('/login')
     }
 
-    const editor = useRef(null);
+    useEffect(() => {
+
+        const getDataForSelects = async () => {
+
+            setIsLoading(true);
+
+            try {
+                const [resultCountries, resultCities, resultRoles] = Promise.all([countriesApi, citiesApi, rolesApi]);
+
+
+                const countries = await resultCountries.json();
+                const cities = await resultCities.json();
+                const roles = resultRoles.json();
+
+                setCitiesList(cities);
+                setCountriesList(countries);
+                setRolesList(roles);
+
+                setIsLoading(false);
+
+            } catch (error) {
+                console.log(error)
+            }
+
+
+        }
+
+    }, [])
 
     return (
         <div className="page__container">
@@ -126,7 +161,7 @@ const Register = () => {
                 <div className="register__main">
 
                     {currentStep === 1 ? (
-                        <>
+                        <div className="register__first__step-container">
                             <div className="input-container">
                                 <label
                                     className="input-label"
@@ -195,7 +230,7 @@ const Register = () => {
                                 type="submit"
                                 disabled={!isValid}
                             />
-                        </>
+                        </div>
                     )
 
                         :
@@ -204,6 +239,7 @@ const Register = () => {
                             <div className="register__second__step__container">
                                 <div className="register__second__step__section">
                                     <h4>Datos de Cuenta y personales</h4>
+
 
                                     <div className="input-container">
                                         <label
@@ -249,6 +285,39 @@ const Register = () => {
                                         )}
 
 
+
+                                    </div>
+
+                                    <div className="input-container">
+                                        <label
+                                            className="input-label"
+                                            htmlFor="country">
+                                            Ciudad
+                                            <span className="tip-text-obligatory"> *(Obligatorio)</span>
+                                        </label>
+
+                                        <select
+                                            className="input-field"
+                                            type="text"
+                                            {...register("country")}
+                                            placeholder="Ingrese una ciudad"
+                                        >
+
+                                            {countriesList && countriesList.map((country) => (
+
+                                                <option
+                                                    value={country.ID_country}
+                                                >
+                                                    {country.name}
+                                                </option>
+                                            ))}
+                                        </select>
+
+                                        {errors && errors.city?.message && (
+                                            <ErrorMessage
+                                                message={errors.city?.message}
+                                            />
+                                        )}
 
                                     </div>
 
@@ -307,6 +376,11 @@ const Register = () => {
                                     </div>
 
 
+
+                                </div>
+
+                                <div className="register__second__step__section">
+
                                     <h4>Datos de Contacto</h4>
                                     <div className="input-container">
                                         <label
@@ -355,17 +429,14 @@ const Register = () => {
 
                                     </div>
 
-                                </div>
-
-                                <div className="register__second__step__section">
 
                                     <div
                                         className="input-container"
                                     >
                                         <label
                                             className="input-label"
-                                            htmlFor="address">
-                                            Cuenta algo mundo sobre ti!
+                                            htmlFor="description">
+                                            Cuenta al mundo sobre ti!
                                             <span className="tip-text"> (Opcional)</span>
                                         </label>
 
