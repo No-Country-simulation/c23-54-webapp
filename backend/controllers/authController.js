@@ -2,6 +2,7 @@ const AuthService = require('../services/authService')
 const CustomError = require('../errors/custom.errors')
 
 const LoginUserDTO = require('../domain/dto/auth/login-user.dto')
+const RegisterUserDTO = require('../domain/dto/auth/register-user.dto')
 
 class AuthController {
 
@@ -24,58 +25,35 @@ class AuthController {
 
     registerUser = (req, res) => {
 
-        // const [error, registerDTO] = RegisterUserDTO.create(req.body);
-        // if (error) return res.status(400).json({ error })
+        const user = {
+            email: req.body.email,
+            password: req.body.password,
+            name: req.body.name,
+            phone: req.body.phone,
+            address: req.body.address,
+            ID_city: req.body.ID_city,
+        }
 
-        // this.authService.registerUser(registerDTO)
-        //     .then((user) => res.json(user))
-        //     .catch(error => this.handleError(error, res))
+        const [error, registerUserDto] = RegisterUserDTO.create(user);
 
-        // const existUser = UserModel.findOne({ email: registerUserDto.email });
-        // if (existUser) throw CustomError.badRequest('Email already exist');
+        if (error) return res.status(400).json({ error })
 
-        // try {
-        //     const user = new UserModel(registerUserDto);
-
-        //     // Encriptar la contraseña
-        //     user.password = bcryptAdapter.hash(registerUserDto.password);
-
-        //     user.save();
-
-        //     // JWT <--- para mantener la autenticación del usuario
-        //     const token = JwtAdapter.generateToken({ id: user.id });
-        //     if (!token) throw CustomError.internalServer('Error while creating JWT');
-
-
-        //     const { password, ...userEntity } = UserEntity.fromObject(user);
-
-        //     return {
-        //         user: userEntity,
-        //         token: token
-        //     };
-        // } catch (error) {
-        //     throw CustomError.internalServer(`${error}`)
-        // }
-
-
+        this.authService.registerUser(registerUserDto)
+            .then((user) => res.json(user))
+            .catch(error => this.handleError(error, res))
 
     }
 
     loginUser = (req, res) => {
-        const { email, password } = req.body;
-        const user = { email, password }
+        const user = { email: req.body.email, password: req.body.password }
 
         const [error, loginUserDto] = LoginUserDTO.create(user)
-
-        console.log(loginUserDto)
-
 
         if (error) return res.status(400).json({ error })
 
         this.authService.loginUser(loginUserDto)
             .then((user) => res.json(user))
             .catch(error => this.handleError(error, res))
-
 
     }
 

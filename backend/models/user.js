@@ -5,7 +5,8 @@ const User = sequelize.define('User', {
   ID_user: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
+    allowNull: false
   },
   name: {
     type: DataTypes.STRING,
@@ -22,27 +23,34 @@ const User = sequelize.define('User', {
   },
   registration_date: {
     type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW
+    defaultValue: DataTypes.NOW,
+    allowNull: false
   },
   status: {
-    type: DataTypes.STRING,
+    type: DataTypes.BOOLEAN,
+    defaultValue: true,
     allowNull: false
   },
   last_access_date: {
-    type: DataTypes.DATE
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+    allowNull: false
   },
   phone: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    allowNull: false
   },
   address: {
-    type: DataTypes.TEXT
+    type: DataTypes.TEXT,
+    allowNull: false
   },
   ID_city: {
     type: DataTypes.INTEGER,
     references: {
       model: 'City',
       key: 'ID_city'
-    }
+    },
+    allowNull: false
   }
 }, {
   tableName: 'Users', // Table name in the database

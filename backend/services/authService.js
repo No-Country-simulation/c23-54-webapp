@@ -1,5 +1,5 @@
 const User = require("../models/user");
-const LoginUserDTO = require("../domain/dto/auth/login-user.dto");
+const City = require("../models/city")
 const CustomError = require('../errors/custom.errors')
 const UserEntity = require('../domain/entites/user.entity')
 
@@ -15,6 +15,11 @@ class AuthService {
         return user
     };
 
+    async countUserByEmail(email) {
+        const user = await User.count({ where: { email } });
+        if (user) throw CustomError.badRequest('Email exists');
+    }
+
     comparePassword(encryptedPassword, plainPassword) {
 
         const passwordMatch = bcryptAdapter.compare(encryptedPassword, plainPassword)
@@ -22,11 +27,22 @@ class AuthService {
 
     }
 
+    encryptPassword(plainPassword) {
+        return bcryptAdapter.hash(plainPassword);
+    }
+
     async generateToken(user) {
 
         const token = await JwtAdapter.generateToken({ id: user.ID_user, name: user.name });
         if (!token) throw CustomError.internalServer('Error while creating JWT');
         return token;
+
+    }
+
+    async cityExists(ID_city) {
+        const city = await City.count({ where: { ID_city } })
+        console.log(city)
+        if (!city) throw CustomError.badRequest('City does not exist');
 
     }
 
@@ -47,6 +63,29 @@ class AuthService {
     }
 
 
+    async registerUser(registerUserDto) {
+
+        await this.countUserByEmail(registerUserDto.email);
+
+        try {
+            registerUserDto.password = this.encryptPassword(registerUserDto.password);
+            //FIXME: falta manejar el error cuando no existe la ciudad
+            this.cityExists(registerUserDto.ID_city);
+
+            const user = await User.create(registerUserDto);
+            const token = await this.generateToken(user);
+
+            const { password, ...userEntity } = UserEntity.fromObject(user);
+
+            return {
+                user: userEntity,
+                token: token
+            };
+        } catch (error) {
+            throw CustomError.internalServer(`${error}`)
+        }
+
+    }
 
 
 
