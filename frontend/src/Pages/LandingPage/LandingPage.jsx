@@ -1,78 +1,82 @@
 import React, { useEffect, useState } from 'react'
 import Logo from '../../Assets/icons/Logo.png'
+import LandingPageImagen from '../../Assets/imagenes/LandingPageImagen.png'
 import { Link } from 'react-router-dom'
 import './LandingPage.css'
-import LandingPageImagen from '../../Assets/imagenes/LandingPageImagen.png'
 import { Search, FileUser, LayoutList, UserCheck, Newspaper, ListOrdered } from 'lucide-react';
 
+const Header = ({ currentUrl }) => (
+    <header className="header bg-Secondary">
+    <div className="logo-container">
+        <img src={Logo} alt="Logo" className="logo" />
+    </div>
+    <nav className="nav-links">
+        <Link to="/Login" className={`btn-custom ${currentUrl === 'login' ? 'active' : ''}`}>Iniciar Sesión</Link>
+    </nav>
+    </header>
+);
+
+const Section = ({ title, icons }) => (
+    <section className="section">
+    <h1 className="title PrimaryColor">{title}</h1>
+    <div className="icon-container">
+        {icons.map(({ Icon, text }, index) => (
+        <div className="icon-item" key={index}>
+            <Icon size={80} color="#031D38" />
+            <h1 className="text-container">
+            {text.split('<br />').map((line, i) => (
+              <React.Fragment key={i}>
+                {line}
+                {i !== text.split('<br />').length - 1 && <br />}
+              </React.Fragment>
+            ))}
+          </h1>
+        </div>
+        ))}
+    </div>
+    </section>
+);
+
 const LandingPage = () => {
-    const [url, setUrl] = useState('')
-        useEffect(() => {
-            const path = window.location.pathname.split('/')[1];
-            setUrl(path);
-        }, [])
-    return (
-        <div>
-            <header className="header bg-Secondary">
-                <div className="logo-container ">
-                    <img src={Logo} alt="Logo" className="logo" />
+    const [url, setUrl] = useState('');
+
+    useEffect(() => {
+    const path = window.location.pathname.split('/')[1];
+    setUrl(path);
+    }, []);
+
+    const candidateIcons = [
+    { Icon: Search, text: 'Explora ofertas <br /> personalizadas' },
+    { Icon: FileUser, text: 'Postúlate <br /> fácilmente' },
+    { Icon: LayoutList, text: 'Haz seguimiento <br /> de tus solicitudes' },
+    ];
+
+    const recruiterIcons = [
+    { Icon: ListOrdered, text: 'Administra procesos <br /> eficientemente' },
+    { Icon: UserCheck, text: 'Encuentra<br /> talento calificado' },
+    { Icon: Newspaper, text: 'Publica ofertas<br /> en minutos' },
+    ];
+
+return (
+    <>
+        <Header currentUrl={url} />
+        <main className="contenido">
+            <section className="intro">
+                <div className="intro-text">
+                    <h1 className="title">Conecta con las Oportunidades Profesionales del Futuro</h1>
+                    <h2 className="subtitle">Un espacio donde talento y empresas convergen para crecer juntos. Simplifica la contratación y accede a tu próxima gran oportunidad laboral</h2>
+                    <Link to="/Registrarse" className={`btn-2 ${url === 'register' ? 'active' : ''}`}>Registrarse Gratis</Link>
                 </div>
-                <nav className="nav-links">
-                    <Link to="/Login" className={`btn-custom ${url === 'login' ? 'active' : ''}`}>Iniciar Sesión</Link>
-                </nav>
-            </header>
-        <div className="contenido">
-            <main>
-                <section className="intro">
-                    <div className="intro-text">
-                        <h1 className="title">Conecta con las Oportunidades Profesionales del Futuro</h1>
-                        <h2 className="subtitle">Un espacio donde talento y empresas convergen para crecer juntos. Simplifica la contratación y accede a tu próxima gran oportunidad laboral</h2>
-                        
-                        <Link to="/Registrarse" className={`btn-2 ${url === 'register' ? 'active' : ''}`}>Registrarse Gratis</Link>
-                    </div>
-                    <div className="intro-image">
-                        <img src={LandingPageImagen} alt="Landing Page" />
-                    </div>
-                    </section>
-                    <hr className="divider" />
-                    <section className="section">
-                        <h1 className="title PrimaryColor">Candidatos</h1>
-                        <div className="icon-container">
-                            <div className="icon-item">
-                                <Search size={80} color="#031D38" />
-                                <h1 className='text-container'>Explora ofertas <br /> personalizadas</h1>
-                            </div>
-                            <div className="icon-item">
-                                <FileUser size={80} color="#031D38" />
-                                <h1 className='text-container'>Postúlate <br /> fácilmente</h1>
-                            </div>
-                            <div className="icon-item">
-                                <LayoutList size={80} color="#031D38" />
-                                <h1 className='text-container'>Haz seguimiento <br /> de tus solicitudes</h1>
-                            </div>
-                        </div>
-                    </section>
-                <hr className="divider" />
-                <section className="section">
-                    <h1 className="title PrimaryColor" >Reclutadores</h1>
-                    <div className="icon-container">
-                        <div className="icon-item">
-                            <ListOrdered size={80} color="#031D38" />
-                            <h1 className='text-container'>Administra procesos <br />eficientemente</h1>
-                        </div>
-                        <div className="icon-item">
-                            <UserCheck size={80} color="#031D38" />
-                            <h1 className='text-container'>Encuentra<br />talento calificado</h1>
-                        </div>
-                        <div className="icon-item">
-                            <Newspaper size={80} color="#031D38" />
-                            <h1 className='text-container'>Publica ofertas<br />en minutos</h1>
-                        </div>
-                    </div>
+                <div className="intro-image">
+                    <img src={LandingPageImagen} alt="Landing Page" />
+                </div>
                 </section>
-            </main>
-        </div>
-        </div>
+                <hr className="divider" />
+            <Section title="Candidatos" icons={candidateIcons} />
+            <hr className="divider" />
+            <Section title="Reclutadores" icons={recruiterIcons} />
+        </main>
+    </>
     );
 };
 
