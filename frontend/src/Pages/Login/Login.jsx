@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './Login.css'
-import Logo from '../../Assets/icons/Logo.png'
+import { Logo } from '../../Assets'
+
 const Login = () => {
 
   const [email, setEmail] = useState('');

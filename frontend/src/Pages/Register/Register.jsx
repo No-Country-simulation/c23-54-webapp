@@ -1,14 +1,14 @@
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import JoditEditor from 'jodit-react';
 import { yupResolver } from "@hookform/resolvers/yup";
-import OutlinedButton from "../../Components/OutlinedButton/OutlinedButton"
 import { Controller, useForm } from "react-hook-form"
 import * as yup from "yup";
-import BgButton from "../../Components/BgButton/BgButton";
-import Logo from '../../Assets/icons/Logo.png';
-import ErrorMessage from "../../Components/Alerts/ErrorMessage/ErrorMessage";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
 
-import JoditEditor from 'jodit-react';
+import { Logo } from '../../Assets'
+import { BgButton, ErrorMessage, OutlinedButton } from "../../Components";
+
+
 
 
 const registerSchemaStepOne = yup.object().shape({

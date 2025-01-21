@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import Logo from '../../Assets/icons/Logo.png'
-import LandingPageImagen from '../../Assets/imagenes/LandingPageImagen.png'
 import { Link } from 'react-router-dom'
-import './LandingPage.css'
 import { Search, FileUser, LayoutList, UserCheck, Newspaper, ListOrdered } from 'lucide-react';
+import { Logo, LandingPageImagen } from '../../Assets'
+import './LandingPage.css'
 
 const Header = ({ currentUrl }) => (
     <header className="header bg-Secondary">
@@ -24,13 +23,13 @@ const Section = ({ title, icons }) => (
         <div className="icon-item" key={index}>
             <Icon size={80} color="#031D38" />
             <h1 className="text-container">
-            {text.split('<br />').map((line, i) => (
-              <React.Fragment key={i}>
-                {line}
-                {i !== text.split('<br />').length - 1 && <br />}
-              </React.Fragment>
-            ))}
-          </h1>
+                {text.split('<br />').map((line, i) => (
+                <React.Fragment key={i}>
+                    {line}
+                    {i !== text.split('<br />').length - 1 && <br />}
+                </React.Fragment>
+                ))}
+            </h1>
         </div>
         ))}
     </div>
