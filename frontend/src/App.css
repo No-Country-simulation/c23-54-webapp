@@ -216,6 +216,9 @@ p{
   gap: 10px;
 
   box-shadow: var(--shadow-b-1);
+
+  animation: slideIn 0.5s ease-out; /* Aplicamos la animación */
+
 }
 
 .toast__icon{
@@ -226,6 +229,20 @@ p{
   flex: 100;
 }
 
+@keyframes slideIn {
+  0% {
+      transform: translateX(100%);
+      opacity: 0;
+  }
+  100% {
+      transform: translateX(0);
+      opacity: 1;
+  }
+}
+
+.fade-out {
+  animation: slideOut 0.5s ease-in forwards; /* Aplica la animación 'slideOut' durante 0.5 segundos */
+}
 
 
 @media (width > 468px){

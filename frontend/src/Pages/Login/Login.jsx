@@ -1,25 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import './Login.css'
 import Logo from '../../Assets/icons/Logo.png'
+import useLogin from '../../Hooks/Authentication/Uselogin'
+import { Eye, EyeClosed } from 'lucide-react'
 const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(false);
+  const [Validate, setValidate] = useState(false);
+  const [TypePassword, SetTypePassword] = useState('password')
+  const {UseloginUser, error, setError} = useLogin();
 
-
+ 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError(null);
     if (email === '' || password === '') {
-      setError(true)
+      setValidate(true)
       return;
     }
-
-    setError(false)
-    window.location.href = '/home';
-    alert('Iniciaste sesión: ' + email);
-
+    UseloginUser(email, password);
+    setValidate(false)    
   }
 
   return (
@@ -35,14 +37,19 @@ const Login = () => {
           <div className="mb-3 d-flex flex-column">
             <label htmlFor="email" className="FourthText">Correo Electronico</label>
             <input type="email" className="input-login" id="email" placeholder="Ingrese correo  electronico" onChange={(e) => (setEmail(e.target.value))} />
-            {(error || email !== '') && <p className='text-danger m-0 p-0'>Ingrese el correo electronico</p>}
+            {(Validate && email === '') && <p className='text-danger m-0 p-0'>Ingrese el correo electronico</p>}
           </div>
 
           <div className="mb-3 d-flex flex-column">
             <label htmlFor="password" className="FourthText">Contraseña</label>
-            <input type="password" className="input-login" id="password" placeholder="Ingrese su clave" onChange={(e) => (setPassword(e.target.value))} />
-            {(error || password !== '') && <p className='text-danger m-0 p-0'>Ingrese la contraseña</p>}
+            <div className='position-relative d-flex '>
+            <input type={TypePassword} className="input-login" id="password" placeholder="Ingrese su clave" onChange={(e) => (setPassword(e.target.value))}/>
+            
+            {TypePassword === 'password' ? <EyeClosed className='Eye_icon' onClick={()=>(SetTypePassword('Text'))}/> : <Eye className='Eye_icon' onClick={()=>(SetTypePassword('password'))}/>}
+            </div>
+            {(Validate && password === '') && <p className='text-danger m-0 p-0'>Ingrese la contraseña</p>}
           </div>
+          {error !== undefined && <p className='text-danger text-center text-error'>{error}</p>}
           <button type="submit" className="bg-Primary SecondaryText w-100 border-0 p-1 rounded-1 mb-3" onClick={handleSubmit}>Iniciar Sesion</button>
         </form>
       </div>
