@@ -1,20 +1,28 @@
-const express = require('express');
-const router = express.Router();
-const jobOfferController = require('../controllers/jobOfferControllers');
+const { Router } = require('express');
+const JobOfferController = require('../controllers/jobOfferControllers');
+const JobOfferService = require('../services/jobOfferService');
+class JobOfferRoutes {
 
-// Endpoint to get all job offers
-router.get('/', jobOfferController.getAllJobOffers);
+    static get routes() {
 
-// Endpoint to create a new job offer
-router.post('/', jobOfferController.createJobOffer);
+        const router = Router()
 
-// Endpoint to get a job offer by ID
-router.get('/:id', jobOfferController.getJobOfferById);
+        const service = new JobOfferService();
+        const controller = new JobOfferController(service);
 
-// Endpoint to update a job offer
-router.put('/:id', jobOfferController.updateJobOffer);
+        router.get('/', controller.getAllJobOffers);
 
-// Endpoint to delete a job offer
-router.delete('/:id', jobOfferController.deleteJobOffer);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+        router.post('/', controller.createJobOffer);
 
-module.exports = router;
+        router.get('/:id', controller.getJobOfferById);
+
+        router.put('/:id', controller.updateJobOffer);
+
+        router.delete('/:id', controller.deleteJobOffer);
+
+        return router;
+
+    }
+}
+
+module.exports = JobOfferRoutes;
