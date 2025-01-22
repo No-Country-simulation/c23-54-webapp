@@ -12,6 +12,8 @@ class UserEntity {
         last_access_date,
         phone,
         address,
+        description,
+        img,
         ID_city,
 
     ) {
@@ -24,6 +26,8 @@ class UserEntity {
         this.last_access_date = last_access_date;
         this.phone = phone;
         this.address = address;
+        this.description = description;
+        this.img = img;
         this.ID_city = ID_city;
     }
 
@@ -37,6 +41,8 @@ class UserEntity {
             last_access_date,
             phone,
             address,
+            description,
+            img,
             ID_city, } = object;
 
         if (!ID_user) {
@@ -75,6 +81,14 @@ class UserEntity {
             throw CustomError.badRequest('Missing address');
         }
 
+        if (!description) {
+            throw CustomError.badRequest('Missing description');
+        }
+
+        if (!img) {
+            throw CustomError.badRequest('Missing img');
+        }
+
         if (!ID_city) {
             throw CustomError.badRequest('Missing ID_city');
         }
@@ -88,6 +102,8 @@ class UserEntity {
             last_access_date,
             phone,
             address,
+            description,
+            img,
             ID_city,);
 
 

@@ -16,11 +16,11 @@ const Notification = sequelize.define('Notification', {
       key: 'ID_user'
     }
   },
-  ID_job_offer: {
+  ID_offer: {
     type: DataTypes.INTEGER,
     references: {
       model: JobOffer,
-      key: 'ID_job_offer'
+      key: 'ID_offer'
     }
   },
   message: {
@@ -37,7 +37,7 @@ const Notification = sequelize.define('Notification', {
     type: DataTypes.BOOLEAN,
     defaultValue: false
   }
-  }, {
+}, {
   tableName: 'Notifications', // Table name in the database
   timestamps: false,
 });

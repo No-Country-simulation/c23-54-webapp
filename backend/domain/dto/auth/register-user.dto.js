@@ -9,6 +9,8 @@ class RegisterUserDTO {
         password,
         phone,
         address,
+        description,
+        img,
         ID_city,
     ) {
         this.name = name;
@@ -16,6 +18,8 @@ class RegisterUserDTO {
         this.password = password;
         this.phone = phone;
         this.address = address;
+        this.description = description;
+        this.img = img;
         this.ID_city = ID_city;
     }
 
@@ -27,6 +31,8 @@ class RegisterUserDTO {
             password,
             phone,
             address,
+            description,
+            img,
             ID_city, } = object;
 
         if (!name) return ['Missing name'];
@@ -36,11 +42,18 @@ class RegisterUserDTO {
         if (password.length < 6) return ['Password too short'];
         if (!phone) return ['Missing phone'];
         if (!address) return ['Missing address'];
+        if (!description) return ['Missing description'];
+        if (!img) return ['Missing img'];
         if (!ID_city) return ['Missing ID_city'];
 
-        return [undefined, new RegisterUserDTO(name, email, password,
+        return [undefined, new RegisterUserDTO(
+            name,
+            email,
+            password,
             phone,
             address,
+            description,
+            img,
             ID_city)]
     }
 }

@@ -62,7 +62,7 @@ const JobOffer = sequelize.define('JobOffer', {
       key: 'ID_job_category'
     }
   }
-  }, {
+}, {
   tableName: 'JobOffers', // Table name in the database
   timestamps: false,
 });

@@ -5,6 +5,7 @@ const UserEntity = require('../domain/entites/user.entity')
 
 const { bcryptAdapter } = require('../config/bcrypt.adapter')
 const JwtAdapter = require('../config/jwt.adapter')
+const sequelize = require('../config/database')
 
 class AuthService {
 

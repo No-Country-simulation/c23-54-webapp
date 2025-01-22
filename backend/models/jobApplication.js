@@ -17,11 +17,11 @@ const JobApplication = sequelize.define('JobApplication', {
       key: 'ID_user'
     }
   },
-  ID_job_offer: {
+  ID_offer: {
     type: DataTypes.INTEGER,
     references: {
       model: JobOffer,
-      key: 'ID_job_offer'
+      key: 'ID_offer'
     }
   },
   application_date: {
@@ -38,7 +38,7 @@ const JobApplication = sequelize.define('JobApplication', {
   comments: {
     type: DataTypes.TEXT
   }
-  }, {
+}, {
   tableName: 'JobApplications', // Table name in the database
   timestamps: false,
 });
