@@ -8,6 +8,7 @@ import NotFound from "./Pages/NotFound/NotFound";
 import Register from "./Pages/Register/Register";
 import Home from "./Pages/Home/Home";
 import { AuthProvider } from "./Context/AuthContext";
+import Myapplications from "./Pages/MisPostulaciones/Myapplications";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/Home",
     element: <Home />,
+  },
+  {
+    path: '/MisPostulaciones',
+    element:  <Myapplications/>
   },
   {
     path: "*",

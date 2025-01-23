@@ -1,0 +1,27 @@
+.mp_main{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mp_container{
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px;
+    border-style: solid;
+    border-color: #918E89;
+}
+
+.btn-mipostulacion{
+    background-color: #89CBD0;
+    color: #FEFEFE;
+    border: none;
+    border-radius: 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+}
+
+
+.btn-mipostulacion.btn-seleccionado {
+    background-color: #437D82;
+}
