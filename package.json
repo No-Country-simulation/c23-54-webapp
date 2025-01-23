@@ -915,7 +915,7 @@
     "yocto-queue": "^0.1.0"
   },
   "scripts": {
-    "start:frontend-backend": "concurrently \"npm run start --workspace=frontend\" \"npm run start --workspace=backend\""
+    "start": "concurrently \"npm run start --workspace=frontend\" \"node app.js --workspace=backend\""
   },
   "author": "",
   "license": "ISC"
