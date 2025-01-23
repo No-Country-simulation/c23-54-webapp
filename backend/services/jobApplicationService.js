@@ -17,6 +17,13 @@ class JobApplicationService {
             updatedAt: new Date(),
         });
     }
+    
+
+    async getAllJobApplications() {
+        const jobApplications = await JobApplication.findAll();
+        if (!jobApplications) return 'No se pudo encontrar la solicitud de empleo';
+        return jobApplications;
+    }
 
     async getJobApplicationByID(id) {
         const jobApplication = await JobApplication.findByPk(id);
@@ -24,24 +31,23 @@ class JobApplicationService {
         return jobApplication;
     }
 
-    async getJobApplicationByUserID(userID) {
+    async getJobApplicationByUserID(ID_user) {
         const jobApplication = await JobApplication.findAll({
             where: {
-                userID,
+                ID_user,
             },
         });
         if (!jobApplication) return 'No se pudo encontrar la solicitud de empleo';
         return jobApplication;
     }
 
-    async getJobApplicationByApplicationID(applicationID) {
+    async getJobApplicationsByOfferID(ID_offer) {
         const jobApplication = await JobApplication.findAll({
             where: {
-                applicationID,
+                ID_offer,
             },
-        });
-        if (!jobApplication) return 'No se pudo encontrar la solicitud de empleo';
-        return jobApplication;
+        })
+        if (!jobApplication) return 'No se pudo encontrar la solicitud de empleo'
     }
 
     async updateJobApplication(data) {
@@ -60,14 +66,5 @@ class JobApplicationService {
         return 'Solicitud de empleo eliminada correctamente';
     }
 
-    async getJobApplicationsByUserID(userID) {
-        const jobApplications = await JobApplication.findAll({
-            where: {
-                userID,
-            },
-        });
-        if (!jobApplications) return 'No se pudo encontrar la solicitud de empleo';
-        return jobApplications;
-    }
 }
 module.exports = JobApplicationService;

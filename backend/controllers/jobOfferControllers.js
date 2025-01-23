@@ -1,5 +1,5 @@
-const CustomError = require('../errors/custom.errors');
-const JobOfferService = require('../services/jobOfferService');
+const JobOfferService = require("../services/jobOfferService");
+const CustomError = require("../errors/custom.errors");
 
 class JobOfferController {
   constructor(jobOfferService = new JobOfferService()) {
@@ -11,7 +11,7 @@ class JobOfferController {
       return res.status(error.statusCode).json({ error: error.message });
     }
     console.error(`${error}`);
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ error: "Internal server error" });
   };
 
   getAllJobOffers = async (req, res) => {
@@ -32,13 +32,75 @@ class JobOfferController {
     }
   };
 
-  getJobOfferById = async (req, res) => {
+  getJobOfferByID = async (req, res) => {
     try {
-      const jobOffer = await this.jobOfferService.getJobOfferByID(req.params.id);
+      const jobOffer = await this.jobOfferService.getJobOfferByID(
+        req.params.id
+      );
       if (jobOffer) {
         res.status(200).json(jobOffer);
       } else {
-        res.status(404).json({ message: 'Job offer not found' });
+        res.status(404).json({ message: "Job offer not found" });
+      }
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  };
+
+  getJobOfferByUserID = async (req, res) => {
+    try {
+      const jobOffer = await this.jobOfferService.getJobOfferByUserID(
+        req.params.userId
+      );
+      if (jobOffer) {
+        res.status(200).json(jobOffer);
+      } else {
+        res.status(404).json({ message: "Job offer not found" });
+      }
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  };
+
+  getJobOfferByCityID = async (req, res) => {
+    try {
+      const jobOffer = await this.jobOfferService.getJobOfferByCityID(
+        req.params.userId
+      );
+      if (jobOffer) {
+        res.status(200).json(jobOffer);
+      } else {
+        res.status(404).json({ message: "Job offer not found" });
+      }
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  };
+
+  getJobOfferByModalityID = async (req, res) => {
+    try {
+      const jobOffer = await this.jobOfferService.getJobOfferByModalityID(
+        req.params.userId
+      );
+      if (jobOffer) {
+        res.status(200).json(jobOffer);
+      } else {
+        res.status(404).json({ message: "Job offer not found" });
+      }
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  };
+
+  getJobOfferByJobCategoryID = async (req, res) => {
+    try {
+      const jobOffer = await this.jobOfferService.getJobOfferByJobCategoryID(
+        req.params.userId
+      );
+      if (jobOffer) {
+        res.status(200).json(jobOffer);
+      } else {
+        res.status(404).json({ message: "Job offer not found" });
       }
     } catch (error) {
       this.handleError(error, res);
@@ -47,11 +109,14 @@ class JobOfferController {
 
   updateJobOffer = async (req, res) => {
     try {
-      const updatedJobOffer = await this.jobOfferService.updateJobOffer(req.params.id, req.body);
+      const updatedJobOffer = await this.jobOfferService.updateJobOffer(
+        req.params.id,
+        req.body
+      );
       if (updatedJobOffer) {
         res.status(200).json(updatedJobOffer);
       } else {
-        res.status(404).json({ message: 'Job offer not found' });
+        res.status(404).json({ message: "Job offer not found" });
       }
     } catch (error) {
       this.handleError(error, res);
@@ -60,11 +125,13 @@ class JobOfferController {
 
   deleteJobOffer = async (req, res) => {
     try {
-      const deletedJobOffer = await this.jobOfferService.deleteJobOffer(req.params.id);
+      const deletedJobOffer = await this.jobOfferService.deleteJobOffer(
+        req.params.id
+      );
       if (deletedJobOffer) {
         res.status(204).end();
       } else {
-        res.status(404).json({ message: 'Job offer not found' });
+        res.status(404).json({ message: "Job offer not found" });
       }
     } catch (error) {
       this.handleError(error, res);

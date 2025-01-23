@@ -1,20 +1,32 @@
-const express = require('express');
-const router = express.Router();
-const cityController = require('../controllers/cityControllers');
+const { Router } = require('express');
+const CityController = require('../controllers/cityControllers');
+const CityService = require('../services/cityService');
 
-// Endpoint to get all cities                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
-router.get('/', cityController.getAllCities);           
+class CityRoutes {
 
-// Endpoint to create a new city       
-router.post('/', cityController.createCity);           
+  static get routes() {
 
-// Endpoint to get a city by ID
-router.get('/:id', cityController.getCityById);       
 
-// Endpoint to update a city
-router.put('/:id', cityController.updateCity);        
+    const router = Router();
 
-// Endpoint to delete a city        
-router.delete('/:id', cityController.deleteCity);     
 
-module.exports = router;
+    const service = new CityService();
+    const controller = new CityController(service);
+
+    router.get('/', controller.getAllCities);
+
+    router.post('/', controller.createCity);
+
+    router.get('/:id', controller.getCityByID);
+
+    router.get('/name/:name', controller.getCityByName);
+
+    router.put('/:id', controller.updateCity);
+    
+    router.delete('/:id', controller.deleteCity);
+
+    return router;
+  }
+}
+
+module.exports = CityRoutes;

@@ -22,7 +22,13 @@ class JobOfferService {
             createdAt: new Date(),
             updatedAt: new Date(),
         });
-     }
+    }
+
+    async getAllJobOffers() {
+        const jobJobOffers = await JobOffer.findAll();
+        if (!jobJobOffers) return 'No se pudo encontrar la oferta de empleo';
+        return jobJobOffers;
+    }
 
     async getJobOfferByID(id) {
         const jobOffer = await JobOffer.findByPk(id);
@@ -30,40 +36,40 @@ class JobOfferService {
         return jobOffer;
     }
 
-    async getJobOfferByUserID(userID) {
+    async getJobOfferByUserID(ID_user) {
         const jobOffer = await JobOffer.findAll({
             where: {
-                userID,
+                ID_user,
             },
         });
         if (!jobOffer) return 'No se pudo encontrar la oferta de empleo';
         return jobOffer;
     }
 
-    async getJobOfferByCityID(cityID) {
+    async getJobOfferByCityID(ID_city) {
         const jobOffer = await JobOffer.findAll({
             where: {
-                cityID,
+                ID_city,
             },
         });
         if (!jobOffer) return 'No se pudo encontrar la oferta de empleo';
         return jobOffer;
     }
 
-    async getJobOfferByModalityID(modalityID) {
+    async getJobOfferByModalityID(ID_modality) {
         const jobOffer = await JobOffer.findAll({
             where: {
-                modalityID,
+                ID_modality,
             },
         });
         if (!jobOffer) return 'No se pudo encontrar la oferta de empleo';
         return jobOffer;
     }
 
-    async getJobOfferByJobCategoryID(jobCategoryID) {
+    async getJobOfferByJobCategoryID(ID_job_category) {
         const jobOffer = await JobOffer.findAll({
             where: {
-                jobCategoryID,
+                ID_job_category,
             },
         });
         if (!jobOffer) return 'No se pudo encontrar la oferta de empleo';

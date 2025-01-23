@@ -14,7 +14,15 @@ class JobOfferRoutes {
 
         router.post('/', controller.createJobOffer);
 
-        router.get('/:id', controller.getJobOfferById);
+        router.get('/:id', controller.getJobOfferByID);
+
+        router.get('/user/:userId', controller.getJobOfferByUserID);
+
+        router.get('/city/:cityId', controller.getJobOfferByCityID);
+
+        router.get('/modality/:modalityId', controller.getJobOfferByModalityID);
+
+        router.get('/category/:categoryId', controller.getJobOfferByJobCategoryID);
 
         router.put('/:id', controller.updateJobOffer);
 

@@ -12,9 +12,13 @@ class JobApplicationRoutes {
 
         router.get('/', controller.getAllJobApplications);
 
-        router.post('/', controller.createJobApplication);
-
         router.get('/:id', controller.getJobApplicationById);
+
+        router.get('/user/:userId', controller.getJobApplicationByUserId);
+
+        router.get('/offer/:jobOfferId', controller.getJobApplicationByOfferId);
+
+        router.post('/', controller.createJobApplication);
 
         router.put('/:id', controller.updateJobApplication);
 
