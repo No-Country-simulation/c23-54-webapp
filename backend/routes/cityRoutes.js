@@ -13,6 +13,8 @@ class CityRoutes {
     const service = new CityService();
     const controller = new CityController(service);
 
+    const authMiddleware = new AuthMiddleware();
+
     router.get('/', controller.getAllCities);
 
     router.post('/', controller.createCity);
@@ -22,7 +24,7 @@ class CityRoutes {
     router.get('/name/:name', controller.getCityByName);
 
     router.put('/:id', controller.updateCity);
-    
+
     router.delete('/:id', controller.deleteCity);
 
     return router;
