@@ -7,17 +7,17 @@ const JobCategory =  require('../models/jobCategory')
 class JobOfferService {
 
     async createJobOffer(data) {
-        const { userID, cityID, modalityID, jobCategoryID } = data;
-        const user = await User.findByPk(userID);
-        const city = await City.findByPk(cityID);
-        const modality = await Modality.findByPk(modalityID);
-        const jobCategory = await JobCategory.findByPk(jobCategoryID);
-        if (!user || !city || !modality || !jobCategory) return 'No se pudo crear el oferta de empleo';
+        const { ID_user, ID_city, ID_modality, ID_job_category } = data;
+        const user = await User.findByPk(ID_user);
+        const city = await City.findByPk(ID_city);
+        const modality = await Modality.findByPk(ID_modality);
+        const jobCategory = await JobCategory.findByPk(ID_job_category);
+        if (!user || !city || !modality || !jobCategory) return 'cannot create job offer';
         return await JobOffer.create({
-            userID,
-            cityID,
-            modalityID,
-            jobCategoryID,
+            ID_user,
+            ID_city,
+            ID_modality,
+            ID_job_category,
             status: 'pending',
             createdAt: new Date(),
             updatedAt: new Date(),
@@ -26,13 +26,13 @@ class JobOfferService {
 
     async getAllJobOffers() {
         const jobJobOffers = await JobOffer.findAll();
-        if (!jobJobOffers) return 'No se pudo encontrar la oferta de empleo';
+        if (!jobJobOffers) return 'job offer does not exist';
         return jobJobOffers;
     }
 
     async getJobOfferByID(id) {
         const jobOffer = await JobOffer.findByPk(id);
-        if (!jobOffer) return 'No se pudo encontrar la oferta de empleo';
+        if (!jobOffer) return 'job offer does not exist';
         return jobOffer;
     }
 
@@ -42,7 +42,7 @@ class JobOfferService {
                 ID_user,
             },
         });
-        if (!jobOffer) return 'No se pudo encontrar la oferta de empleo';
+        if (!jobOffer) return 'job offer does not exist';
         return jobOffer;
     }
 
@@ -52,7 +52,7 @@ class JobOfferService {
                 ID_city,
             },
         });
-        if (!jobOffer) return 'No se pudo encontrar la oferta de empleo';
+        if (!jobOffer) return 'job offer does not exist';
         return jobOffer;
     }
 
@@ -62,7 +62,7 @@ class JobOfferService {
                 ID_modality,
             },
         });
-        if (!jobOffer) return 'No se pudo encontrar la oferta de empleo';
+        if (!jobOffer) return 'job offer does not exist';
         return jobOffer;
     }
 
@@ -72,14 +72,14 @@ class JobOfferService {
                 ID_job_category,
             },
         });
-        if (!jobOffer) return 'No se pudo encontrar la oferta de empleo';
+        if (!jobOffer) return 'job offer does not exist';
         return jobOffer;
     }
 
     async updateJobOffer(data) {
         const { id, status } = data;
         const jobOffer = await JobOffer.findByPk(id);
-        if (!jobOffer) return 'No se pudo encontrar la oferta de empleo';
+        if (!jobOffer) return 'job offer does not exist';
         jobOffer.status = status;
         await jobOffer.save();
         return jobOffer;
@@ -87,9 +87,9 @@ class JobOfferService {
 
     async deleteJobOffer(id) {
         const jobOffer = await JobOffer.findByPk(id);
-        if (!jobOffer) return 'No se pudo encontrar la oferta de empleo';
+        if (!jobOffer) return 'job offer does not exist';
         await jobOffer.destroy();
-        return 'La oferta de empleo ha sido eliminada';
+        return 'job offer has been deleted';
     }
 }
 
