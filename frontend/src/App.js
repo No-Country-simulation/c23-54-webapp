@@ -9,11 +9,16 @@ import Register from "./Pages/Register/Register";
 import Home from "./Pages/Home/Home";
 import { AuthProvider } from "./Context/AuthContext";
 import Myapplications from "./Pages/MisPostulaciones/Myapplications";
+import LandingPage from "./Pages/LandingPage/LandingPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Login />,
+    element: <LandingPage/>, 
+  },
+  {
+    path: "/Login",
+    element: <Login/>, 
   },
   {
     path: "/Registrarse",
