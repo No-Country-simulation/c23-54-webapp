@@ -61,7 +61,7 @@ gap: 1rem;
     margin-right: 2.2rem;
     
 }
-.intro .intro-text .btn-2:hover {
+.btn-2:hover {
     background-color: #0C8BC1; 
     color: #FFFFFF; 
     box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.3); 

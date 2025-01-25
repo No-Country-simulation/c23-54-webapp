@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Search, FileUser, LayoutList, UserCheck, Newspaper, ListOrdered } from 'lucide-react';
 import { Logo, LandingPageImagen } from '../../Assets'
 import './LandingPage.css'
+import ConfirmarAccion from '../../Components/ConfirmarAccion/ConfirmarAccion';
 
 const Header = ({ currentUrl }) => (
     <header className="header bg-Secondary">
@@ -64,7 +65,8 @@ return (
                 <div className="intro-text">
                     <h1 className="title">Conecta con las Oportunidades Profesionales del Futuro</h1>
                     <h2 className="subtitle">Un espacio donde talento y empresas convergen para crecer juntos. Simplifica la contratación y accede a tu próxima gran oportunidad laboral</h2>
-                    <Link to="/Registrarse" className={`btn-2 ${url === 'register' ? 'active' : ''}`}>Registrarse Gratis</Link>
+                    <Link to="/Registrarse" className={`btn-custom ${url === 'register' ? 'active' : ''}`}>Registrarse Gratis</Link>
+                    <ConfirmarAccion/>
                 </div>
                 <div className="intro-image">
                     <img src={LandingPageImagen} alt="Landing Page" />
