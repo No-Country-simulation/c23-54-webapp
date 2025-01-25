@@ -1,20 +1,33 @@
-const express = require('express');
-const router = express.Router();
-const entityController = require('../controllers/entityControllers');
+const { Router } = require('express');
+const EntityController = require('../controllers/entityControllers');
+const EntityService = require('../services/entityService');
+const AuthMiddleware = require('../middlewares/auth.middleware')
 
-// Endpoint to get all entities
-router.get('/', entityController.getAllEntities);
+class EntityRoutes {
 
-// Endpoint to create a new entity
-router.post('/', entityController.createEntity);
+  static get routes() {
 
-// Endpoint to get an entity by ID
-router.get('/:id', entityController.getEntityById);
 
-// Endpoint to update an entity
-router.put('/:id', entityController.updateEntity);
+    const router = Router();
 
-// Endpoint to delete an entity
-router.delete('/:id', entityController.deleteEntity);
 
-module.exports = router;
+    const service = new EntityService();
+    const controller = new EntityController(service);
+
+    const authMiddleware = new AuthMiddleware();
+
+    router.get('/', controller.getAllEntities);
+
+    router.post('/', controller.createEntity);
+
+    router.get('/:id', controller.getEntityByID);
+
+    router.put('/:id', controller.updateEntity);
+
+    router.delete('/:id', controller.deleteEntity);
+
+    return router;
+  }
+}
+
+module.exports = EntityRoutes;

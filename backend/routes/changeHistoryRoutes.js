@@ -1,20 +1,33 @@
-const express = require('express');
-const router = express.Router();
-const changeHistoryController = require('../controllers/changeHistoryControllers');
+const { Router } = require('express');
+const ChangeHistoryController = require('../controllers/changeHistoryControllers');
+const ChangeHistoryService = require('../services/changeHistoryService');
+const AuthMiddleware = require('../middlewares/auth.middleware')
 
-// Endpoint to get all change histories
-router.get('/', changeHistoryController.getAllChangeHistories);
+class ChangeHistoryRoutes {
 
-// Endpoint to create a new change history
-router.post('/', changeHistoryController.createChangeHistory);
+  static get routes() {
 
-// Endpoint to get a change history by ID
-router.get('/:id', changeHistoryController.getChangeHistoryById);
 
-// Endpoint to update a change history        
-router.put('/:id', changeHistoryController.updateChangeHistory);
+    const router = Router();
 
-// Endpoint to delete a change history
-router.delete('/:id', changeHistoryController.deleteChangeHistory);
 
-module.exports = router;
+    const service = new ChangeHistoryService();
+    const controller = new ChangeHistoryController(service);
+
+    const authMiddleware = new AuthMiddleware();
+
+    router.get('/', controller.getAllChangeHistories);
+
+    router.post('/', controller.createChangeHistory);
+
+    router.get('/:id', controller.getChangeHistoryByID);
+
+    router.put('/:id', controller.updateChangeHistory);
+
+    router.delete('/:id', controller.deleteChangeHistory);
+
+    return router;
+  }
+}
+
+module.exports = ChangeHistoryRoutes;

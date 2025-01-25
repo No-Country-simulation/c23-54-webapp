@@ -77,10 +77,14 @@ class JobOfferService {
     }
 
     async updateJobOffer(data) {
-        const { id, status } = data;
+        const { id, status, ID_user, ID_city, ID_modality, ID_job_category } = data;
         const jobOffer = await JobOffer.findByPk(id);
         if (!jobOffer) return 'job offer does not exist';
-        jobOffer.status = status;
+        jobOffer.status = status || jobOffer.status;
+        jobOffer.ID_user = ID_user || jobOffer.ID_user;
+        jobOffer.ID_city = ID_city || jobOffer.ID_city;
+        jobOffer.ID_modality = ID_modality || jobOffer.ID_modality;
+        jobOffer.ID_job_category = ID_job_category || jobOffer.ID_job_category;
         await jobOffer.save();
         return jobOffer;
     }

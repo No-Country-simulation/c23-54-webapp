@@ -25,7 +25,7 @@ class ApplicationStatusService {
         const { id, status } = data;
         const applicationStatus = await ApplicationStatus.findByPk(id);
         if (!applicationStatus) return 'application status does not exist';
-        applicationStatus.status = status;
+        applicationStatus.status = status || applicationStatus.status;
         await applicationStatus.save();
         return applicationStatus;
     }

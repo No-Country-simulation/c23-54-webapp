@@ -1,86 +1,81 @@
-const JobCategory = require('../models/jobCategory');
+const JobCategoryService = require("../services/jobCategoryService");
+const CustomError = require("../errors/custom.errors");
 
-// Get all job categories
-const getAllJobCategories = async (req, res) => {
-  try {
-    const jobCategories = await JobCategory.findAll();
-    res.status(200).json(jobCategories);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+class JobCategoryController {
+  constructor(jobCategoryService = new JobCategoryService()) {
+    this.jobCategoryService = jobCategoryService;
+    this.getAllJobCategories = this.getAllJobCategories.bind(this);
+    this.createJobCategory = this.createJobCategory.bind(this);
+    this.getJobCategoryByID = this.getJobCategoryByID.bind(this);
+    this.updateJobCategory = this.updateJobCategory.bind(this);
+    this.deleteJobCategory = this.deleteJobCategory.bind(this);
   }
-};
 
-// Create a new job category
-const createJobCategory = async (req, res) => {
-  const { name } = req.body;
-
-  try {
-    const newJobCategory = await JobCategory.create({
-      name
-    });
-    res.status(201).json(newJobCategory);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// Get a job category by ID
-const getJobCategoryById = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const jobCategory = await JobCategory.findByPk(id);
-    if (jobCategory) {
-      res.status(200).json(jobCategory);
-    } else {
-      res.status(404).json({ message: 'Job category not found' });
+  handleError(error, res) {
+    if (error instanceof CustomError) {
+      return res.status(error.statusCode).json({ error: error.message });
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+
+    console.error(`Error: ${error.message}, Stack: ${error.stack}`);
+    return res.status(500).json({ error: "Internal server error" });
   }
-};
 
-// Update a job category by ID
-const updateJobCategory = async (req, res) => {
-  const { id } = req.params;
-  const { name } = req.body;
-
-  try {
-    const jobCategory = await JobCategory.findByPk(id);
-    if (jobCategory) {
-      jobCategory.name = name || jobCategory.name;
-
-      await jobCategory.save();
-      res.status(200).json(jobCategory);
-    } else {
-      res.status(404).json({ message: 'Job category not found' });
+  async getAllJobCategories(req, res) {
+    try {
+      const jobCategories = await this.jobCategoryService.getAllJobCategories();
+      res.status(200).json(jobCategories);
+    } catch (error) {
+      this.handleError(error, res);
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
   }
-};
 
-// Delete a job category by ID
-const deleteJobCategory = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const jobCategory = await JobCategory.findByPk(id);
-    if (jobCategory) {
-      await jobCategory.destroy();
-      res.status(204).end();
-    } else {
-      res.status(404).json({ message: 'Job category not found' });
+  async createJobCategory(req, res) {
+    try {
+      const jobCategory = await this.jobCategoryService.createJobCategory(req.body);
+      res.status(201).json(jobCategory);
+    } catch (error) {
+      this.handleError(error, res);
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
   }
-};
 
-module.exports = {
-  getAllJobCategories,
-  createJobCategory,
-  getJobCategoryById,
-  updateJobCategory,
-  deleteJobCategory
-};
+  async getJobCategoryByID(req, res) {
+    try {
+      const jobCategory = await this.jobCategoryService.getJobCategoryByID(req.params.id);
+      if (jobCategory) {
+        res.status(200).json(jobCategory);
+      } else {
+        res.status(404).json({ message: "Job category not found" });
+      }
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  }
+
+  async updateJobCategory(req, res) {
+    try {
+      const updatedJobCategory = await this.jobCategoryService.updateJobCategory(req.params.id, req.body);
+      if (updatedJobCategory) {
+        res.status(200).json(updatedJobCategory);
+      } else {
+        res.status(404).json({ message: "Job category not found" });
+      }
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  }
+
+  async deleteJobCategory(req, res) {
+    try {
+      const deletedJobCategory = await this.jobCategoryService.deleteJobCategory(req.params.id);
+      if (deletedJobCategory) {
+        res.status(204).end();
+      } else {
+        res.status(404).json({ message: "Job category not found" });
+      }
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  }
+}
+
+module.exports = JobCategoryController;

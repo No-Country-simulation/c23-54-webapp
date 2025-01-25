@@ -54,7 +54,7 @@ class JobApplicationService {
         const { id, status } = data;
         const jobApplication = await JobApplication.findByPk(id);
         if (!jobApplication) return 'job application does not exist';
-        jobApplication.status = status;
+        jobApplication.status = status || jobApplication.status;
         await jobApplication.save();
         return jobApplication;
     }

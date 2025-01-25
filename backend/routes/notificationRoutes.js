@@ -1,20 +1,33 @@
-const express = require('express');
-const router = express.Router();
-const notificationController = require('../controllers/notificationControllers');
+const { Router } = require('express');
+const NotificationController = require('../controllers/notificationControllers');
+const NotificationService = require('../services/notificationService')
+const AuthMiddleware = require('../middlewares/auth.middleware')
 
-// Endpoint to get all notifications
-router.get('/', notificationController.getAllNotifications);
+class NotificationRoutes {
 
-// Endpoint to create a new notification
-router.post('/', notificationController.createNotification);
+  static get routes() {
 
-// Endpoint to get a notification by ID
-router.get('/:id', notificationController.getNotificationById);
 
-// Endpoint to update a notification
-router.put('/:id', notificationController.updateNotification);
+    const router = Router();
 
-// Endpoint to delete a notification
-router.delete('/:id', notificationController.deleteNotification);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 
-module.exports = router;
+    const service = new NotificationService();
+    const controller = new NotificationController(service);
+
+    const authMiddleware = new AuthMiddleware();
+
+    router.get('/', controller.getAllNotifications);
+
+    router.post('/', controller.createNotification);
+
+    router.get('/:id', controller.getNotificationById);
+
+    router.put('/:id', controller.updateNotification);
+
+    router.delete('/:id', controller.deleteNotification);
+
+    return router;
+  }
+}
+
+module.exports = NotificationRoutes;

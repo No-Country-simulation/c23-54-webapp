@@ -27,7 +27,7 @@ class CountryService {
         const { id, name } = data;        
         const country = await Country.findByPk(id);
         if (!country) return 'country does not exist';
-        country.name = name;
+        country.name = name || country.name;
         await country.save();
         return country;
     }
