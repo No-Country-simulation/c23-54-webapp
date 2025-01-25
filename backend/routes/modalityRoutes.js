@@ -1,20 +1,33 @@
-const express = require('express');
-const router = express.Router();
-const modalityController = require('../controllers/modalityControllers');
+const { Router } = require('express');
+const ModalityController = require('../controllers/modalityControllers');
+const ModalityService = require('../services/modalityService');
+const AuthMiddleware = require('../middlewares/auth.middleware')
 
-// Endpoint to get all modalities
-router.get('/', modalityController.getAllModalities);
+class ModalityRoutes {
 
-// Endpoint to create a new modality
-router.post('/', modalityController.createModality);
+  static get routes() {
 
-// Endpoint to get a modality by ID
-router.get('/:id', modalityController.getModalityById);
 
-// Endpoint to update a modality
-router.put('/:id', modalityController.updateModality);
+    const router = Router();
 
-// Endpoint to delete a modality        
-router.delete('/:id', modalityController.deleteModality);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 
-module.exports = router;
+    const service = new ModalityService();
+    const controller = new ModalityController(service);
+
+    const authMiddleware = new AuthMiddleware();
+
+    router.get('/', controller.getAllModalities);
+
+    router.post('/', controller.createModality);
+
+    router.get('/:id', controller.getModalityByID);
+
+    router.put('/:id', controller.updateModality);
+
+    router.delete('/:id', controller.deleteModality);
+
+    return router;
+  }
+}
+
+module.exports = ModalityRoutes;

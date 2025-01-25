@@ -38,7 +38,7 @@ class CityService {
         const { id, name } = data;        
         const city = await City.findByPk(id);
         if (!city) return 'City does not exist';
-        city.name = name;
+        city.name = name || city.name;
         await city.save();
         return city;
     }

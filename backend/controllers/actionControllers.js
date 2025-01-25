@@ -1,87 +1,81 @@
-const Action = require('../models/action');
+const ActionService = require("../services/actionService");
+const CustomError = require("../errors/custom.errors");
 
-// Get all actions
-const getAllActions = async (req, res) => {
-  try {
-    const actions = await Action.findAll();
-    res.status(200).json(actions);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+class ActionController {
+  constructor(actionService = new ActionService()) {
+    this.actionService = actionService;
+    this.getAllActions = this.getAllActions.bind(this);
+    this.createAction = this.createAction.bind(this);
+    this.getActionByID = this.getActionByID.bind(this);
+    this.updateAction = this.updateAction.bind(this);
+    this.deleteAction = this.deleteAction.bind(this);
   }
-};
 
-// Create a new action
-const createAction = async (req, res) => {
-  const { name_action, description_action } = req.body;
-
-  try {
-    const newAction = await Action.create({
-      name_action,
-      description_action,
-    });
-    res.status(201).json(newAction);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// Get an action by ID
-const getActionById = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const action = await Action.findByPk(id);
-    if (action) {
-      res.status(200).json(action);
-    } else {
-      res.status(404).json({ message: 'Action not found' });
+  handleError(error, res) {
+    if (error instanceof CustomError) {
+      return res.status(error.statusCode).json({ error: error.message });
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+
+    console.error(`Error: ${error.message}, Stack: ${error.stack}`);
+    return res.status(500).json({ error: "Internal server error" });
   }
-};
 
-// Update an action by ID
-const updateAction = async (req, res) => {
-  const { id } = req.params;
-  const { name_action, description_action } = req.body;
-
-  try {
-    const action = await Action.findByPk(id);
-    if (action) {
-      action.action_name = name_action || action.name_action;
-      action.description = description_action || action.description_action;
-      await action.save();
-      res.status(200).json(action);
-    } else {
-      res.status(404).json({ message: 'Action not found' });
+  async getAllActions(req, res) {
+    try {
+      const actions = await this.actionService.getAllActions();
+      res.status(200).json(actions);
+    } catch (error) {
+      this.handleError(error, res);
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
   }
-};
 
-// Delete an action by ID
-const deleteAction = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const action = await Action.findByPk(id);
-    if (action) {
-      await action.destroy();
-      res.status(204).end();
-    } else {
-      res.status(404).json({ message: 'Action not found' });
+  async createAction(req, res) {
+    try {
+      const action = await this.actionService.createAction(req.body);
+      res.status(201).json(action);
+    } catch (error) {
+      this.handleError(error, res);
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
   }
-};
 
-module.exports = {
-  getAllActions,
-  createAction,
-  getActionById,
-  updateAction,
-  deleteAction
-};
+  async getActionByID(req, res) {
+    try {
+      const action = await this.actionService.getActionByID(req.params.id);
+      if (action) {
+        res.status(200).json(action);
+      } else {
+        res.status(404).json({ message: "Action not found" });
+      }
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  }
+
+  async updateAction(req, res) {
+    try {
+      const updatedAction = await this.actionService.updateAction(req.params.id, req.body);
+      if (updatedAction) {
+        res.status(200).json(updatedAction);
+      } else {
+        res.status(404).json({ message: "Action not found" });
+      }
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  }
+
+  async deleteAction(req, res) {
+    try {
+      const deletedAction = await this.actionService.deleteAction(req.params.id);
+      if (deletedAction) {
+        res.status(204).end();
+      } else {
+        res.status(404).json({ message: "Action not found" });
+      }
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  }
+}
+
+module.exports = ActionController;

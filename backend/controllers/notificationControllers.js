@@ -1,96 +1,82 @@
-const Notification = require('../models/notification');
+const NotificationService = require("../services/notificationService");
+const CustomError = require("../errors/custom.errors");
 
-// Get all notifications
-const getAllNotifications = async (req, res) => {
-  try {
-    const notifications = await Notification.findAll();
-    res.status(200).json(notifications);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+class NotificationController {
+  constructor(notificationService = new NotificationService()) {
+    this.notificationService = notificationService;
+    this.getAllNotifications = this.getAllNotifications.bind(this);
+    this.createNotification = this.createNotification.bind(this);
+    this.getNotificationById = this.getNotificationById.bind(this);
+    this.updateNotification = this.updateNotification.bind(this);
+    this.deleteNotification = this.deleteNotification.bind(this);
   }
-};
 
-// Create a new notification
-const createNotification = async (req, res) => {
-  const { ID_user, ID_job_offer, message, type, send_date, read } = req.body;
-
-  try {
-    const newNotification = await Notification.create({
-      ID_user,
-      ID_job_offer,
-      message,
-      type,
-      send_date,
-      read
-    });
-    res.status(201).json(newNotification);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// Get a notification by ID
-const getNotificationById = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const notification = await Notification.findByPk(id);
-    if (notification) {
-      res.status(200).json(notification);
-    } else {
-      res.status(404).json({ message: 'Notification not found' });
+  handleError(error, res) {
+    if (error instanceof CustomError) {
+      return res.status(error.statusCode).json({ error: error.message });
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+
+    console.error(`Error: ${error.message}, Stack: ${error.stack}`);
+    return res.status(500).json({ error: "Internal server error" });
   }
-};
 
-// Update a notification by ID
-const updateNotification = async (req, res) => {
-  const { id } = req.params;
-  const { ID_user, ID_job_offer, message, type, send_date, read } = req.body;
-
-  try {
-    const notification = await Notification.findByPk(id);
-    if (notification) {
-      notification.ID_user = ID_user || notification.ID_user;
-      notification.ID_job_offer = ID_job_offer || notification.ID_job_offer;
-      notification.message = message || notification.message;
-      notification.type = type || notification.type;
-      notification.send_date = send_date || notification.send_date;
-      notification.read = read || notification.read;
-
-      await notification.save();
-      res.status(200).json(notification);
-    } else {
-      res.status(404).json({ message: 'Notification not found' });
+  async getAllNotifications(req, res) {
+    try {
+      const notifications = await this.notificationService.getAllNotifications();
+      res.status(200).json(notifications);
+    } catch (error) {
+      this.handleError(error, res);
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
   }
-};
 
-// Delete a notification by ID
-const deleteNotification = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const notification = await Notification.findByPk(id);
-    if (notification) {
-      await notification.destroy();
-      res.status(204).end();
-    } else {
-      res.status(404).json({ message: 'Notification not found' });
+  async createNotification(req, res) {
+    try {
+      const notification = await this.notificationService.createNotification(req.body);
+      res.status(201).json(notification);
+    } catch (error) {
+      this.handleError(error, res);
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
   }
-};
 
-module.exports = {
-  getAllNotifications,
-  createNotification,
-  getNotificationById,
-  updateNotification,
-  deleteNotification
-};
+  async getNotificationById(req, res) {
+    try {
+      const notification = await this.notificationService.getNotificationById(req.params.id);
+      if (notification) {
+        res.status(200).json(notification);
+      } else {
+        res.status(404).json({ message: "Notification not found" });
+      }
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  }
+
+  async updateNotification(req, res) {
+    try {
+      const updatedNotification = await this.notificationService.updateNotification(req.params.id, req.body);
+      if (updatedNotification) {
+        res.status(200).json(updatedNotification);
+      } else {
+        res.status(404).json({ message: "Notification not found" });
+      }
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  }
+
+  async deleteNotification(req, res) {
+    try {
+      const deletedNotification = await this.notificationService.deleteNotification(req.params.id);
+      if (deletedNotification) {
+        res.status(204).end();
+      } else {
+        res.status(404).json({ message: "Notification not found" });
+      }
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  }
+  
+}
+
+module.exports = NotificationController;

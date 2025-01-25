@@ -1,20 +1,33 @@
-const express = require('express');
-const router = express.Router();
-const jobCategoryController = require('../controllers/jobCategoryControllers');
+const { Router } = require('express');
+const JobCategoryController = require('../controllers/jobCategoryControllers');
+const JobCategoryService = require('../services/jobCategoryService');
+const AuthMiddleware = require('../middlewares/auth.middleware')
 
-// Endpoint to get all job categories
-router.get('/', jobCategoryController.getAllJobCategories);
+class JobCategoryRoutes {
 
-// Endpoint to create a new job category
-router.post('/', jobCategoryController.createJobCategory);
+  static get routes() {
 
-// Endpoint to get a job category by ID
-router.get('/:id', jobCategoryController.getJobCategoryById);
 
-// Endpoint to update a job category
-router.put('/:id', jobCategoryController.updateJobCategory);
+    const router = Router();
 
-// Endpoint to delete a job category
-router.delete('/:id', jobCategoryController.deleteJobCategory);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 
-module.exports = router;    
+    const service = new JobCategoryService();
+    const controller = new JobCategoryController(service);
+
+    const authMiddleware = new AuthMiddleware();
+
+    router.get('/', controller.getAllJobCategories);
+
+    router.post('/', controller.createJobCategory);
+
+    router.get('/:id', controller.getJobCategoryByID);
+
+    router.put('/:id', controller.updateJobCategory);
+
+    router.delete('/:id', controller.deleteJobCategory);
+
+    return router;
+  }
+}
+
+module.exports = JobCategoryRoutes;
