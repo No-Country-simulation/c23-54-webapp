@@ -31,13 +31,13 @@ class JobOfferService {
 
     async getAllJobOffers() {
         const jobJobOffers = await JobOffer.findAll();
-        if (!jobJobOffers) return 'job offer does not exist';
+        if (!jobJobOffers) throw CustomError.badRequest("job offer does not exist");
         return jobJobOffers;
     }
 
     async getJobOfferByID(id) {
         const jobOffer = await JobOffer.findByPk(id);
-        if (!jobOffer) return 'job offer does not exist';
+        if (!jobOffer) throw CustomError.badRequest("job offer does not exist");
         return jobOffer;
     }
 
@@ -47,7 +47,7 @@ class JobOfferService {
                 ID_user,
             },
         });
-        if (!jobOffer) return 'job offer does not exist';
+        if (!jobOffer) throw CustomError.badRequest("job offer does not exist");
         return jobOffer;
     }
 
@@ -57,7 +57,7 @@ class JobOfferService {
                 ID_city,
             },
         });
-        if (!jobOffer) return 'job offer does not exist';
+        if (!jobOffer) throw CustomError.badRequest("job offer does not exist");
         return jobOffer;
     }
 
@@ -67,7 +67,7 @@ class JobOfferService {
                 ID_modality,
             },
         });
-        if (!jobOffer) return 'job offer does not exist';
+        if (!jobOffer) throw CustomError.badRequest("job offer does not exist");
         return jobOffer;
     }
 
@@ -77,14 +77,14 @@ class JobOfferService {
                 ID_job_category,
             },
         });
-        if (!jobOffer) return 'job offer does not exist';
+        if (!jobOffer) throw CustomError.badRequest("job offer does not exist");
         return jobOffer;
     }
 
     async updateJobOffer(id, data) {
         const { ID_user, title, description, salary_range_min, salary_range_max, publication_date, deadline, ID_city, status, ID_modality, ID_job_category } = data;
         const jobOffer = await JobOffer.findByPk(id);
-        if (!jobOffer) return 'job offer does not exist';
+        if (!jobOffer) throw CustomError.badRequest("job offer does not exist");
         jobOffer.title = title || jobOffer.title;
         jobOffer.description = description || jobOffer.description;
         jobOffer.salary_range_min = salary_range_min || jobOffer.salary_range_min;
@@ -101,7 +101,7 @@ class JobOfferService {
 
     async deleteJobOffer(id) {
         const jobOffer = await JobOffer.findByPk(id);
-        if (!jobOffer) return 'job offer does not exist';
+        if (!jobOffer) throw CustomError.badRequest("job offer does not exist");
         await jobOffer.destroy();
         return 'job offer has been deleted';
     }

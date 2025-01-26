@@ -24,13 +24,13 @@ class JobApplicationService {
 
     async getAllJobApplications() {
         const jobApplications = await JobApplication.findAll();
-        if (!jobApplications) return 'job application does not exist';
+        if (!jobApplications) throw CustomError.badRequest("job application does not exist");
         return jobApplications;
     }
 
     async getJobApplicationByID(id) {
         const jobApplication = await JobApplication.findByPk(id);
-        if (!jobApplication) return 'job application does not exist';
+        if (!jobApplication) throw CustomError.badRequest("job application does not exist");
         return jobApplication;
     }
 
@@ -40,7 +40,7 @@ class JobApplicationService {
                 ID_user,
             },
         });
-        if (!jobApplication) return 'job application does not exist';
+        if (!jobApplication) throw CustomError.badRequest("job application does not exist");
         return jobApplication;
     }
 
@@ -56,7 +56,7 @@ class JobApplicationService {
     async updateJobApplication(id, data) {
         const { status } = data;
         const jobApplication = await JobApplication.findByPk(id);
-        if (!jobApplication) return 'job application does not exist';
+        if (!jobApplication) throw CustomError.badRequest("job application does not exist");
         jobApplication.status = status || jobApplication.status;
         await jobApplication.save();
         return jobApplication;
@@ -64,7 +64,7 @@ class JobApplicationService {
 
     async deleteJobApplication(id) {
         const jobApplication = await JobApplication.findByPk(id);
-        if (!jobApplication) return 'job application does not exist';
+        if (!jobApplication) throw CustomError.badRequest("job application does not exist");
         await jobApplication.destroy();
         return 'job application has been deleted';
     }
