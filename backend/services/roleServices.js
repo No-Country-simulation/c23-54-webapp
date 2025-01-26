@@ -26,7 +26,7 @@ class RoleService {
     async updateRole(id, data) {
         const { name, description } = data;
         const role = await Role.findByPk(id);
-        if (!role) return 'eeeeeeeeeeeeeee';
+        if (!role) return 'role does not exist';
         role.name = name || role.name;
         role.description = description || role.description;
         await role.save(); 
