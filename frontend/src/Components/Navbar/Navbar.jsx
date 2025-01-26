@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import './Navbar.css'
 import { Logo, ProfileIcon} from '../../Assets'
 import PerfilModal from '../PerfilModal/PerfilModal';
 import NotificacionesModal from '../Notificaciones/Notificaciones';
+import { AuthContext } from '../../Context/AuthContext';
 
 
 const Navbar = () => {
 
+
+    const {Name} = useContext(AuthContext)
     const [url, setUrl] = useState('')
     useEffect(() => {
         const path = window.location.pathname.split('/')[1];
@@ -23,8 +26,7 @@ const Navbar = () => {
 
             <div className='d-flex justify-content-end align-items-center col-6'>
                 <NotificacionesModal />
-                {/* CAMBIAR 'MAURO SEBASTIAN' POR EL NOMBRE DEL USUARIO LOGUEADO */}
-                <p className='p-0 mx-3 my-0 '>Mauro Sebastian</p>
+                <p className='p-0 mx-3 my-0 '>{Name}</p>
                 <img src={ProfileIcon} className='rounded-circle ' style={{maxWidth: '50px'}} width='20%' ></img>
                 <PerfilModal />
             </div>
