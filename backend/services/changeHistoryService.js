@@ -33,8 +33,8 @@ class ChangeHistoryService {
     return changeHistory;
   }
 
-  async updateChangeHistory(data) {
-    const { id, change_date, change_description } = data;
+  async updateChangeHistory(id, data) {
+    const { change_date, change_description } = data;
     const changeHistory = await ChangeHistory.findByPk(id);
     if (!changeHistory) throw CustomError.badRequest("Change history does not exist");
     changeHistory.change_date = change_date;

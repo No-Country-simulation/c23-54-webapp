@@ -23,8 +23,8 @@ class ActionService {
         return action;
     }
 
-    async updateAction(data) {
-        const { id, name_action, description_action } = data;
+    async updateAction(id, data) {
+        const { name_action, description_action } = data;
         const action = await Action.findByPk(id);
         if (!action) return 'action does not exist';
         action.name_action = name_action || action.name_action;

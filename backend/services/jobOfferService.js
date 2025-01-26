@@ -76,8 +76,8 @@ class JobOfferService {
         return jobOffer;
     }
 
-    async updateJobOffer(data) {
-        const { id, status, ID_user, ID_city, ID_modality, ID_job_category } = data;
+    async updateJobOffer(id, data) {
+        const { status, ID_user, ID_city, ID_modality, ID_job_category } = data;
         const jobOffer = await JobOffer.findByPk(id);
         if (!jobOffer) return 'job offer does not exist';
         jobOffer.status = status || jobOffer.status;

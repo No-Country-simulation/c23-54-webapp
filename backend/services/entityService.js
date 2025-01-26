@@ -23,8 +23,8 @@ class EntityService {
         return entity;
     }
 
-    async updateEntity(data) {
-        const { id, name, description } = data;
+    async updateEntity(id, data) {
+        const { name, description } = data;
         const entity = await Entity.findByPk(id);
         if (!entity) return 'entity does not exist';
         entity.name = name || entity.name;

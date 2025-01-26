@@ -23,8 +23,8 @@ class JobCategoryService {
         return jobCategory;
     }
 
-    async updateJobCategory(data) {
-        const { id, ID_job_category, name, description } = data;
+    async updateJobCategory(id, data) {
+        const { ID_job_category, name, description } = data;
         const jobCategory = await JobCategory.findByPk(id);
         if (!jobCategory) return 'job category does not exist';
         jobCategory.ID_job_category = ID_job_category  || jobCategory.ID_job_category;

@@ -50,8 +50,8 @@ class JobApplicationService {
         if (!jobApplication) return 'job application does not exist'
     }
 
-    async updateJobApplication(data) {
-        const { id, status } = data;
+    async updateJobApplication(id, data) {
+        const { status } = data;
         const jobApplication = await JobApplication.findByPk(id);
         if (!jobApplication) return 'job application does not exist';
         jobApplication.status = status || jobApplication.status;

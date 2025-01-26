@@ -32,8 +32,8 @@ class NotificationService {
         return notification;
     }
 
-    async updateNotification(data) {
-        const { id, message, type, send_date, read } = data;
+    async updateNotification(id, data) {
+        const { message, type, send_date, read } = data;
         const notification = await Notification.findByPk(id);
         if (!notification) throw CustomError.badRequest("Notification does not exist");
         notification.message = message || notification.message;

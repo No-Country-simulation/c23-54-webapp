@@ -34,8 +34,8 @@ class CityService {
         return city;
     }
 
-    async updateCity(data) {
-        const { id, name } = data;        
+    async updateCity(id, data) {
+        const { name } = data;        
         const city = await City.findByPk(id);
         if (!city) return 'City does not exist';
         city.name = name || city.name;

@@ -21,8 +21,8 @@ class ApplicationStatusService {
         return applicationStatus;
     }
 
-    async updateApplicationStatus(data) {
-        const { id, status } = data;
+    async updateApplicationStatus(id, data) {
+        const { status } = data;
         const applicationStatus = await ApplicationStatus.findByPk(id);
         if (!applicationStatus) return 'application status does not exist';
         applicationStatus.status = status || applicationStatus.status;

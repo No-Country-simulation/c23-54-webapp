@@ -23,8 +23,8 @@ class ModalityService {
         return modality;
     }
 
-    async updateModality(data) {
-        const { id, name, description } = data;
+    async updateModality(id, data) {
+        const { name, description } = data;
         const modality = await Modality.findByPk(id);
         if (!modality) return 'modality does not exist';
         modality.name = name || modality.name;

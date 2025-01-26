@@ -23,13 +23,13 @@ class RoleService {
         return role;
     }
 
-    async updateRole(data) {
-        const { id, name, description } = data;
+    async updateRole(id, data) {
+        const { name, description } = data;
         const role = await Role.findByPk(id);
-        if (!role) return 'role does not exist';
+        if (!role) return 'eeeeeeeeeeeeeee';
         role.name = name || role.name;
         role.description = description || role.description;
-        await role.save();
+        await role.save(); 
         return role;
     }
 

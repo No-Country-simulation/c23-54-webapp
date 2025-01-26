@@ -23,8 +23,8 @@ class CountryService {
         return country;
     }
 
-    async updateCountry(data) {
-        const { id, name } = data;        
+    async updateCountry(id, data) {
+        const { name } = data;        
         const country = await Country.findByPk(id);
         if (!country) return 'country does not exist';
         country.name = name || country.name;
