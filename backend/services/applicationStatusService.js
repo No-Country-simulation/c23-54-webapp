@@ -1,12 +1,14 @@
 const ApplicationStatus = require('../models/applicationStatus');
+const User = require("../models/user");
+const CustomError = require('../errors/custom.errors')
 
 class ApplicationStatusService {
 
     async createApplicationStatus(data) {
-        const { status, description } = data;
-        const applicationStatus = await ApplicationStatus.create({ status, description });
-        if (!applicationStatus) return 'cannot create application status';
-        return applicationStatus;
+        const { ID_user, status, description } = data;
+        const user = await User.findByPk(ID_user);
+        if (!user) throw CustomError.badRequest("Application status does not exist");
+        return await ApplicationStatus.create({ ID_user, status, description });
     }
 
     async getAllApplicationStatuses() {

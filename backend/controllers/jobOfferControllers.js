@@ -15,8 +15,11 @@ class JobOfferController {
     this.deleteJobOffer = this.deleteJobOffer.bind(this);
   }
 
-  handleError = error => { 
-    if (error instanceof CustomError) return res.status(error.statusCode).json({ error: error.message });
+  handleError(error, res) {
+    if (error instanceof CustomError) {
+      return res.status(error.statusCode).json({ error: error.message });
+    }
+
     console.error(`Error: ${error.message}, Stack: ${error.stack}`);
     return res.status(500).json({ error: "Internal server error" });
   }

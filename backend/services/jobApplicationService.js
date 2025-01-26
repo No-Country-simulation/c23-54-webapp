@@ -1,21 +1,24 @@
 const JobApplication = require('../models/jobApplication');
 const JobOffer = require('../models/jobOffer');
+const ApplicationStatus = require('../models/applicationStatus');
 const User = require('../models/user');
+const CustomError = require('../errors/custom.errors')
 
 class JobApplicationService {
 
     async createJobApplication(data) { 
-        const { ID_user, ID_job_offer } = data;
-        const user = await User.findByPk(ID_user);
-        const jobOffer = await JobOffer.findByPk(ID_job_offer);
-        if (!user || !jobOffer) return 'cannot create job application';
-        return await JobApplication.create({
+        const { ID_user, ID_offer, application_date, ID_application_status, comments } = data;
+        const user = await User.findByPk(ID_user); 
+        const offer = await JobOffer.findByPk(ID_offer);
+        const applicationStatus = await ApplicationStatus.findByPk(ID_application_status);
+        if (!user || !offer || !applicationStatus) throw CustomError.badRequest("all fields are required");
+        return await JobApplication.create({ 
             ID_user,
-            ID_job_offer,
-            status: 'pending',
-            createdAt: new Date(),
-            updatedAt: new Date(),
-        });
+            ID_offer,
+            application_date,
+            ID_application_status,
+            comments
+            });
     }
     
 
