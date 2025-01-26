@@ -195,6 +195,16 @@ p{
   justify-content: space-between;
 }
 
+
+.Eye_icon_register {
+  position: absolute;
+  top: 70%;
+  right: 5px; 
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 2;
+}
+
 /* TOASTS */
 
 .toast__container{

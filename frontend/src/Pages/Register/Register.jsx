@@ -75,6 +75,8 @@ const Register = () => {
     const [showSuccessToast, setSuccessALertToast] = useState(false);
     const [messageToast, setMessageToast] = useState("");
 
+
+    
     const navigate = useNavigate();
 
     const methods = useForm({
