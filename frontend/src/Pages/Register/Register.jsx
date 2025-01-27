@@ -50,12 +50,12 @@ const registerSchemaStepTwo = yup.object().shape({
         .typeError("Debe seleccionar algo")
         .required("El país es obligatorio"),
 
-    city: yup
+    ID_city: yup
         .number()
         .typeError("Debe seleccionar algo")
         .required("La ciudad es obligatoria"),
 
-    role: yup
+    ID_role: yup
         .number()
         .typeError("Debe seleccionar algo")
         .required("El tipo de usuario es obligatorio"),
@@ -109,20 +109,23 @@ const Register = () => {
                 body: JSON.stringify(formData)
             })
 
-            if (registerFetch.status === 400) {
-                setShowALertToast(true);
-                setMessageToast("Error al registrarse, intentelo de nuevo más tarde");
+            console.log(formData);
+
+            if (registerFetch.status === 200 || registerFetch.status === 201) {
+                setSuccessALertToast(true);
+                setMessageToast("Registro exitoso, sera redigirido instantaneamete");
                 setTimeout(() => {
-                    setShowALertToast(false)
+                    setSuccessALertToast(false)
                 }, 2000)
             }
 
-            setSuccessALertToast(true);
-            setMessageToast("Registro exitoso, sera redigirido instantaneamete");
-            setTimeout(() => {
-                setSuccessALertToast(false)
-            }, 2000)
 
+            setShowALertToast(true);
+            setMessageToast("Error al registrarse, intentelo de nuevo más tarde");
+            setTimeout(() => {
+                setShowALertToast(false)
+            }, 2000)
+            
         } catch (error) {
             setShowALertToast(true);
             setMessageToast("Error al registrarse, intentelo de nuevo más tarde");
