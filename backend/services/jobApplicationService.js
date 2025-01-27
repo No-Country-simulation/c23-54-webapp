@@ -1,33 +1,36 @@
 const JobApplication = require('../models/jobApplication');
 const JobOffer = require('../models/jobOffer');
+const ApplicationStatus = require('../models/applicationStatus');
 const User = require('../models/user');
+const CustomError = require('../errors/custom.errors')
 
 class JobApplicationService {
 
     async createJobApplication(data) { 
-        const { userID, jobOfferID } = data;
-        const user = await User.findByPk(userID);
-        const jobOffer = await JobOffer.findByPk(jobOfferID);
-        if (!user || !jobOffer) return 'No se pudo crear la solicitud de empleo';
-        return await JobApplication.create({
-            userID,
-            jobOfferID,
-            status: 'pending',
-            createdAt: new Date(),
-            updatedAt: new Date(),
-        });
+        const { ID_user, ID_offer, application_date, ID_application_status, comments } = data;
+        const user = await User.findByPk(ID_user); 
+        const offer = await JobOffer.findByPk(ID_offer);
+        const applicationStatus = await ApplicationStatus.findByPk(ID_application_status);
+        if (!user || !offer || !applicationStatus) throw CustomError.badRequest("all fields are required");
+        return await JobApplication.create({ 
+            ID_user,
+            ID_offer,
+            application_date,
+            ID_application_status,
+            comments
+            });
     }
     
 
     async getAllJobApplications() {
         const jobApplications = await JobApplication.findAll();
-        if (!jobApplications) return 'No se pudo encontrar la solicitud de empleo';
+        if (!jobApplications) throw CustomError.badRequest("job application does not exist");
         return jobApplications;
     }
 
     async getJobApplicationByID(id) {
         const jobApplication = await JobApplication.findByPk(id);
-        if (!jobApplication) return 'No se pudo encontrar la solicitud de empleo';
+        if (!jobApplication) throw CustomError.badRequest("job application does not exist");
         return jobApplication;
     }
 
@@ -37,7 +40,7 @@ class JobApplicationService {
                 ID_user,
             },
         });
-        if (!jobApplication) return 'No se pudo encontrar la solicitud de empleo';
+        if (!jobApplication) throw CustomError.badRequest("job application does not exist");
         return jobApplication;
     }
 
@@ -47,23 +50,23 @@ class JobApplicationService {
                 ID_offer,
             },
         })
-        if (!jobApplication) return 'No se pudo encontrar la solicitud de empleo'
+        if (!jobApplication) return 'job application does not exist'
     }
 
-    async updateJobApplication(data) {
-        const { id, status } = data;
+    async updateJobApplication(id, data) {
+        const { status } = data;
         const jobApplication = await JobApplication.findByPk(id);
-        if (!jobApplication) return 'No se pudo encontrar la solicitud de empleo';
-        jobApplication.status = status;
+        if (!jobApplication) throw CustomError.badRequest("job application does not exist");
+        jobApplication.status = status || jobApplication.status;
         await jobApplication.save();
         return jobApplication;
     }
 
     async deleteJobApplication(id) {
         const jobApplication = await JobApplication.findByPk(id);
-        if (!jobApplication) return 'No se pudo encontrar la solicitud de empleo';
+        if (!jobApplication) throw CustomError.badRequest("job application does not exist");
         await jobApplication.destroy();
-        return 'Solicitud de empleo eliminada correctamente';
+        return 'job application has been deleted';
     }
 
 }

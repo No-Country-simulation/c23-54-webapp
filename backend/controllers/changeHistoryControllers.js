@@ -1,94 +1,74 @@
-const ChangeHistory = require('../models/changeHistory');
+const ChangeHistoryService = require('../services/changeHistoryService');
+const CustomError = require('../errors/custom.errors');
 
-// Get all change histories
-const getAllChangeHistories = async (req, res) => {
-  try {
-    const changeHistories = await ChangeHistory.findAll();
-    res.status(200).json(changeHistories);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+class ChangeHistoryController {
+  constructor(changeHistoryService = new ChangeHistoryService()) {
+    this.service = changeHistoryService;
+
+    this.getAllChangeHistories = this.getAllChangeHistories.bind(this);
+    this.createChangeHistory = this.createChangeHistory.bind(this);
+    this.getChangeHistoryByID = this.getChangeHistoryByID.bind(this);
+    this.updateChangeHistory = this.updateChangeHistory.bind(this);
+    this.deleteChangeHistory = this.deleteChangeHistory.bind(this);
   }
-};
 
-// Create a new change history
-const createChangeHistory = async (req, res) => {
-  const { ID_user, ID_entity, ID_action, change_date, change_description } = req.body;
-
-  try {
-    const newChangeHistory = await ChangeHistory.create({
-      ID_user,
-      ID_entity,
-      ID_action,
-      change_date,
-      change_description
-    });
-    res.status(201).json(newChangeHistory);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// Get a change history by ID
-const getChangeHistoryById = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const changeHistory = await ChangeHistory.findByPk(id);
-    if (changeHistory) {
-      res.status(200).json(changeHistory);
-    } else {
-      res.status(404).json({ message: 'Change history not found' });
+  handleError = (error, res) => {
+    if (error instanceof CustomError) {
+      return res.status(error.statusCode).json({ error: error.message });
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
 
-// Update a change history by ID
-const updateChangeHistory = async (req, res) => {
-  const { id } = req.params;
-  const { ID_user, ID_entity, ID_action, change_date, change_description } = req.body;
+    console.error(`Error: ${error.message}, Stack: ${error.stack}`);
+    return res.status(500).json({ error: "Internal server error" });
+  };
 
-  try {
-    const changeHistory = await ChangeHistory.findByPk(id);
-    if (changeHistory) {
-      changeHistory.ID_user = ID_user || changeHistory.ID_user;
-      changeHistory.ID_entity = ID_entity || changeHistory.ID_entity;
-      changeHistory.ID_action = ID_action || changeHistory.ID_action;
-      changeHistory.change_date = change_date || changeHistory.change_date;
-      changeHistory.change_description = change_description || changeHistory.change_description;
-
-      await changeHistory.save();
-      res.status(200).json(changeHistory);
-    } else {
-      res.status(404).json({ message: 'Change history not found' });
+  getAllChangeHistories = async (req, res) => {
+    try {
+      const changeHistories = await this.service.getAllChangeHistories();
+      res.status(200).json(changeHistories);
+    } catch (error) {
+      this.handleError(error, res);
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+  };
 
-// Delete a change history by ID
-const deleteChangeHistory = async (req, res) => {
-  const { id } = req.params;
+  createChangeHistory = async (req, res) => {
+    try {
+      const { ID_user, ID_entity, ID_action, change_date, change_description } = req.body;
+      const changeHistory = await this.service.createChangeHistory({ ID_user, ID_entity, ID_action, change_date, change_description });
+      res.status(201).json(changeHistory);
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  };
 
-  try {
-    const changeHistory = await ChangeHistory.findByPk(id);
-    if (changeHistory) {
-      await changeHistory.destroy();
+  getChangeHistoryByID = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const changeHistory = await this.service.getChangeHistoryByID(id);
+      res.status(200).json(changeHistory);
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  };
+
+  updateChangeHistory = async (req, res) => {
+    try {
+      const { id, change_date, change_description } = req.body;
+      const changeHistory = await this.service.updateChangeHistory({ id, change_date, change_description });
+      res.status(200).json(changeHistory);
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  };
+
+  deleteChangeHistory = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const changeHistory = await this.service.deleteChangeHistory(id);
       res.status(204).end();
-    } else {
-      res.status(404).json({ message: 'Change history not found' });
+    } catch (error) {
+      this.handleError(error, res);
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+  };
+}
 
-module.exports = {
-  getAllChangeHistories,
-  createChangeHistory,
-  getChangeHistoryById,
-  updateChangeHistory,
-  deleteChangeHistory
-};
+module.exports = ChangeHistoryController;

@@ -1,15 +1,17 @@
-const City = require("../models/city")
+const City = require("../models/city");
+const Country = require("../models/country");
+const CustomError = require('../errors/custom.errors')
 
 
 class CityService {
 
     async createCity(data) {
-        const { name, countryID } = data;
-        const country = await City.findByPk(countryID);
-        if (!country) return 'No se pudo encontrar el país';
+        const { name, ID_country } = data;
+        const country = await Country.findByPk(ID_country);
+        if (!country) throw CustomError.badRequest("Country does not exist");
         return await City.create({
             name,
-            countryID,
+            ID_country,
             createdAt: new Date(),
             updatedAt: new Date(),
         });
@@ -17,36 +19,36 @@ class CityService {
 
     async getAllCities() {
         const cities = await City.findAll();
-        if (!cities) return 'No se pudo encontrar la ciudad';
+        if (!cities) throw CustomError.badRequest("City does not exist");
         return cities;
     }
 
     async getCityByID(id) {
         const city = await City.findByPk(id);
-        if (!city) return 'No se pudo encontrar la ciudad';
+        if (!city) throw CustomError.badRequest("City does not exist");
         return city;
     }
 
     async getCityByName(name) {
         const city = await City.findOne({ where: { name } });
-        if (!city) return 'No se pudo encontrar la ciudad';
+        if (!city) throw CustomError.badRequest("City does not exist");
         return city;
     }
 
-    async updateCity(data) {
-        const { id, name } = data;        
+    async updateCity(id, data) {
+        const { name } = data;        
         const city = await City.findByPk(id);
-        if (!city) return 'No se pudo encontrar la ciudad';
-        city.name = name;
+        if (!city) throw CustomError.badRequest("City does not exist");
+        city.name = name || city.name;
         await city.save();
         return city;
     }
 
     async deleteCity(id) {
         const city = await City.findByPk(id);
-        if (!city) return 'No se pudo encontrar la ciudad';
+        if (!city) throw CustomError.badRequest("City does not exist");
         await city.destroy();
-        return 'La ciudad ha sido eliminada';
+        return 'City has been deleted';
     }
 
 }

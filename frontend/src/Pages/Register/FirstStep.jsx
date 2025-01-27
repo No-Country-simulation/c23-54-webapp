@@ -2,9 +2,13 @@
 import { useFormContext } from "react-hook-form"
 import ErrorMessage from "../../Components/Alerts/ErrorMessage/ErrorMessage";
 import BgButton from "../../Components/BgButton/BgButton";
+import { useState } from "react";
+import { Eye, EyeClosed } from "lucide-react";
 
 const RegisterFirstStep = () => {
     const { register, formState: { errors, isValid } } = useFormContext();
+
+    const [TypePassword, SetTypePassword] = useState('password')
 
     return (
 
@@ -37,6 +41,7 @@ const RegisterFirstStep = () => {
                     Contraseña
                 </label>
 
+
                 <input
                     className="input-field"
                     type="password"
@@ -52,18 +57,35 @@ const RegisterFirstStep = () => {
             </div>
 
             <div className="input-container">
-                <label
-                    className="input-label"
-                    htmlFor="confirmPassword">
-                    Confirmar Contraseña
-                </label>
 
-                <input
-                    className="input-field"
-                    type="text"
-                    {...register("confirmPassword")}
-                    placeholder="Vuelva a introducir su clave"
-                />
+                <div className="position-relative ">
+                    <label
+                        className="input-label"
+                        htmlFor="confirmPassword">
+                        Confirmar Contraseña
+                    </label>
+
+
+                    <input
+                        className="input-field w-100"
+                        type={TypePassword}
+                        {...register("confirmPassword")}
+                        placeholder="Vuelva a introducir su clave"
+                    />
+
+                    {TypePassword === 'password' ? (
+                        <EyeClosed
+                            className="Eye_icon_register"
+                            onClick={() => SetTypePassword('text')}
+                        />
+                    ) : (
+                        <Eye
+                            className="Eye_icon_register"
+                            onClick={() => SetTypePassword('password')}
+                        />
+                    )}
+                </div>
+                
 
                 {errors && errors.confirmPassword?.message && (
                     <ErrorMessage

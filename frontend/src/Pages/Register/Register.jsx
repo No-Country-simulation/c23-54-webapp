@@ -1,10 +1,11 @@
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import JoditEditor from 'jodit-react';
 import { yupResolver } from "@hookform/resolvers/yup";
 import OutlinedButton from "../../Components/OutlinedButton/OutlinedButton"
 import { FormProvider, useForm } from "react-hook-form"
 import * as yup from "yup";
 import Logo from '../../Assets/icons/Logo.png';
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 import AlertToast from "../../Components/Alerts/Toasts/AlertToast";
 import SuccessToast from "../../Components/Alerts/Toasts/SuccessToast";
@@ -74,6 +75,8 @@ const Register = () => {
     const [showSuccessToast, setSuccessALertToast] = useState(false);
     const [messageToast, setMessageToast] = useState("");
 
+
+    
     const navigate = useNavigate();
 
     const methods = useForm({

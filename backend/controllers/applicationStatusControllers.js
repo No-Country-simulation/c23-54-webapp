@@ -1,88 +1,75 @@
-const ApplicationStatus = require('../models/applicationStatus');
+const ApplicationStatusService = require('../services/applicationStatusService');
+const CustomError = require("../errors/custom.errors");
 
-// Get all application statuses
-const getAllApplicationStatuses = async (req, res) => {
-  try {
-    const applicationStatuses = await ApplicationStatus.findAll();
-    res.status(200).json(applicationStatuses);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+class ApplicationStatusController {
+  constructor(applicationStatusService = new ApplicationStatusService()) {
+    this.service = applicationStatusService;
+
+    this.getAllApplicationStatuses = this.getAllApplicationStatuses.bind(this);
+    this.createApplicationStatus = this.createApplicationStatus.bind(this);
+    this.getApplicationStatusByID = this.getApplicationStatusByID.bind(this);
+    this.updateApplicationStatus = this.updateApplicationStatus.bind(this);
+    this.deleteApplicationStatus = this.deleteApplicationStatus.bind(this);
   }
-};
 
-// Create a new application status
-const createApplicationStatus = async (req, res) => {
-  const { status, description } = req.body;
+  handleError(error, res) {
+    if (error instanceof CustomError) {
+      return res.status(error.statusCode).json({ error: error.message });
+    }
 
-  try {
-    const newApplicationStatus = await ApplicationStatus.create({
-      status,
-      description
-    });
-    res.status(201).json(newApplicationStatus);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error(`Error: ${error.message}, Stack: ${error.stack}`);
+    return res.status(500).json({ error: "Internal server error" });
   }
-};
 
-// Get an application status by ID
-const getApplicationStatusById = async (req, res) => {
-  const { id } = req.params;
+  async getAllApplicationStatuses(req, res) {
+    try {
+      const applicationStatuses = await this.service.getAllApplicationStatuses(); 
+      res.status(200).json(applicationStatuses);
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  }
 
-  try {
-    const applicationStatus = await ApplicationStatus.findByPk(id);
-    if (applicationStatus) {
+  async createApplicationStatus(req, res) {
+    try {
+      const { status } = req.body;
+      const applicationStatus = await this.service.createApplicationStatus({ status }); 
+      res.status(201).json(applicationStatus);
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  }
+
+  async getApplicationStatusByID(req, res) {
+    try {
+      const { id } = req.params;
+      const applicationStatus = await this.service.getApplicationStatusByID(id); 
       res.status(200).json(applicationStatus);
-    } else {
-      res.status(404).json({ message: 'Application status not found' });
+    } catch (error) {
+      this.handleError(error, res);
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
   }
-};
 
-// Update an application status by ID
-const updateApplicationStatus = async (req, res) => {
-  const { id } = req.params;
-  const { status, description } = req.body;
-
-  try {
-    const applicationStatus = await ApplicationStatus.findByPk(id);
-    if (applicationStatus) {
-      applicationStatus.status = status || applicationStatus.staus;
-      applicationStatus.description = description || applicationStatus.description;
-
-      await applicationStatus.save();
+  async updateApplicationStatus(req, res) {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
+      const applicationStatus = await this.service.updateApplicationStatus({ id, status }); 
       res.status(200).json(applicationStatus);
-    } else {
-      res.status(404).json({ message: 'Application status not found' });
+    } catch (error) {
+      this.handleError(error, res);
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
   }
-};
 
-// Delete an application status by ID
-const deleteApplicationStatus = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const applicationStatus = await ApplicationStatus.findByPk(id);
-    if (applicationStatus) {
-      await applicationStatus.destroy();
-      res.status(204).end();
-    } else {
-      res.status(404).json({ message: 'Application status not found' });
+  async deleteApplicationStatus(req, res) {
+    try {
+      const { id } = req.params;
+      const applicationStatus = await this.service.deleteApplicationStatus(id);
+      res.status(200).json(applicationStatus);
+    } catch (error) {
+      this.handleError(error, res);
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
   }
-};
+}
 
-module.exports = {
-  getAllApplicationStatuses,
-  createApplicationStatus,
-  getApplicationStatusById,
-  updateApplicationStatus,
-  deleteApplicationStatus
-};
+module.exports = ApplicationStatusController;

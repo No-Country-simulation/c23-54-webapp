@@ -1,88 +1,81 @@
-const Entity = require('../models/entity');
+const EntityService = require("../services/entityService");
+const CustomError = require("../errors/custom.errors");
 
-// Get all entities
-const getAllEntities = async (req, res) => {
-  try {
-    const entities = await Entity.findAll();
-    res.status(200).json(entities);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+class EntityController {
+  constructor(entityService = new EntityService()) {
+    this.entityService = entityService;
+    this.getAllEntities = this.getAllEntities.bind(this);
+    this.createEntity = this.createEntity.bind(this);
+    this.getEntityByID = this.getEntityByID.bind(this);
+    this.updateEntity = this.updateEntity.bind(this);
+    this.deleteEntity = this.deleteEntity.bind(this);
   }
-};
 
-// Create a new entity
-const createEntity = async (req, res) => {
-  const { name, description } = req.body;
-
-  try {
-    const newEntity = await Entity.create({
-      name,
-      description
-    });
-    res.status(201).json(newEntity);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// Get an entity by ID
-const getEntityById = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const entity = await Entity.findByPk(id);
-    if (entity) {
-      res.status(200).json(entity);
-    } else {
-      res.status(404).json({ message: 'Entity not found' });
+  handleError(error, res) {
+    if (error instanceof CustomError) {
+      return res.status(error.statusCode).json({ error: error.message });
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+
+    console.error(`Error: ${error.message}, Stack: ${error.stack}`);
+    return res.status(500).json({ error: "Internal server error" });
   }
-};
 
-// Update an entity by ID
-const updateEntity = async (req, res) => {
-  const { id } = req.params;
-  const { name, description } = req.body;
-
-  try {
-    const entity = await Entity.findByPk(id);
-    if (entity) {
-      entity.name = name || entity.name;
-      entity.description = description || entity.description;
-
-      await entity.save();
-      res.status(200).json(entity);
-    } else {
-      res.status(404).json({ message: 'Entity not found' });
+  async getAllEntities(req, res) {
+    try {
+      const entities = await this.entityService.getAllEntities();
+      res.status(200).json(entities);
+    } catch (error) {
+      this.handleError(error, res);
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
   }
-};
 
-// Delete an entity by ID
-const deleteEntity = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const entity = await Entity.findByPk(id);
-    if (entity) {
-      await entity.destroy();
-      res.status(204).end();
-    } else {
-      res.status(404).json({ message: 'Entity not found' });
+  async createEntity(req, res) {
+    try {
+      const entity = await this.entityService.createEntity(req.body);
+      res.status(201).json(entity);
+    } catch (error) {
+      this.handleError(error, res);
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
   }
-};
 
-module.exports = {
-  getAllEntities,
-  createEntity,
-  getEntityById,
-  updateEntity,
-  deleteEntity
-};  
+  async getEntityByID(req, res) {
+    try {
+      const entity = await this.entityService.getEntityByID(req.params.id);
+      if (entity) {
+        res.status(200).json(entity);
+      } else {
+        res.status(404).json({ message: "Entity not found" });
+      }
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  }
+
+  async updateEntity(req, res) {
+    try {
+      const updatedEntity = await this.entityService.updateEntity(req.params.id, req.body);
+      if (updatedEntity) {
+        res.status(200).json(updatedEntity);
+      } else {
+        res.status(404).json({ message: "Entity not found" });
+      }
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  }
+
+  async deleteEntity(req, res) {
+    try {
+      const deletedEntity = await this.entityService.deleteEntity(req.params.id);
+      if (deletedEntity) {
+        res.status(204).end();
+      } else {
+        res.status(404).json({ message: "Entity not found" });
+      }
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  }
+}
+
+module.exports = EntityController;

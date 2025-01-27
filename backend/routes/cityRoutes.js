@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const CityController = require('../controllers/cityControllers');
 const CityService = require('../services/cityService');
+const AuthMiddleware = require('../middlewares/auth.middleware')
 
 class CityRoutes {
 

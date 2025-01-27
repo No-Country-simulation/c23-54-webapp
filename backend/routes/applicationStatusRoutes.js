@@ -1,21 +1,28 @@
+const { Router } = require("express");
+const ApplicationStatusController = require("../controllers/applicationStatusControllers");
+const ApplicationStatusService = require("../services/applicationStatusService");
+const AuthMiddleware = require("../middlewares/auth.middleware");
 
-const express = require('express');
-const router = express.Router();
-const applicationStatusController = require('../controllers/applicationStatusControllers');
+class ApplicationStatusRouter {
+    static get routes () {
+        const router = Router();
 
-// Endpoint to get all application statuses
-router.get('/', applicationStatusController.getAllApplicationStatuses);
+        const service = new ApplicationStatusService();
+        const controller = new ApplicationStatusController(service);
 
-// Endpoint to create a new application status
-router.post('/', applicationStatusController.createApplicationStatus);
+        const authMiddleware = new AuthMiddleware();
 
-// Endpoint to get an application status by ID
-router.get('/:id', applicationStatusController.getApplicationStatusById);
+        router.get("/", new ApplicationStatusController().getAllApplicationStatuses);
 
-// Endpoint to update an application status
-router.put('/:id', applicationStatusController.updateApplicationStatus);
+        router.post("/", new ApplicationStatusController().createApplicationStatus);
 
-// Endpoint to delete an application status
-router.delete('/:id', applicationStatusController.deleteApplicationStatus);
+        router.get("/:id", new ApplicationStatusController().getApplicationStatusByID);
 
-module.exports = router;
+        router.put("/:id", new ApplicationStatusController().updateApplicationStatus);
+
+        router.delete("/:id", new ApplicationStatusController().deleteApplicationStatus);
+
+        return router;
+    }
+}
+module.exports = ApplicationStatusRouter;
