@@ -3,11 +3,6 @@ const CustomError = require('../errors/custom.errors')
 
 const LoginUserDTO = require('../domain/dto/auth/login-user.dto')
 const RegisterUserDTO = require('../domain/dto/auth/register-user.dto')
-<<<<<<< HEAD
-
-=======
-const AuthMiddleware = require('../middlewares/auth.middleware')
->>>>>>> 018b3325c3e01eea371dc70530a5f621525d9ef0
 class AuthController {
 
     //DI
