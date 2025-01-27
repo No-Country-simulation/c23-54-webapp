@@ -1,10 +1,12 @@
 import { MapPin, Search } from "lucide-react"
 import BgButton from "../BgButton/BgButton"
 import SearchText from "./SearchText"
+import { useContext } from "react"
+import { AuthContext } from "../../Context/AuthContext"
 
 
 const SearchHomeContainer = () => {
-
+    const { Role } = useContext(AuthContext)
     return (
         <div
             className='search__container'
@@ -34,14 +36,12 @@ const SearchHomeContainer = () => {
             </div>
 
 
-            {
+            {Role === 2 && (
+                <BgButton
+                    title={"Agregar Oferta"}
+                />
+            )}
 
-                // EL BOTON HAY QUE HACER EL RENDERIZADO SEGUN EL ROL
-
-            }
-            <BgButton
-                title={"Agregar Oferta"}
-            />
         </div>
     )
 }
