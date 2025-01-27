@@ -1,10 +1,18 @@
 import { MapPin, Search } from "lucide-react"
 import BgButton from "../BgButton/BgButton"
 import SearchText from "./SearchText"
+import { useNavigate } from "react-router-dom";
 
 
 const SearchHomeContainer = () => {
 
+
+    const navigate = useNavigate();
+
+    const handleCreateOffer = () =>{
+
+        navigate('/crear/oferta_trabajo')
+    }
     return (
         <div
             className='search__container'
@@ -41,6 +49,7 @@ const SearchHomeContainer = () => {
             }
             <BgButton
                 title={"Agregar Oferta"}
+                onClick={handleCreateOffer}
             />
         </div>
     )

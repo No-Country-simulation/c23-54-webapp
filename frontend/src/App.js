@@ -11,6 +11,7 @@ import { AuthProvider } from "./Context/AuthContext";
 import Myapplications from "./Pages/MisPostulaciones/Myapplications";
 import LandingPage from "./Pages/LandingPage/LandingPage";
 import ProtectedUser from "./RouteProtection/ProtectedUser";
+import CreateJobOfferPage from "./Pages/JobOffer/CreateJobOfferPage";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,11 @@ const router = createBrowserRouter([
   {
     path: '/MisPostulaciones',
     element:  <Myapplications/>
+  },
+  {
+    path: '/crear/oferta_trabajo',
+    element: <CreateJobOfferPage />
+
   },
   {
     path: "*",
