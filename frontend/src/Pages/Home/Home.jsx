@@ -5,11 +5,11 @@ import { useLocation } from 'react-router-dom';
 import SuccessToast from '../../Components/Alerts/Toasts/SuccessToast';
 import JobCard from '../../Components/Cards/JobCard/JobCard';
 import InfiniteScroll from '../../Components/InfiniteScroll/InfiniteScroll';
-import { jobsOffers } from '../../Hooks/CardService/UseJobOffers';
 import SearchText from '../../Components/FilterBar/SearchText';
 import { MapPin, Pin, Search } from 'lucide-react';
 import BgButton from '../../Components/BgButton/BgButton';
 import SearchHomeContainer from '../../Components/FilterBar/SearchHomeContainer';
+import { JobOffersService } from '../../Services/JobsOffersService';
 
 const Home = () => {
 
@@ -27,6 +27,26 @@ const Home = () => {
     }
   }, [logged, firstloged]);
 
+
+
+  const [jobsOffers, setJobsOffers] = useState([]);
+  const { getAllOffers } = JobOffersService()
+
+
+  useEffect(() => {
+
+    const fetchJobOffers = async () => {
+      try {
+        const data = await getAllOffers();
+        setJobsOffers(data);
+      } catch (e) {
+
+      }
+    }
+
+    fetchJobOffers();
+
+  }, [])
 
   return (
     <div className='Contenido'>

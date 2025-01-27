@@ -19,7 +19,7 @@ const JobCard = ({
                         <UserRound
                             className="card__offer__icon"
                         />
-                        <p>{JobOffer.author.name}</p>
+                        <p>{JobOffer.author?.name}</p>
                     </div>
                     <div className="offer__item__info">
                         <MapPin

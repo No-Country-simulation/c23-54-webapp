@@ -24,6 +24,7 @@ class AuthController {
     })
 
     registerUser = (req, res) => {
+        console.log(req.body.ID_city);
 
         const user = {
             email: req.body.email,
@@ -33,6 +34,7 @@ class AuthController {
             address: req.body.address,
             ID_city: req.body.ID_city,
         }
+
 
         const [error, registerUserDto] = RegisterUserDTO.create(user);
 

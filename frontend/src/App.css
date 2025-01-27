@@ -44,6 +44,12 @@ p{
   word-break: break-all;
 }
 
+.center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* GLOBALS */
 
 .page__container{
