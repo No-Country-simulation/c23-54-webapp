@@ -1,20 +1,32 @@
-const express = require('express');
-const router = express.Router();
-const jobApplicationController = require('../controllers/jobApplicationControllers');
+const { Router } = require('express');
+const JobApplicationController = require('../controllers/jobApplicationControllers');
+const JobApplicationService = require('../services/jobApplicationService');
+class JobApplicationRoutes {
 
-// Endpoint to get all job applications
-router.get('/', jobApplicationController.getAllJobApplications);
+    static get routes() {
 
-// Endpoint to create a new job application
-router.post('/', jobApplicationController.createJobApplication);
+        const router = Router()
 
-// Endpoint to get a job application by ID
-router.get('/:id', jobApplicationController.getJobApplicationById);
+        const service = new JobApplicationService();
+        const controller = new JobApplicationController(service);
 
-// Endpoint to update a job application
-router.put('/:id', jobApplicationController.updateJobApplication);
+        router.get('/', controller.getAllJobApplications);
 
-// Endpoint to delete a job application
-router.delete('/:id', jobApplicationController.deleteJobApplication);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+        router.get('/:id', controller.getJobApplicationById);
 
-module.exports = router;
+        router.get('/user/:userId', controller.getJobApplicationByUserId);
+
+        router.get('/offer/:jobOfferId', controller.getJobApplicationByOfferId);
+
+        router.post('/', controller.createJobApplication);
+
+        router.put('/:id', controller.updateJobApplication);
+
+        router.delete('/:id', controller.deleteJobApplication);
+
+        return router;
+
+    }
+}
+
+module.exports = JobApplicationRoutes;

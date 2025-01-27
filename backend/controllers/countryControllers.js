@@ -1,86 +1,81 @@
-const Country = require('../models/country');
+const CountryService = require("../services/countryService");
+const CustomError = require("../errors/custom.errors");
 
-// Get all countries
-const getAllCountries = async (req, res) => {
-  try {
-    const countries = await Country.findAll();
-    res.status(200).json(countries);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+class CountryController {
+  constructor(countryService = new CountryService()) {
+    this.countryService = countryService;
+    this.getAllCountries = this.getAllCountries.bind(this);
+    this.createCountry = this.createCountry.bind(this);
+    this.getCountryByID = this.getCountryByID.bind(this);
+    this.updateCountry = this.updateCountry.bind(this);
+    this.deleteCountry = this.deleteCountry.bind(this);
   }
-};
 
-// Create a new country
-const createCountry = async (req, res) => {
-  const { name } = req.body;
-
-  try {
-    const newCountry = await Country.create({
-      name
-    });
-    res.status(201).json(newCountry);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// Get a country by ID
-const getCountryById = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const country = await Country.findByPk(id);
-    if (country) {
-      res.status(200).json(country);
-    } else {
-      res.status(404).json({ message: 'Country not found' });
+  handleError(error, res) {
+    if (error instanceof CustomError) {
+      return res.status(error.statusCode).json({ error: error.message });
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+
+    console.error(`Error: ${error.message}, Stack: ${error.stack}`);
+    return res.status(500).json({ error: "Internal server error" });
   }
-};
 
-// Update a country by ID
-const updateCountry = async (req, res) => {
-  const { id } = req.params;
-  const { name } = req.body;
-
-  try {
-    const country = await Country.findByPk(id);
-    if (country) {
-      country.name = name || country.name;
-
-      await country.save();
-      res.status(200).json(country);
-    } else {
-      res.status(404).json({ message: 'Country not found' });
+  async getAllCountries(req, res) {
+    try {
+      const countries = await this.countryService.getAllCountries();
+      res.status(200).json(countries);
+    } catch (error) {
+      this.handleError(error, res);
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
   }
-};
 
-// Delete a country by ID
-const deleteCountry = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const country = await Country.findByPk(id);
-    if (country) {
-      await country.destroy();
-      res.status(204).end();
-    } else {
-      res.status(404).json({ message: 'Country not found' });
+  async createCountry(req, res) {
+    try {
+      const country = await this.countryService.createCountry(req.body);
+      res.status(201).json(country);
+    } catch (error) {
+      this.handleError(error, res);
     }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
   }
-};
 
-module.exports = {
-  getAllCountries,
-  createCountry,
-  getCountryById,
-  updateCountry,
-  deleteCountry
-};
+  async getCountryByID(req, res) {
+    try {
+      const country = await this.countryService.getCountryByID(req.params.id);
+      if (country) {
+        res.status(200).json(country);
+      } else {
+        res.status(404).json({ message: "Country not found" });
+      }
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  }
+
+  async updateCountry(req, res) {
+    try {
+      const updatedCountry = await this.countryService.updateCountry(req.params.id, req.body);
+      if (updatedCountry) {
+        res.status(200).json(updatedCountry);
+      } else {
+        res.status(404).json({ message: "Country not found" });
+      }
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  }
+
+  async deleteCountry(req, res) {
+    try {
+      const deletedCountry = await this.countryService.deleteCountry(req.params.id);
+      if (deletedCountry) {
+        res.status(204).end();
+      } else {
+        res.status(404).json({ message: "Country not found" });
+      }
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  }
+}
+
+module.exports = CountryController;

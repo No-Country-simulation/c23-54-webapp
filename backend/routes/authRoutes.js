@@ -14,7 +14,6 @@ class AuthRoutes {
         router.post('/login', controller.loginUser);
         router.post('/register', controller.registerUser);
 
-
         return router;
     }
 

@@ -1,0 +1,39 @@
+
+.noti-modal-container {
+    position: absolute; 
+    text-align: center;
+}
+
+.noti-header {
+    height: 40px;
+}
+
+.noti-info h3 {
+    margin: 0;
+    font-size: 26px;
+}
+
+.noti-manage-section {
+    border-top: 1px solid #ddd;
+    padding-top: 15px;
+}
+
+.noti-manage-section h4 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.noti-manage-section img {
+    width: 50%;
+    margin-left: 10px;
+    text-align: center;
+}
+
+.logout-button {
+    padding: 0px 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}

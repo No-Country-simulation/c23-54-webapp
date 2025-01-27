@@ -1,20 +1,33 @@
-const express = require('express');
-const router = express.Router();
+const { Router } = require('express');
 const ActionController = require('../controllers/actionControllers');
+const ActionService = require('../services/actionService');
+const AuthMiddleware = require('../middlewares/auth.middleware')
 
-// Endpoint to get all Actions
-router.get('/', ActionController.getAllActions);
+class ActionRoutes {
 
-// Endpoint to create a new Action
-router.post('/', ActionController.createAction);
+  static get routes() {
 
-// Endpoint to get an Action by ID
-router.get('/:id', ActionController.getActionById);
 
-// Endpoint to update an Action
-router.put('/:id', ActionController.updateAction);
+    const router = Router();
 
-// Endpoint to delete an Action
-router.delete('/:id', ActionController.deleteAction);
 
-module.exports = router;
+    const service = new ActionService();
+    const controller = new ActionController(service);
+
+    const authMiddleware = new AuthMiddleware();
+
+    router.get('/', controller.getAllActions);
+
+    router.post('/', controller.createAction);
+
+    router.get('/:id', controller.getActionByID);
+
+    router.put('/:id', controller.updateAction);
+
+    router.delete('/:id', controller.deleteAction);
+
+    return router;
+  }
+}
+
+module.exports = ActionRoutes;

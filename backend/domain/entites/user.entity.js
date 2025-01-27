@@ -12,7 +12,10 @@ class UserEntity {
         last_access_date,
         phone,
         address,
+        description,
+        img,
         ID_city,
+        ID_role
 
     ) {
         this.ID_user = ID_user;
@@ -24,7 +27,10 @@ class UserEntity {
         this.last_access_date = last_access_date;
         this.phone = phone;
         this.address = address;
+        this.description = description;
+        this.img = img;
         this.ID_city = ID_city;
+        this.ID_role = ID_role;
     }
 
     static fromObject(object) {
@@ -37,7 +43,10 @@ class UserEntity {
             last_access_date,
             phone,
             address,
-            ID_city, } = object;
+            description,
+            img,
+            ID_city,
+            ID_role, } = object;
 
         if (!ID_user) {
             throw CustomError.badRequest('Missing ID_user');
@@ -75,9 +84,21 @@ class UserEntity {
             throw CustomError.badRequest('Missing address');
         }
 
+        if (!description) {
+            throw CustomError.badRequest('Missing description');
+        }
+
+        if (!img) {
+            throw CustomError.badRequest('Missing img');
+        }
+
         if (!ID_city) {
             throw CustomError.badRequest('Missing ID_city');
         }
+        if (!ID_role) {
+            throw CustomError.badRequest('Missing ID_role');
+        }
+
 
         return new UserEntity(ID_user,
             name,
@@ -88,7 +109,10 @@ class UserEntity {
             last_access_date,
             phone,
             address,
-            ID_city,);
+            description,
+            img,
+            ID_city,
+            ID_role,);
 
 
     }

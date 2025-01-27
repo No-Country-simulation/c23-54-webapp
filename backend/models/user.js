@@ -1,5 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
+const City = require('./city');
+const Role = require('./role');
 
 const User = sequelize.define('User', {
   ID_user: {
@@ -44,13 +46,31 @@ const User = sequelize.define('User', {
     type: DataTypes.TEXT,
     allowNull: false
   },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+    defaultValue: ''
+  },
+  img: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+    defaultValue: ''
+  },
   ID_city: {
     type: DataTypes.INTEGER,
     references: {
-      model: 'City',
+      model: City,
       key: 'ID_city'
     },
     allowNull: false
+  },
+  ID_role: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: Role,
+      key: 'ID_role',
+      defaultValue: 3
+    },
   }
 }, {
   tableName: 'Users', // Table name in the database

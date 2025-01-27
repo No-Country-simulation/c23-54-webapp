@@ -3,7 +3,6 @@ const CustomError = require('../errors/custom.errors')
 
 const LoginUserDTO = require('../domain/dto/auth/login-user.dto')
 const RegisterUserDTO = require('../domain/dto/auth/register-user.dto')
-
 class AuthController {
 
     //DI
@@ -32,6 +31,8 @@ class AuthController {
             name: req.body.name,
             phone: req.body.phone,
             address: req.body.address,
+            description: req.body.description,
+            img: req.body.img,
             ID_city: req.body.ID_city,
         }
 
@@ -41,7 +42,7 @@ class AuthController {
         if (error) return res.status(400).json({ error })
 
         this.authService.registerUser(registerUserDto)
-            .then((user) => res.json(user))
+            .then((user) => res.status(201).json(user))
             .catch(error => this.handleError(error, res))
 
     }
@@ -56,10 +57,7 @@ class AuthController {
         this.authService.loginUser(loginUserDto)
             .then((user) => res.json(user))
             .catch(error => this.handleError(error, res))
-
     }
-
-
 }
 
 module.exports = AuthController;

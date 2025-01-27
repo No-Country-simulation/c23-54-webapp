@@ -1,20 +1,33 @@
-const express = require('express');
-const router = express.Router();
-const roleController = require('../controllers/roleControllers');
+const { Router } = require('express');
+const RoleController = require('../controllers/roleControllers');
+const RoleService = require('../services/roleServices');
+const AuthMiddleware = require('../middlewares/auth.middleware')
 
-// Endpoint to get all roles
-router.get('/', roleController.getAllRoles);
+class RoleRoutes {
 
-// Endpoint to create a new role
-router.post('/', roleController.createRole);
+  static get routes() {
 
-// Endpoint to get a role by ID
-router.get('/:id', roleController.getRoleById);
 
-// Endpoint to update a role
-router.put('/:id', roleController.updateRole);
+    const router = Router();
 
-// Endpoint to delete a role
-router.delete('/:id', roleController.deleteRole);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 
-module.exports = router;
+    const service = new RoleService();
+    const controller = new RoleController(service);
+
+    const authMiddleware = new AuthMiddleware();
+
+    router.get('/', controller.getAllRoles);
+
+    router.post('/', controller.createRole);
+
+    router.get('/:id', controller.getRoleByID);
+
+    router.put('/:id', controller.updateRole);
+
+    router.delete('/:id', controller.deleteRole);
+
+    return router;
+  }
+}
+
+module.exports = RoleRoutes;

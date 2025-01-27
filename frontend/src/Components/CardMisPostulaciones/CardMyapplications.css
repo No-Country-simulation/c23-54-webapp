@@ -1,0 +1,60 @@
+.Myapplications_container{
+    display: flex;
+    background-color: #EDEDED;
+    border-radius: 15px;
+    padding: 10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #918E89;
+}
+
+.Myapplications-title{
+
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-right-color: #918E89;
+    display: flex;           
+    align-items: center; 
+    padding-right: 10px;
+    
+}
+
+.Myapplications-estado{
+
+    display: flex;
+    justify-content: end;
+    
+
+}
+
+.Myaaplications-img{
+    width: 60px;
+}
+
+.Myapplications_text{
+    color: #918E89;
+    font-size: 12px;
+    padding-left: 5px;
+}
+
+.Myapplications_Display{
+    position: absolute;
+    background-color: #D9D9D9;
+    border-radius: 15px;
+    
+}
+
+.Myapplications_Display_icon{
+    display: flex;
+    font-size: 12px;
+    align-items: center;
+}
+
+
+@media (max-width: 468px) {
+    .Myaaplications-img{
+       display: none;
+       
+    }
+    
+}
