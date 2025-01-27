@@ -27,7 +27,7 @@ class AuthService {
 
     async generateToken(user) {
 
-        const token = await JwtAdapter.generateToken({ id: user.ID_user, name: user.name });
+        const token = await JwtAdapter.generateToken({ id: user.ID_user, name: user.name, role: user.ID_role });
         if (!token) throw CustomError.internalServer('Error while creating JWT');
         return token;
 

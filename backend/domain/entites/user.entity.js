@@ -15,6 +15,7 @@ class UserEntity {
         description,
         img,
         ID_city,
+        ID_role
 
     ) {
         this.ID_user = ID_user;
@@ -29,6 +30,7 @@ class UserEntity {
         this.description = description;
         this.img = img;
         this.ID_city = ID_city;
+        this.ID_role = ID_role;
     }
 
     static fromObject(object) {
@@ -43,7 +45,8 @@ class UserEntity {
             address,
             description,
             img,
-            ID_city, } = object;
+            ID_city,
+            ID_role, } = object;
 
         if (!ID_user) {
             throw CustomError.badRequest('Missing ID_user');
@@ -92,6 +95,10 @@ class UserEntity {
         if (!ID_city) {
             throw CustomError.badRequest('Missing ID_city');
         }
+        if (!ID_role) {
+            throw CustomError.badRequest('Missing ID_role');
+        }
+
 
         return new UserEntity(ID_user,
             name,
@@ -104,7 +111,8 @@ class UserEntity {
             address,
             description,
             img,
-            ID_city,);
+            ID_city,
+            ID_role,);
 
 
     }
