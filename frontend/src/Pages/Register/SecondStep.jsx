@@ -39,7 +39,7 @@ const RegisterSecondStep = ({
 
                 const countries = await resultCountries.json();
                 const cities = await resultCities.json();
-                const citiesFilteredByCountry = cities.filter((city) => String(city.ID_country) === String(selectedCountry));
+                const citiesFilteredByCountry = cities.filter((ID_city) => String(ID_city.ID_country) === String(selectedCountry));
                 const roles = await resultRoles.json();
 
 
@@ -153,9 +153,9 @@ const RegisterSecondStep = ({
                         ))}
                     </select>
 
-                    {errors && errors.city?.message && (
+                    {errors && errors.ID_city?.message && (
                         <ErrorMessage
-                            message={errors.city?.message}
+                            message={errors.ID_city?.message}
                         />
                     )}
 
@@ -164,7 +164,7 @@ const RegisterSecondStep = ({
                 <div className="input-container">
                     <label
                         className="input-label"
-                        htmlFor="city">
+                        htmlFor="ID_city">
                         Ciudad
                         <span className="tip-text-obligatory"> *(Obligatorio)</span>
                     </label>
@@ -172,7 +172,7 @@ const RegisterSecondStep = ({
                     <select
                         className="input-field"
                         type="text"
-                        {...register("city")}
+                        {...register("ID_city")}
                         placeholder="Ingrese una ciudad"
                     >
 
@@ -193,9 +193,9 @@ const RegisterSecondStep = ({
                         ))}
                     </select>
 
-                    {errors && errors.city?.message && (
+                    {errors && errors.ID_city?.message && (
                         <ErrorMessage
-                            message={errors.city?.message}
+                            message={errors.ID_city?.message}
                         />
                     )}
 
@@ -204,7 +204,7 @@ const RegisterSecondStep = ({
                 <div className="input-container">
                     <label
                         className="input-label"
-                        htmlFor="role">
+                        htmlFor="ID_role">
                         Tipo de usuario
                         <span className="tip-text-obligatory"> *(Obligatorio)</span>
                     </label>
@@ -212,7 +212,7 @@ const RegisterSecondStep = ({
                     <select
                         className="input-field"
                         type="text"
-                        {...register("role")}
+                        {...register("ID_role")}
                         placeholder="Ingrese una ciudad"
                     >
                         <option

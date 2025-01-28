@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const useLogin = () => {
 
     const [error, setError] = useState(null);
-    const { login, SetName, SetIdUser} = useContext(AuthContext);
+    const { login, SetIdUser} = useContext(AuthContext);
     const navigate = useNavigate();  
 
 
@@ -18,10 +18,9 @@ const useLogin = () => {
             if (response.status === 200) {
                 const data = await response.json();
                  login(data.token);
-                 SetName(data.user.name)
                  SetIdUser(data.user.ID_user)
                 localStorage.setItem('FirstLogin', 'Logeado');
-                navigate('/Home', { state: { logged: true, message: 'Logeado exitoso' } });  // Redirect to Home
+                navigate('/Home', { state: { logged: true, message: 'Logeado exitoso' } }); 
                 return true;
             }
             if (response.status === 400) {

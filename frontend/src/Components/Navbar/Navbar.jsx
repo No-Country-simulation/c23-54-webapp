@@ -12,6 +12,7 @@ const Navbar = () => {
 
     const {Name} = useContext(AuthContext)
     const [url, setUrl] = useState('')
+
     useEffect(() => {
         const path = window.location.pathname.split('/')[1];
         setUrl(path);
@@ -20,8 +21,8 @@ const Navbar = () => {
         <div className='bg-Secondary d-flex  justify-content-between '>
             <div className='col-6 d-flex align-items-center'>
                 <img src={Logo} className='m-3 d-none d-sm-block' width='35%' ></img>
-                <Link to='/home' className={`PrimaryText text-decoration-none mx-2 ${url == 'home' ? 'fw-bold' : ''} fs-6 fs-md-5  `} >Inicio</Link>
-                <Link to='/postulaciones' className={`PrimaryText text-decoration-none mx-2 ${url == 'postulaciones' ? 'fw-bold' : ''} fs-6 fs-md-5 `} >Postulaciones</Link>
+                <Link to='/Home' className={`PrimaryText text-decoration-none mx-2 ${url == 'Home' ? 'fw-bold' : ''} fs-6 fs-md-5  `} >Inicio</Link>
+                <Link to='/Postulaciones' className={`PrimaryText text-decoration-none mx-2 ${url == 'Postulaciones' ? 'fw-bold' : ''} fs-6 fs-md-5 `} >Postulaciones</Link>
             </div>
 
             <div className='d-flex justify-content-end align-items-center col-6'>
