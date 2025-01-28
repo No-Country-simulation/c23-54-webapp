@@ -1,5 +1,4 @@
-const City = require("../models/city");
-const Country = require("../models/country");
+const { City, Country } = require("../models/relationship");
 const CustomError = require('../errors/custom.errors')
 
 
@@ -15,10 +14,10 @@ class CityService {
             createdAt: new Date(),
             updatedAt: new Date(),
         });
-     }
+    }
 
     async getAllCities() {
-        const cities = await City.findAll();
+        const cities = await City.findAll({ include: { all: true, nested: true } });
         if (!cities) throw CustomError.badRequest("City does not exist");
         return cities;
     }
@@ -36,7 +35,7 @@ class CityService {
     }
 
     async updateCity(id, data) {
-        const { name } = data;        
+        const { name } = data;
         const city = await City.findByPk(id);
         if (!city) throw CustomError.badRequest("City does not exist");
         city.name = name || city.name;
