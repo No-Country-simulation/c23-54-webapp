@@ -3,7 +3,6 @@ const CustomError = require('../errors/custom.errors')
 
 const LoginUserDTO = require('../domain/dto/auth/login-user.dto')
 const RegisterUserDTO = require('../domain/dto/auth/register-user.dto')
-const AuthMiddleware = require('../middlewares/auth.middleware')
 class AuthController {
 
     //DI
@@ -11,7 +10,6 @@ class AuthController {
         authService = new AuthService(),
     ) {
         this.authService = authService;
-        this.middleware = new AuthMiddleware()
     }
 
     handleError = ((error, res) => {
@@ -25,6 +23,7 @@ class AuthController {
     })
 
     registerUser = (req, res) => {
+        console.log(req.body.ID_city);
 
         const user = {
             email: req.body.email,
@@ -36,6 +35,7 @@ class AuthController {
             img: req.body.img,
             ID_city: req.body.ID_city,
         }
+
 
         const [error, registerUserDto] = RegisterUserDTO.create(user);
 

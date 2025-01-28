@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './PerfilModal.css'; 
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { ProfileIcon} from '../../Assets'
+import { AuthContext } from '../../Context/AuthContext';
 
-const ProfileModal = ({ isOpen, onClose, onLogout, anchorRef }) => {
+const ProfileModal = ({ isOpen, onClose, anchorRef }) => {
+
+    const {logout} = useContext(AuthContext);
     if (!isOpen) return null;
 
     const modalStyles = anchorRef?.current
     ? {
         position: 'absolute',
-        top: 60,
+        top: 48,
         left: -230,
         background: 'white',
         padding: '20px',
@@ -39,9 +42,9 @@ const ProfileModal = ({ isOpen, onClose, onLogout, anchorRef }) => {
             <div className="profile-manage-section">
                 <h4>Gestionar Cuenta</h4>
                 <ul className="profile-manage-list">
-                    <li><a href="/settings">Ajustes y Privacidad</a></li>
-                    <li><a href="/change-password">Cambiar Contraseña</a></li>
-                    <li><button onClick={onLogout} className="logout-button">Salir</button></li>
+                    <li><a href="/settings" className='text-black' >Ajustes y Privacidad</a></li>
+                    <li><a href="/change-password" className='text-black'>Cambiar Contraseña</a></li>
+                    <li><button onClick={logout} className="logout-button p-0">Salir</button></li>
                 </ul>
                 </div>
             </div>

@@ -10,7 +10,7 @@ const Notificaciones = ({ isOpen, onClose, notificaciones, anchorRef }) => {
     const modalStyles = anchorRef?.current
     ? {
         position: 'absolute',
-        top: 60,
+        top: 48,
         left: -150,
         background: 'white',
         padding: '20px',

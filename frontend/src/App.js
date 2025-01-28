@@ -8,8 +8,9 @@ import NotFound from "./Pages/NotFound/NotFound";
 import Register from "./Pages/Register/Register";
 import Home from "./Pages/Home/Home";
 import { AuthProvider } from "./Context/AuthContext";
-import Myapplications from "./Pages/MisPostulaciones/Myapplications";
+import Applications from "./Pages/MisPostulaciones/Applications";
 import LandingPage from "./Pages/LandingPage/LandingPage";
+import ProtectedUser from "./RouteProtection/ProtectedUser";
 
 const router = createBrowserRouter([
   {
@@ -26,11 +27,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/Home",
-    element: <Home />,
+    element: <ProtectedUser> <Home /> </ProtectedUser> ,
   },
   {
-    path: '/MisPostulaciones',
-    element:  <Myapplications/>
+    path: '/Postulaciones',
+    element:  <Applications/>
   },
   {
     path: "*",
@@ -42,7 +43,7 @@ function App() {
   return (
     <div>
       <AuthProvider>
-      <RouterProvider router={router} />
+        <RouterProvider router={router} />
       </AuthProvider>
     </div>
   );

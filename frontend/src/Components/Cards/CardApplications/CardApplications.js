@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import UseMyapplications from '../../Hooks/Myapplications/UseMyapplications'
-import './CardMyapplications.css'
-import img_aprobada from "../../Assets/imagenes/Aprobada.png"
-import img_pendiente from "../../Assets/imagenes/Pendiente.png"
-import img_rechazada from "../../Assets/imagenes/Rechazada.png"
-import img_revision from "../../Assets/imagenes/Revision.png"
-import img_vista from "../../Assets/imagenes/Vista.png"
+import UseMyapplications from '../../../Hooks/Myapplications/UseMyapplications'
+import './CardApplications.css'
+import img_aprobada from "../../../Assets/imagenes/Aprobada.png"
+import img_pendiente from "../../../Assets/imagenes/Pendiente.png"
+import img_rechazada from "../../../Assets/imagenes/Rechazada.png"
+import img_revision from "../../../Assets/imagenes/Revision.png"
+import img_vista from "../../../Assets/imagenes/Vista.png"
 import { EllipsisVertical, Eye, Trash } from 'lucide-react'
 
-const CardMyapplications = () => {
+const CardApplications = () => {
 
   const { FetchMyaaplications, data } = UseMyapplications();
   const [openId, setOpenId] = useState(null); // Estado para almacenar la ID de la oferta seleccionada
@@ -71,4 +71,4 @@ const CardMyapplications = () => {
   )
 }
 
-export default CardMyapplications;
+export default CardApplications;

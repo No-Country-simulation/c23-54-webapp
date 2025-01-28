@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import Navbar from '../../Components/Navbar/Navbar'
-import './Myapplications.css'
-import CardMyapplications from '../../Components/CardMisPostulaciones/CardMyapplications';
-const Myapplications = () => {
+import './Applications.css'
+import CardApplications from '../../Components/Cards/CardApplications/CardApplications';
+const Applications = () => {
 
     const [selected, setSelected] = useState('Todas');
 
@@ -21,7 +21,7 @@ const Myapplications = () => {
                         </div>
 
                         <div>
-                            <CardMyapplications/>
+                            <CardApplications/>
                         </div>
 
                     </div>
@@ -35,4 +35,4 @@ const Myapplications = () => {
     )
 }
 
-export default Myapplications
+export default Applications

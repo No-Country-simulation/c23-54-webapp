@@ -7,26 +7,26 @@ class ModalityService {
     async createModality(data) {
         const { name, description } = data;
         const modality = await Modality.create({ name, description });
-        if (!modality) return 'cannot create modality';
+        if (!modality) throw CustomError.badRequest("cannot create modality");
         return modality;
     }
 
     async getAllModalities() {
         const modalities = await Modality.findAll();
-        if (!modalities) return 'modality does not exist';
+        if (!modalities) throw CustomError.badRequest("modality does not exist");
         return modalities;
     }
 
     async getModalityByID(id) {
         const modality = await Modality.findByPk(id);
-        if (!modality) return 'modality does not exist';
+        if (!modality) throw CustomError.badRequest("modality does not exist");
         return modality;
     }
 
-    async updateModality(data) {
-        const { id, name, description } = data;
+    async updateModality(id, data) {
+        const { name, description } = data;
         const modality = await Modality.findByPk(id);
-        if (!modality) return 'modality does not exist';
+        if (!modality) throw CustomError.badRequest("modality does not exist");
         modality.name = name || modality.name;
         modality.description = description || modality.description;
         await modality.save();
@@ -35,7 +35,7 @@ class ModalityService {
 
     async deleteModality(id) {
         const modality = await Modality.findByPk(id);
-        if (!modality) return 'modality does not exist';
+        if (!modality) throw CustomError.badRequest("modality does not exist");
         await modality.destroy();
         return 'modality has been deleted';
     }

@@ -13,14 +13,14 @@ const Login = () => {
   const {UseloginUser, error, setError} = useLogin();
 
  
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     setError(null);
     if (email === '' || password === '') {
       setValidate(true)
       return;
     }
-    UseloginUser(email, password);
+     UseloginUser(email, password);
     setValidate(false)    
   }
 
