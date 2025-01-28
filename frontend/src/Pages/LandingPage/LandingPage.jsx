@@ -66,7 +66,7 @@ return (
                     <h1 className="title">Conecta con las Oportunidades Profesionales del Futuro</h1>
                     <h2 className="subtitle">Un espacio donde talento y empresas convergen para crecer juntos. Simplifica la contratación y accede a tu próxima gran oportunidad laboral</h2>
                     <Link to="/Registrarse" className={`btn-custom ${url === 'register' ? 'active' : ''}`}>Registrarse Gratis</Link>
-                    <ConfirmarAccion/>
+                    {/* <ConfirmarAccion/> */}
                 </div>
                 <div className="intro-image">
                     <img src={LandingPageImagen} alt="Landing Page" />

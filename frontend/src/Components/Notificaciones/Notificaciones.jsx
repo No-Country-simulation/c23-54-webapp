@@ -81,21 +81,21 @@ const Notificaciones = ({ isOpen, onClose, notificaciones, anchorRef }) => {
         };
     }, []);
     
-    useEffect(() => {
-        const nuevasNotificaciones = [
-            "Tienes un nuevo mensaje.",
-            "Tu pedido ha sido enviado.",
-            "Recordatorio: reunión a las 3 PM.",
-        ];
-        setNotificaciones(nuevasNotificaciones);
+    // useEffect(() => {
+    //     const nuevasNotificaciones = [
+    //         "Tienes un nuevo mensaje.",
+    //         "Tu pedido ha sido enviado.",
+    //         "Recordatorio: reunión a las 3 PM.",
+    //     ];
+    //     setNotificaciones(nuevasNotificaciones);
     
-    // Simular llegada de una nueva notificación después de 5 segundos
-    const timer = setTimeout(() => {
-        setNotificaciones((prev) => [...prev, "Nueva notificación: ¡oferta especial!"]);
-    }, 5000);
+    // // Simular llegada de una nueva notificación después de 5 segundos
+    // const timer = setTimeout(() => {
+    //     setNotificaciones((prev) => [...prev, "Nueva notificación: ¡oferta especial!"]);
+    // }, 5000);
 
-      return () => clearTimeout(timer); // Limpiar el timer si el componente se desmonta
-    }, []);
+    //   return () => clearTimeout(timer); // Limpiar el timer si el componente se desmonta
+    // }, []);
 
     return (
         <div style={{ position: 'relative' }}>
