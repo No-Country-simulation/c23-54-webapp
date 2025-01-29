@@ -12,6 +12,7 @@ class RegisterUserDTO {
         description,
         img,
         ID_city,
+        ID_role
     ) {
         this.name = name;
         this.email = email;
@@ -21,6 +22,7 @@ class RegisterUserDTO {
         this.description = description;
         this.img = img;
         this.ID_city = ID_city;
+        this.ID_role = ID_role;
     }
 
     static create(object) {
@@ -33,7 +35,9 @@ class RegisterUserDTO {
             address,
             description,
             img,
-            ID_city, } = object;
+            ID_city,
+            ID_role
+        } = object;
 
         if (!name) return ['Missing name'];
         if (!email) return ['Missing email'];
@@ -54,7 +58,9 @@ class RegisterUserDTO {
             address,
             description,
             img,
-            ID_city)]
+            ID_city,
+            ID_role
+        )]
     }
 }
 

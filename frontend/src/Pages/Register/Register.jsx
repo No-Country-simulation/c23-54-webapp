@@ -75,7 +75,7 @@ const Register = () => {
     const [messageToast, setMessageToast] = useState("");
 
 
-    
+
     const navigate = useNavigate();
 
     const methods = useForm({
@@ -86,7 +86,6 @@ const Register = () => {
     const goToNextStep = (data) => {
         setFormData(data)
         setCurrentStep(2);
-        methods.reset();
     };
 
     const finalStepSubmit = async (data) => {
@@ -95,7 +94,8 @@ const Register = () => {
             setFormData({
                 ...formData,
                 ...data,
-                status: "Active"
+                status: "Active",
+                img: "https://www.clarin.com/img/2024/10/12/vrmXfT9Go_600x600__1.jpg"
             })
 
             const registerApi = `${process.env.REACT_APP_SV_HOST}${process.env.REACT_APP_C_USER}`;
@@ -116,15 +116,15 @@ const Register = () => {
                 setTimeout(() => {
                     setSuccessALertToast(false)
                 }, 2000)
+                return
             }
-
 
             setShowALertToast(true);
             setMessageToast("Error al registrarse, intentelo de nuevo más tarde");
             setTimeout(() => {
                 setShowALertToast(false)
             }, 2000)
-            
+
         } catch (error) {
             setShowALertToast(true);
             setMessageToast("Error al registrarse, intentelo de nuevo más tarde");

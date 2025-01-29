@@ -23,7 +23,8 @@ class AuthController {
     })
 
     registerUser = (req, res) => {
-        console.log(req.body.ID_city);
+
+        console.log(req.body)
 
         const user = {
             email: req.body.email,
@@ -34,12 +35,16 @@ class AuthController {
             description: req.body.description,
             img: req.body.img,
             ID_city: req.body.ID_city,
+            ID_role: req.body.ID_role
         }
-
 
         const [error, registerUserDto] = RegisterUserDTO.create(user);
 
+
+        if (error) console.log(error)
+
         if (error) return res.status(400).json({ error })
+
 
         this.authService.registerUser(registerUserDto)
             .then((user) => res.status(201).json(user))
