@@ -105,9 +105,9 @@ const NotificacionesModal = ({userId: ID_user}) => {
         fetchNotificaciones();
 
 
-        // const interval = setInterval(fetchNotificaciones, 10000);
-        //     return () => clearInterval(interval);
-        // }, [ID_user]);
+        const interval = setInterval(fetchNotificaciones, 10000);
+            return () => clearInterval(interval);
+        }, [ID_user]);
 
         const getStatusText = (statusId) => {
             const estados = {
@@ -120,22 +120,22 @@ const NotificacionesModal = ({userId: ID_user}) => {
                 return estados[statusId] || "Desconocido";
             };
 
-            const timer = setTimeout(() => {
-                setNotificaciones((prev) => [
-                    ...prev,
-                    `Actualización de Postulación #10: Estado (Aprobada)`,
-                ]);
-                setCantidadActualizaciones((prev) => prev + 1);
-                }, 5000);
+            // const timer = setTimeout(() => {
+            //     setNotificaciones((prev) => [
+            //         ...prev,
+            //         `Actualización de Postulación #10: Estado (Aprobada)`,
+            //     ]);
+            //     setCantidadActualizaciones((prev) => prev + 1);
+            //     }, 5000);
             
-                const interval = setInterval(fetchNotificaciones, 15000);
-                // Refrescar cada 15 segundos
+            //     const interval = setInterval(fetchNotificaciones, 15000);
+            //     // Refrescar cada 15 segundos
             
-                return () => {
-                clearTimeout(timer);
-                clearInterval(interval);
-                };
-            }, [ID_user]);
+            //     return () => {
+            //     clearTimeout(timer);
+            //     clearInterval(interval);
+            //     };
+            // }, [ID_user]);
 
     return (
         <div style={{ position: 'relative' }}>
