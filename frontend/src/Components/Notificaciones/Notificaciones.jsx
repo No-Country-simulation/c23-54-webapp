@@ -2,8 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import './Notificaciones.css'; 
 import { Bell } from 'lucide-react';
 
-
-
 const Notificaciones = ({ isOpen, onClose, notificaciones, anchorRef }) => {
     if (!isOpen) return null;
 
@@ -38,23 +36,24 @@ const Notificaciones = ({ isOpen, onClose, notificaciones, anchorRef }) => {
                         />
                     </> 
                 ) : (
-                    <ul>
+                    <div>
                         {notificaciones.map((notificacion, index) => (
-                        <li key={index} className="notificacion-item">
+                        <div key={index} className="notificacion-item">
                             {notificacion}
-                        </li>
+                        </div>
                         ))}
-                    </ul>
+                    </div>
                 )}
             </div>
         </div>
     );
 };
 
-    const NotificacionesModal = () => {
+const NotificacionesModal = ({userId: ID_user}) => {
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [notificaciones, setNotificaciones] = useState([]);
-    const buttonRef = React.useRef(null);
+    const [cantidadActualizaciones, setCantidadActualizaciones] = useState(0);
+    const buttonRef = useRef(null);
 
     const handleOpenProfile = () => {
         setIsProfileOpen((prev) => !prev);
@@ -81,21 +80,62 @@ const Notificaciones = ({ isOpen, onClose, notificaciones, anchorRef }) => {
         };
     }, []);
     
-    // useEffect(() => {
-    //     const nuevasNotificaciones = [
-    //         "Tienes un nuevo mensaje.",
-    //         "Tu pedido ha sido enviado.",
-    //         "Recordatorio: reunión a las 3 PM.",
-    //     ];
-    //     setNotificaciones(nuevasNotificaciones);
-    
-    // // Simular llegada de una nueva notificación después de 5 segundos
-    // const timer = setTimeout(() => {
-    //     setNotificaciones((prev) => [...prev, "Nueva notificación: ¡oferta especial!"]);
-    // }, 5000);
+    useEffect(() => {
+        const fetchNotificaciones = async () => {
+            try {
+                const response = await fetch(`http://127.0.0.1:3001/api/jobApplications/user/${ID_user}`); 
+                if (!response.ok) {
+                throw new Error("Error al obtener las notificaciones");
+                }
+                const data = await response.json();
 
-    //   return () => clearTimeout(timer); // Limpiar el timer si el componente se desmonta
-    // }, []);
+                const nuevasNotificaciones = data.map(
+                (solicitud) =>
+                    `Actualización de Postulación #${solicitud.ID_offer}: Estado (${getStatusText(
+                    solicitud.ID_application_status
+                    )})`
+                );
+            setNotificaciones(nuevasNotificaciones);
+            setCantidadActualizaciones(nuevasNotificaciones.length);
+            } catch (error) {
+                console.error("Error al cargar las notificaciones:", error);
+            }
+        };
+    
+        fetchNotificaciones();
+
+
+        // const interval = setInterval(fetchNotificaciones, 10000);
+        //     return () => clearInterval(interval);
+        // }, [ID_user]);
+
+        const getStatusText = (statusId) => {
+            const estados = {
+                1: "Pendiente",
+                2: "Vista",
+                3: "En revisión",
+                4: "Aprobada",
+                5: "Rechazada",
+                };
+                return estados[statusId] || "Desconocido";
+            };
+
+            const timer = setTimeout(() => {
+                setNotificaciones((prev) => [
+                    ...prev,
+                    `Actualización de Postulación #10: Estado (Aprobada)`,
+                ]);
+                setCantidadActualizaciones((prev) => prev + 1);
+                }, 5000);
+            
+                const interval = setInterval(fetchNotificaciones, 15000);
+                // Refrescar cada 15 segundos
+            
+                return () => {
+                clearTimeout(timer);
+                clearInterval(interval);
+                };
+            }, [ID_user]);
 
     return (
         <div style={{ position: 'relative' }}>
