@@ -6,9 +6,7 @@ const UseJobOffers = () =>{
         try{
             const response = await  FetchJobOffersService()
             const data = await response.json();
-            console.log('Ofertas')
-            console.log(data)
-
+          
             return data;
 
         }catch(error){
