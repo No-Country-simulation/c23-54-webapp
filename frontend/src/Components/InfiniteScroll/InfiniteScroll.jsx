@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import JobCard from "../Cards/JobCard/JobCard";
 
 const InfiniteScroll = ({ cards }) => {
@@ -6,6 +6,7 @@ const InfiniteScroll = ({ cards }) => {
     const [hasMore, setHasMore] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const CARDS_PER_PAGE = 10;
+    const loadedCardIds = useRef(new Set()); 
 
     useEffect(() => {
         // Cargar las primeras tarjetas al montar el componente
@@ -19,14 +20,18 @@ const InfiniteScroll = ({ cards }) => {
         // Obtener las tarjetas adicionales
         const nextCards = cards.slice(startIndex, endIndex);
 
-        // Verificar si hay más tarjetas para cargar
-        if (nextCards.length === 0) {
+        // Filtrar las tarjetas que ya han sido cargadas
+        const newCards = nextCards.filter(card => !loadedCardIds.current.has(card.ID_offer));
+
+        if (newCards.length === 0) {
             setHasMore(false);
             return;
         }
 
-        setVisibleCards((prev) => [...prev, ...nextCards]);
-        setCurrentPage((prev) => prev + 1);
+        newCards.forEach(card => loadedCardIds.current.add(card.ID_offer));
+
+        setVisibleCards(prev => [...prev, ...newCards]);
+        setCurrentPage(prev => prev + 1);
     };
 
     useEffect(() => {
@@ -47,19 +52,17 @@ const InfiniteScroll = ({ cards }) => {
 
     return (
         <>
-            {visibleCards.map((offer, index) => (
-                <div key={index}>
+            {visibleCards.map((offer) => (
+                <div key={offer.ID_offer}>
                     <JobCard JobOffer={offer} />
                     <div className="divider-x"></div>
                 </div>
             ))}
 
             <div className="center">
-                
                 {// HABRIA QUE AGREGAR UN SPINNER/LOADER
                 }
                 {!hasMore && <p>No hay más ofertas para mostrar.</p>}
-
             </div>
         </>
     );

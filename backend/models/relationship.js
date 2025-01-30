@@ -3,7 +3,9 @@ const Country = require('./country');
 const JobOffer = require('./jobOffer')
 const JobCategory = require('./jobCategory')
 const Modality = require('./modality')
-const User = require('./user')
+const User = require('./user');
+const JobApplication = require('./jobApplication');
+const ApplicationStatus = require('./applicationStatus');
 
 // Country, City
 Country.hasMany(City, {
@@ -57,6 +59,37 @@ JobOffer.belongsTo(City, {
     sourceKey: 'ID_city',
 })
 
+// jobApplication, user, offer, applicationStatus
+
+JobApplication.belongsTo(User, {
+    foreignKey: 'ID_user',
+    sourceKey: 'ID_user'
+})
+
+User.hasMany(JobApplication, {
+    foreignKey: 'ID_user',
+    sourceKey: 'ID_user'
+})
+
+JobApplication.belongsTo(JobOffer, {
+    foreignKey: 'ID_offer',
+    sourceKey: 'ID_offer'
+})
+
+JobOffer.hasMany(JobApplication, {
+    foreignKey: 'ID_offer',
+    sourceKey: 'ID_offer'
+})
+
+JobApplication.belongsTo(ApplicationStatus, {
+    foreignKey: 'ID_application_status',
+    sourceKey: 'ID_application_status'
+})
+
+ApplicationStatus.hasMany(JobApplication, {
+    foreignKey: 'ID_application_status',
+    sourceKey: 'ID_application_status'
+})
 
 
 
@@ -67,5 +100,7 @@ module.exports = {
     JobCategory,
     JobOffer,
     User,
-    Modality
+    Modality,
+    JobApplication,
+    ApplicationStatus
 };
