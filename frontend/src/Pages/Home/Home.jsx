@@ -9,7 +9,8 @@ import SearchText from '../../Components/FilterBar/SearchText';
 import { MapPin, Pin, Search } from 'lucide-react';
 import BgButton from '../../Components/BgButton/BgButton';
 import SearchHomeContainer from '../../Components/FilterBar/SearchHomeContainer';
-import { JobOffersService } from '../../Services/JobsOffersService';
+import { JobOffersService } from '../../Services/FetchJobsOffersService';
+import UseJobOffers from '../../Hooks/JobOffers/UseJoboffers';
 
 const Home = () => {
 
@@ -30,21 +31,24 @@ const Home = () => {
 
 
   const [jobsOffers, setJobsOffers] = useState([]);
-  const { getAllOffers } = JobOffersService()
-
+  //const { getAllOffers } = JobOffersService()
+  const {FecthallJobOffers} = UseJobOffers();
 
   useEffect(() => {
 
     const fetchJobOffers = async () => {
       try {
-        const data = await getAllOffers();
-        setJobsOffers(data);
+       // const data = await getAllOffers();
+        //setJobsOffers(data);
+        const data = await FecthallJobOffers();
+        setJobsOffers(data)
+
       } catch (e) {
 
       }
     }
 
-    fetchJobOffers();
+   fetchJobOffers();
 
   }, [])
 

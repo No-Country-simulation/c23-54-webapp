@@ -2,10 +2,7 @@
 import { UserRound, MapPin, Laptop, Share2 } from "lucide-react";
 import BgButton from "../../BgButton/BgButton";
 
-const JobCard = ({
-    JobOffer
-}) => {
-
+const JobCard = ({ JobOffer }) => {
     return (
         <div className="offer__card__container"
             key={JobOffer.ID_offer}
@@ -19,21 +16,22 @@ const JobCard = ({
                         <UserRound
                             className="card__offer__icon"
                         />
-                        <p>{JobOffer.author?.name}</p>
+                        <p>{JobOffer.User?.name}</p>
                     </div>
                     <div className="offer__item__info">
                         <MapPin
                             className="card__offer__icon"
 
                         />
-                        <p>{JobOffer.location}</p>
+                        <p>{JobOffer.City?.name}</p>
                     </div>
                     <div className="offer__item__info">
                         <Laptop
                             className="card__offer__icon"
 
                         />
-                        <p>{JobOffer.modality}</p>
+                        <p>{JobOffer.Modality?.name}</p>
+
                     </div>
                 </div>
             </div>
@@ -41,6 +39,8 @@ const JobCard = ({
             <div className="divider-y"></div>
 
             <div className="offer__card__description__info">
+                {/* Si se guarda sin etiqueta <p>{JobOffer.description}</p> */}
+                {/* se se guerda con etiquet <div dangerouslySetInnerHTML={{ __html: JobOffer.description }} /> */}
                 <p>{JobOffer.description}</p>
 
                 <div className="offer__card_description__buttons">
@@ -54,7 +54,7 @@ const JobCard = ({
 
 
                     <BgButton
-                        onClick={console.log(JobOffer.ID_offer)}
+                        onClick={() => (console.log(JobOffer.ID_offer))}
                         title={"Solicitar"}
                     />
                 </div>
