@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './PerfilModal.css'; 
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { ProfileIcon} from '../../Assets'
@@ -63,6 +63,23 @@ const ProfileModal = ({ isOpen, onClose, anchorRef }) => {
     const handleCloseProfile = () => {
         setIsProfileOpen(false);
     };
+    
+    const handleClickOutside = (event) => {
+        if (
+            buttonRef.current &&
+            !buttonRef.current.contains(event.target) &&
+            !event.target.closest(".noti-modal-container")
+        ) {
+            handleCloseProfile();
+        }
+    };
+
+        useEffect(() => {
+            document.addEventListener("click", handleClickOutside);
+            return () => {
+                document.removeEventListener("click", handleClickOutside);
+            };
+        }, []);
 
     const handleLogout = () => {
         alert('Sesión cerrada');
