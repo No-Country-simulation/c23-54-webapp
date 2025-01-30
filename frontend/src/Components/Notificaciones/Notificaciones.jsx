@@ -13,9 +13,9 @@ const Notificaciones = ({ isOpen, onClose, notificaciones, anchorRef }) => {
         background: 'white',
         padding: '20px',
         borderRadius: '12px',
-        width: '180px',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
         zIndex: 1000,
+        width: '180px',
     }
     : {};
 
@@ -101,10 +101,8 @@ const NotificacionesModal = ({userId: ID_user}) => {
                 console.error("Error al cargar las notificaciones:", error);
             }
         };
-    
+
         fetchNotificaciones();
-
-
         const interval = setInterval(fetchNotificaciones, 10000);
             return () => clearInterval(interval);
         }, [ID_user]);

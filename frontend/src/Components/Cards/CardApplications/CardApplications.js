@@ -11,6 +11,8 @@ import { EllipsisVertical, Eye, Trash } from 'lucide-react'
 const CardApplications = () => {
 
   const { FetchMyaaplications, data } = UseMyapplications();
+console.log({data});
+
   const [openId, setOpenId] = useState(null); // Estado para almacenar la ID de la oferta seleccionada
 
   useEffect(() => {
@@ -21,8 +23,9 @@ const CardApplications = () => {
     fetchData();
   }, [])
   return (
+    
     <div>
-
+      
       {data?.map((item) => (
         <div className='Myapplications_container my-3 ' key={item.id}>
           <div className=' Myapplications-title col-6 '>
@@ -70,5 +73,6 @@ const CardApplications = () => {
     </div>
   )
 }
+
 
 export default CardApplications;
