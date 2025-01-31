@@ -11,7 +11,6 @@ const useLogin = () => {
     const { login, SetName, SetIdUser } = useContext(AuthContext);
     const navigate = useNavigate();
 
-
     const UseloginUser = async (email, password) => {
         try {
             const response = await LoginUserService(email, password);
@@ -21,7 +20,7 @@ const useLogin = () => {
                 SetName(data.user.name)
                 SetIdUser(data.user.ID_user)
                 localStorage.setItem('FirstLogin', 'Logeado');
-                navigate('/Home', { state: { logged: true, message: 'Logeado exitoso' } });  // Redirect to Home
+                navigate('/Home', { state: { logged: true, message: 'Logeado exitoso' } }); 
                 return true;
             }
             if (response.status === 400) {

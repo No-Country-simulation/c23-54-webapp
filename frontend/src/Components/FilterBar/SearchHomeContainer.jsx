@@ -2,9 +2,12 @@ import { MapPin, Search } from "lucide-react"
 import BgButton from "../BgButton/BgButton"
 import SearchText from "./SearchText"
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react"
+import { AuthContext } from "../../Context/AuthContext"
 
 
 const SearchHomeContainer = () => {
+    const { Role } = useContext(AuthContext)
 
 
     const navigate = useNavigate();
@@ -41,6 +44,12 @@ const SearchHomeContainer = () => {
                 </SearchText>
             </div>
 
+
+            {Role === 2 && (
+                <BgButton
+                    title={"Agregar Oferta"}
+                />
+            )}
 
             {
 

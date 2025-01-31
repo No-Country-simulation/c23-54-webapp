@@ -8,31 +8,32 @@ import NotFound from "./Pages/NotFound/NotFound";
 import Register from "./Pages/Register/Register";
 import Home from "./Pages/Home/Home";
 import { AuthProvider } from "./Context/AuthContext";
-import Myapplications from "./Pages/MisPostulaciones/Myapplications";
+import Applications from "./Pages/MisPostulaciones/Applications";
 import LandingPage from "./Pages/LandingPage/LandingPage";
 import ProtectedUser from "./RouteProtection/ProtectedUser";
+import RedirectIfAuthenticated from "./RouteProtection/RedirectIfAuthenticated ";
 import CreateJobOfferPage from "./Pages/JobOffer/CreateJobOfferPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LandingPage />,
+    element: <RedirectIfAuthenticated> <LandingPage /> </RedirectIfAuthenticated>,
   },
   {
     path: "/Login",
-    element: <Login />,
+    element: <RedirectIfAuthenticated> <Login /> </RedirectIfAuthenticated>,
   },
   {
     path: "/Registrarse",
-    element: <Register />,
+    element: <RedirectIfAuthenticated> <Register /></RedirectIfAuthenticated>,
   },
   {
     path: "/Home",
     element: <ProtectedUser> <Home /> </ProtectedUser>,
   },
   {
-    path: '/MisPostulaciones',
-    element: <ProtectedUser> <Myapplications /> </ProtectedUser>
+    path: '/Postulaciones',
+    element: <Applications />
   },
   {
     path: '/crear/oferta_trabajo',

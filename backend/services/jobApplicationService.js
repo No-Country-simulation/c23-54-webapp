@@ -1,35 +1,49 @@
-const JobApplication = require('../models/jobApplication');
-const JobOffer = require('../models/jobOffer');
-const ApplicationStatus = require('../models/applicationStatus');
-const User = require('../models/user');
+const { User, JobApplication, JobOffer, ApplicationStatus } = require('../models/relationship');
 const CustomError = require('../errors/custom.errors')
 
 class JobApplicationService {
 
-    async createJobApplication(data) { 
+    async createJobApplication(data) {
         const { ID_user, ID_offer, application_date, ID_application_status, comments } = data;
-        const user = await User.findByPk(ID_user); 
+        const user = await User.findByPk(ID_user);
         const offer = await JobOffer.findByPk(ID_offer);
         const applicationStatus = await ApplicationStatus.findByPk(ID_application_status);
         if (!user || !offer || !applicationStatus) throw CustomError.badRequest("all fields are required");
-        return await JobApplication.create({ 
+        return await JobApplication.create({
             ID_user,
             ID_offer,
             application_date,
             ID_application_status,
             comments
-            });
+        });
     }
-    
+
 
     async getAllJobApplications() {
-        const jobApplications = await JobApplication.findAll();
+        const jobApplications = await JobApplication.findAll(
+            {
+                include:
+                    [{ model: User, attributes: ['ID_user', 'name'] },
+                    { model: JobOffer, attributes: ['ID_offer', 'title'] },
+                    { model: ApplicationStatus, attributes: ['ID_application_status', 'status'] }
+
+                    ],
+                attributes: ['ID_application', 'application_date', 'comments']
+            });
         if (!jobApplications) throw CustomError.badRequest("job application does not exist");
         return jobApplications;
     }
 
     async getJobApplicationByID(id) {
-        const jobApplication = await JobApplication.findByPk(id);
+        const jobApplication = await JobApplication.findByPk(id, {
+            include:
+                [{ model: User, attributes: ['ID_user', 'name'] },
+                { model: JobOffer, attributes: ['ID_offer', 'title'] },
+                { model: ApplicationStatus, attributes: ['ID_application_status', 'status'] }
+
+                ],
+            attributes: ['ID_application', 'application_date', 'comments']
+        });
         if (!jobApplication) throw CustomError.badRequest("job application does not exist");
         return jobApplication;
     }
@@ -38,7 +52,13 @@ class JobApplicationService {
         const jobApplication = await JobApplication.findAll({
             where: {
                 ID_user,
-            },
+            }, include:
+                [{ model: User, attributes: ['ID_user', 'name'] },
+                { model: JobOffer, attributes: ['ID_offer', 'title'] },
+                { model: ApplicationStatus, attributes: ['ID_application_status', 'status'] }
+
+                ],
+            attributes: ['ID_application', 'application_date', 'comments'],
         });
         if (!jobApplication) throw CustomError.badRequest("job application does not exist");
         return jobApplication;
@@ -46,11 +66,18 @@ class JobApplicationService {
 
     async getJobApplicationsByOfferID(ID_offer) {
         const jobApplication = await JobApplication.findAll({
-            where: {
-                ID_offer,
-            },
+            where: { ID_offer },
+            include:
+                [{ model: User, attributes: ['ID_user', 'name', 'phone', 'email'] },
+                { model: JobOffer, attributes: ['ID_offer', 'title'] },
+                { model: ApplicationStatus, attributes: ['ID_application_status', 'status'] }
+
+                ],
+            attributes: ['ID_application', 'application_date', 'comments']
         })
+
         if (!jobApplication) return 'job application does not exist'
+        return jobApplication
     }
 
     async updateJobApplication(id, data) {

@@ -1,15 +1,10 @@
-const JobOffer = require('../models/jobOffer');
-const User = require('../models/user');
-const City = require('../models/city')
-const Modality = require('../models/modality')
-const JobCategory = require('../models/jobCategory')
+const { User, JobOffer, JobCategory, Modality, City, Country } = require('../models/relationship')
 const CustomError = require('../errors/custom.errors')
 
 class JobOfferService {
 
     async createJobOffer(data) {
         const { ID_user, title, description, salary_range_min, salary_range_max, publication_date, deadline, ID_city, status, ID_modality, ID_job_category } = data;
-
         const user = await User.findByPk(ID_user);
         const city = await City.findByPk(ID_city);
         const modality = await Modality.findByPk(ID_modality);
@@ -31,13 +26,40 @@ class JobOfferService {
     }
 
     async getAllJobOffers() {
-        const jobJobOffers = await JobOffer.findAll();
-        if (!jobJobOffers) throw CustomError.badRequest("job offer does not exist");
-        return jobJobOffers;
+        try {
+            const jobJobOffers = await JobOffer.findAll(
+                {
+                    attributes: ['ID_offer', 'title', 'description', 'salary_range_min', 'salary_range_max', 'publication_date', 'deadline', 'status'],
+                    include:
+                        [{ model: User, attributes: ['name'] },
+                        { model: Modality },
+                        { model: JobCategory },
+                        { model: City, include: { model: Country }, attributes: ['ID_city', 'name'] },
+                        ],
+                    where: { status: 'open' }
+                }
+            );
+            if (!jobJobOffers) throw CustomError.badRequest("job offer does not exist");
+            return jobJobOffers;
+
+        } catch (error) {
+            return error
+
+        }
     }
 
     async getJobOfferByID(id) {
-        const jobOffer = await JobOffer.findByPk(id);
+        const jobOffer = await JobOffer.findByPk(id, {
+            attributes: ['ID_offer', 'title', 'description', 'salary_range_min', 'salary_range_max', 'publication_date', 'deadline', 'status'],
+            include:
+                [{ model: User, attributes: ['name'] },
+                { model: Modality },
+                { model: JobCategory },
+                { model: City, include: { model: Country }, attributes: ['ID_city', 'name'] },
+                ],
+            where: { status: 'open' }
+        });
+
         if (!jobOffer) throw CustomError.badRequest("job offer does not exist");
         return jobOffer;
     }
@@ -47,6 +69,13 @@ class JobOfferService {
             where: {
                 ID_user,
             },
+            attributes: ['ID_offer', 'title', 'description', 'salary_range_min', 'salary_range_max', 'publication_date', 'deadline', 'status'],
+            include:
+                [{ model: User, attributes: ['name'] },
+                { model: Modality },
+                { model: JobCategory },
+                { model: City, include: { model: Country }, attributes: ['ID_city', 'name'] },
+                ],
         });
         if (!jobOffer) throw CustomError.badRequest("job offer does not exist");
         return jobOffer;
@@ -57,6 +86,7 @@ class JobOfferService {
             where: {
                 ID_city,
             },
+
         });
         if (!jobOffer) throw CustomError.badRequest("job offer does not exist");
         return jobOffer;

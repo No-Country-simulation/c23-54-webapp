@@ -9,7 +9,7 @@ import { CityService } from "../../Services/CityService";
 import { jobCategoriesService } from "../../Services/JobCategoriesService";
 import JoditEditor from "jodit-react";
 import BgButton from "../../Components/BgButton/BgButton";
-import { JobOffersService } from "../../Services/JobsOffersService";
+import { JobOffersService } from "../../Services/JobOffersService";
 import AlertToast from "../../Components/Alerts/Toasts/AlertToast";
 import SuccessToast from "../../Components/Alerts/Toasts/SuccessToast";
 import { useNavigate } from 'react-router-dom'

@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { baseUrl, endpointsUrls } from "../constants.js"
-import { AuthContext } from "../Context/AuthContext.js";
+import { AuthContext } from "../Context/AuthContext";
+import { baseUrl, endpointsUrls } from "../constants";
 
 export const JobOffersService = () => {
     const { Token, idUser } = useContext(AuthContext);
