@@ -11,6 +11,7 @@ import { AuthProvider } from "./Context/AuthContext";
 import Applications from "./Pages/MisPostulaciones/Applications";
 import LandingPage from "./Pages/LandingPage/LandingPage";
 import ProtectedUser from "./RouteProtection/ProtectedUser";
+import ImageTest from "./ImageTest/imageTest";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: '/Postulaciones',
     element:  <Applications/>
+  },
+  {
+    path: "/ImageTest",
+    element: <ImageTest />,
   },
   {
     path: "*",
