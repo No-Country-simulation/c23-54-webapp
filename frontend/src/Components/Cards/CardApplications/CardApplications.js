@@ -8,25 +8,27 @@ import img_revision from "../../../Assets/imagenes/Revision.png"
 import img_vista from "../../../Assets/imagenes/Vista.png"
 import { EllipsisVertical, Eye, Trash } from 'lucide-react'
 
-const CardApplications = () => {
+const CardApplications = ({ filter }) => {
 
   const { FetchMyaaplications, data } = UseMyapplications();
-  const [openId, setOpenId] = useState(null); // Estado para almacenar la ID de la oferta seleccionada
+
+  const [openId, setOpenId] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await FetchMyaaplications();
+      await FetchMyaaplications(filter);
 
     }
     fetchData();
-  }, [])
+  }, [filter])
   return (
+
     <div>
 
       {data?.map((item) => (
-        <div className='Myapplications_container my-3 ' key={item.id}>
+        <div className='Myapplications_container my-3 ' key={item.ID_application}>
           <div className=' Myapplications-title col-6 '>
-            <h5 className='PrimaryColor'>{item.title}</h5>
+            <h5 className='PrimaryColor'>{item.JobOffer.title}</h5>
           </div>
 
           <div className='Myapplications-estado col-6   d-flex  '>
@@ -34,23 +36,25 @@ const CardApplications = () => {
             <img
               className='Myaaplications-img '
               src={
-                item.estado === 'Pendiente' ? img_pendiente :
-                  item.estado === 'Aprobada' ? img_aprobada :
-                    item.estado === 'Rechazada' ? img_rechazada :
-                      item.estado === 'En revisión' ? img_revision :
-                        item.estado === 'Vista' ? img_vista :
+                item.ApplicationStatus.status === 'Pendiente' ? img_pendiente :
+                  item.ApplicationStatus.status === 'Aprobada' ? img_aprobada :
+                    item.ApplicationStatus.status === 'Rechazada' ? img_rechazada :
+                      item.ApplicationStatus.status === 'En revisión' ? img_revision :
+                        item.ApplicationStatus.status === 'Vista' ? img_vista :
                           null
               }
-              alt={item.estado}
+              alt={item.ApplicationStatus.status}
             />
             <div className='col-7 col-sm-4 col-md-3 col-lg-3 '>
-              <h5 className='PrimaryColor '>{item.estado}</h5>
-              <p className='Myapplications_text'>{item.fecha}</p>
-            </div>
+              <h5 className='PrimaryColor '>{item.ApplicationStatus.status}</h5>
+              {new Date(item.application_date).toLocaleDateString('es-ES', {
+                month: 'long',
+                day: 'numeric',
+              })}            </div>
             <div>
-            <EllipsisVertical onClick={() => (setOpenId((prevId) => (prevId === item.id ? null : item.id)))} />
+              <EllipsisVertical onClick={() => (setOpenId((prevId) => (prevId === item.ID_application ? null : item.ID_application)))} />
             </div>
-            {openId === item.id &&
+            {openId === item.ID_application &&
               <div className='Myapplications_Display px-3 py-1 mx-3' >
                 <div className='Myapplications_Display_icon'>
                   <Trash width='20px' />
@@ -70,5 +74,6 @@ const CardApplications = () => {
     </div>
   )
 }
+
 
 export default CardApplications;

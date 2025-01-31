@@ -11,20 +11,21 @@ import { AuthProvider } from "./Context/AuthContext";
 import Applications from "./Pages/MisPostulaciones/Applications";
 import LandingPage from "./Pages/LandingPage/LandingPage";
 import ProtectedUser from "./RouteProtection/ProtectedUser";
+import RedirectIfAuthenticated from "./RouteProtection/RedirectIfAuthenticated ";
 import ImageTest from "./ImageTest/imageTest";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LandingPage/>, 
+    element: <RedirectIfAuthenticated> <LandingPage/> </RedirectIfAuthenticated>, 
   },
   {
     path: "/Login",
-    element: <Login/>, 
+    element:<RedirectIfAuthenticated> <Login/> </RedirectIfAuthenticated>, 
   },
   {
     path: "/Registrarse",
-    element: <Register />,
+    element:<RedirectIfAuthenticated> <Register /></RedirectIfAuthenticated>,
   },
   {
     path: "/Home",

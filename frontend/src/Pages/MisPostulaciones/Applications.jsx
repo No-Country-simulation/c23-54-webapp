@@ -4,9 +4,8 @@ import './Applications.css'
 import CardApplications from '../../Components/Cards/CardApplications/CardApplications';
 const Applications = () => {
 
-    const [selected, setSelected] = useState('Todas');
-
-    return (
+    const [filter, setFilter] = useState(null);
+    return (   
 
         <div className='Contenido'>
             <nav><Navbar /></nav>
@@ -15,13 +14,13 @@ const Applications = () => {
                     <div>
                         <h3 className='PrimaryColor'>Mis Postulaciones</h3>
                         <div>
-                            <button className={`btn-mipostulacion ${selected === 'Todas' ? 'btn-seleccionado' : ''}`} onClick={() => setSelected('Todas')} >Todas las postulaciones </button>
-                            <button className={`btn-mipostulacion ${selected === 'Postulados' ? 'btn-seleccionado' : ''}`} onClick={() => setSelected('Postulados')}> Postulados </button>
-                            <button className={`btn-mipostulacion ${selected === 'Finalizados' ? 'btn-seleccionado' : ''}`} onClick={() => setSelected('Finalizados')} >Finalizados</button>
+                            <button className={`btn-mipostulacion ${filter === null ? 'btn-seleccionado' : ''}`} onClick={() => setFilter(null)} >Todas las postulaciones </button>
+                            <button className={`btn-mipostulacion ${filter === true ? 'btn-seleccionado' : ''}`} onClick={() => setFilter(true)}> Postulados </button>
+                            <button className={`btn-mipostulacion ${filter === false ? 'btn-seleccionado' : ''}`} onClick={() => setFilter(false)} >Finalizados</button>
                         </div>
 
                         <div>
-                            <CardApplications/>
+                            <CardApplications filter={filter} />
                         </div>
 
                     </div>

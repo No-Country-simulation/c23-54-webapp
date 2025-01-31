@@ -37,3 +37,9 @@
     border-radius: 4px;
     cursor: pointer;
 }
+
+.notificacion-item {
+    font-size: 12px;
+    text-align: center;
+    color: #0C8BC1;
+}
