@@ -2,14 +2,18 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from 'yup'
 import ErrorMessage from "../../Components/Alerts/ErrorMessage/ErrorMessage";
-import { Calendar, Laptop, Laptop2, List, MapPin } from "lucide-react";
+import { Laptop, List, MapPin } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { ModalityService } from "../../Services/ModalityService";
 import { CityService } from "../../Services/CityService";
 import { jobCategoriesService } from "../../Services/JobCategoriesService";
 import JoditEditor from "jodit-react";
 import BgButton from "../../Components/BgButton/BgButton";
-
+import { JobOffersService } from "../../Services/JobsOffersService";
+import AlertToast from "../../Components/Alerts/Toasts/AlertToast";
+import SuccessToast from "../../Components/Alerts/Toasts/SuccessToast";
+import { useNavigate } from 'react-router-dom'
+import { object } from "underscore";
 
 
 const createJobOffer = yup.object().shape({
@@ -43,9 +47,15 @@ const createJobOffer = yup.object().shape({
     ID_job_category: yup
         .number()
         .typeError("Debe ser una categoria valida")
-        .required("La categoria es obligatoria")
+        .required("La categoria es obligatoria"),
 })
 const CreateJobOfferPage = () => {
+
+
+    const [successMessage, setSuccessMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const navigate = useNavigate()
 
     const { handleSubmit, register, formState: { errors }, control } = useForm({
         resolver: yupResolver(createJobOffer),
@@ -55,6 +65,7 @@ const CreateJobOfferPage = () => {
     const { getAllModalities } = ModalityService()
     const { getAllCities } = CityService()
     const { getAllJobCategories } = jobCategoriesService()
+    const { CreateJobOffer } = JobOffersService();
 
     const [modalities, setModalities] = useState([]);
     const [cities, setCities] = useState([]);
@@ -80,16 +91,61 @@ const CreateJobOfferPage = () => {
 
     const editor = useRef(null);
 
+    const handleForm = async (data) => {
+
+        try {
+            const responseFetch = await CreateJobOffer(data);
+
+            if (responseFetch.status === 200 || responseFetch.status === 201) {
+
+                setSuccessMessage("Oferta de Empleo creada exitosamente.")
+
+                setTimeout(() => {
+                    setSuccessMessage("")
+                    navigate('/Home')
+                },2000)
+                return
+            }
+
+            setErrorMessage(responseFetch.message || "No se ha podido crear la oferta de empleo, intente reiniciando el sitio.")
+
+            setTimeout(() => {
+                setErrorMessage("")
+            },2000)
+            return
+
+        } catch (e) {
+            setErrorMessage("No se ha podido crear la oferta de empleo, intente reiniciando el sitio.")
+
+            setTimeout(() => {
+                setErrorMessage("")
+            })
+            return
+        }
+
+    }
+
     return (
 
         <div
             className="page__container">
 
-
             <form
                 className="page__container__template"
-                onSubmit={handleSubmit(() => console.log('Hola'))}
+                onSubmit={handleSubmit(handleForm)}
             >
+
+                {errorMessage.length > 0 && (
+                    <AlertToast
+                        message_toast={errorMessage}
+                    />
+                )}
+
+                {successMessage.length > 0 && (
+                    <SuccessToast
+                        message_toast={successMessage}
+                    />
+                )}
 
                 <div className="input-container">
 
@@ -119,9 +175,9 @@ const CreateJobOfferPage = () => {
                             <select className="input-field"
                                 {...register("ID_modality")}
                             >
-                                <option value={null}>Seleccione una modalidad</option>
+                                <option key={0} value={null}>Seleccione una modalidad</option>
                                 {modalities.map((modality) => (
-                                    <option
+                                    <option key={modality.ID_modality}
                                         value={modality.ID_modality}
                                     >
                                         {modality.name}
@@ -149,9 +205,9 @@ const CreateJobOfferPage = () => {
                             <select className="input-field"
                                 {...register("ID_city")}
                             >
-                                <option value={null}>Seleccione una ciudad</option>
+                                <option key={0} value={null}>Seleccione una ciudad</option>
                                 {cities.map((city) => (
-                                    <option
+                                    <option key={city.ID_city}
                                         value={city.ID_city}
                                     >
                                         {city.name}
@@ -181,9 +237,9 @@ const CreateJobOfferPage = () => {
                             <select className="input-field"
                                 {...register("ID_job_category")}
                             >
-                                <option value={null}>Seleccione una categoria</option>
+                                <option key={0} value={null}>Seleccione una categoria</option>
                                 {jobCategories.map((category) => (
-                                    <option
+                                    <option key={category.ID_category}
                                         value={category.ID_job_category}
                                     >
                                         {category.name}
@@ -306,7 +362,9 @@ const CreateJobOfferPage = () => {
 
                 <div className="create__job__button__container">
                     <BgButton
-                    title={"Crear Oferta"}
+                        title={"Crear Oferta"}
+                        type="submit"
+                        disabled={Object.keys(errors).length > 0 ? true : false}
                     />
                 </div>
             </form>

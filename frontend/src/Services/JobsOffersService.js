@@ -1,10 +1,12 @@
+import { useContext } from "react";
 import { baseUrl, endpointsUrls } from "../constants.js"
-
+import { AuthContext } from "../Context/AuthContext.js";
 
 export const JobOffersService = () => {
-    const apiUrl = `${baseUrl}${endpointsUrls.RALL_JOB_OFFERS}`
+    const { Token, idUser } = useContext(AuthContext);
 
     const getAllOffers = async () => {
+        const apiUrl = `${baseUrl}${endpointsUrls.RALL_JOB_OFFERS}`
 
         const response = await fetch(apiUrl)
 
@@ -12,17 +14,38 @@ export const JobOffersService = () => {
             throw new Error("Error al obtener las ofertas de empleo");
         }
 
-        console.log(response)
         return response.json();
     }
 
+    const CreateJobOffer = async (data) => {
+        const apiUrl = `${baseUrl}${endpointsUrls.C_JOB_OFFERS}`
 
+        const dataTocreate = {
+            ...data,
+            publication_date: new Date(),
+            status: "open",
+            ID_user: idUser
+        }
 
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${Token}`
+            },
+            body: JSON.stringify(dataTocreate)
+        })
 
+        if (!response) {
+            throw new Error("Error al obtener las ofertas de empleo");
+        }
 
+        return {
+            response: response.json(),
+            status: response.status,
+            message: response.message
+        };
+    }
 
-
-
-
-    return { getAllOffers }
+    return { getAllOffers, CreateJobOffer }
 }

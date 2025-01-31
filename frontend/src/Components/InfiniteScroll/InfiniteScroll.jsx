@@ -5,45 +5,47 @@ const InfiniteScroll = ({ cards }) => {
     const [visibleCards, setVisibleCards] = useState([]);
     const [hasMore, setHasMore] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
     const CARDS_PER_PAGE = 10;
 
     useEffect(() => {
-        // Cargar las primeras tarjetas al montar el componente
-        loadMoreCards();
-    }, []);
+        if (cards.length > 0) {
+            loadMoreCards();
+        }
+    }, [cards]); // Se ejecuta cuando 'cards' cambia
 
     const loadMoreCards = () => {
+        if (isLoading) return; // Evita llamadas duplicadas
+        setIsLoading(true);
+
         const startIndex = (currentPage - 1) * CARDS_PER_PAGE;
         const endIndex = currentPage * CARDS_PER_PAGE;
-
-        // Obtener las tarjetas adicionales
         const nextCards = cards.slice(startIndex, endIndex);
 
-        // Verificar si hay más tarjetas para cargar
         if (nextCards.length === 0) {
             setHasMore(false);
-            return;
+        } else {
+            setVisibleCards((prev) => [...prev, ...nextCards]);
+            setCurrentPage((prev) => prev + 1);
         }
 
-        setVisibleCards((prev) => [...prev, ...nextCards]);
-        setCurrentPage((prev) => prev + 1);
+        setIsLoading(false);
     };
 
     useEffect(() => {
         const handleScroll = () => {
             if (
                 window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
-                hasMore
+                hasMore &&
+                !isLoading
             ) {
                 loadMoreCards();
             }
         };
 
         window.addEventListener("scroll", handleScroll);
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, [hasMore, cards, currentPage]);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [hasMore, isLoading]);
 
     return (
         <>
@@ -55,11 +57,8 @@ const InfiniteScroll = ({ cards }) => {
             ))}
 
             <div className="center">
-                
-                {// HABRIA QUE AGREGAR UN SPINNER/LOADER
-                }
+                {isLoading && <p>Cargando más ofertas...</p>}
                 {!hasMore && <p>No hay más ofertas para mostrar.</p>}
-
             </div>
         </>
     );

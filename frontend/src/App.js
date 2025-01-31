@@ -16,11 +16,11 @@ import CreateJobOfferPage from "./Pages/JobOffer/CreateJobOfferPage";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LandingPage/>, 
+    element: <LandingPage />,
   },
   {
     path: "/Login",
-    element: <Login/>, 
+    element: <Login />,
   },
   {
     path: "/Registrarse",
@@ -28,15 +28,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/Home",
-    element: <ProtectedUser> <Home /> </ProtectedUser> ,
+    element: <ProtectedUser> <Home /> </ProtectedUser>,
   },
   {
     path: '/MisPostulaciones',
-    element:  <Myapplications/>
+    element: <ProtectedUser> <Myapplications /> </ProtectedUser>
   },
   {
     path: '/crear/oferta_trabajo',
-    element: <CreateJobOfferPage />
+    element: <ProtectedUser><CreateJobOfferPage /></ProtectedUser>
 
   },
   {

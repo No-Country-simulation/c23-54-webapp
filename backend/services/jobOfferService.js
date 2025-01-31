@@ -2,19 +2,20 @@ const JobOffer = require('../models/jobOffer');
 const User = require('../models/user');
 const City = require('../models/city')
 const Modality = require('../models/modality')
-const JobCategory =  require('../models/jobCategory')
+const JobCategory = require('../models/jobCategory')
 const CustomError = require('../errors/custom.errors')
 
 class JobOfferService {
 
     async createJobOffer(data) {
-        const {  ID_user, title, description, salary_range_min, salary_range_max, publication_date, deadline, ID_city, status, ID_modality, ID_job_category } = data;
-        const user = await User.findByPk(ID_user); 
+        const { ID_user, title, description, salary_range_min, salary_range_max, publication_date, deadline, ID_city, status, ID_modality, ID_job_category } = data;
+
+        const user = await User.findByPk(ID_user);
         const city = await City.findByPk(ID_city);
-        const modality = await Modality.findByPk(ID_modality); 
+        const modality = await Modality.findByPk(ID_modality);
         const jobCategory = await JobCategory.findByPk(ID_job_category);
         if (!user || !city || !modality || !jobCategory) throw CustomError.badRequest("all fields are required");
-        return await JobOffer.create({ 
+        return await JobOffer.create({
             ID_user,
             title,
             description,
@@ -26,7 +27,7 @@ class JobOfferService {
             status,
             ID_modality,
             ID_job_category
-            });
+        });
     }
 
     async getAllJobOffers() {
