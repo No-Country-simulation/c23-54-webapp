@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { uploadFile } from "../firebase/config";
-import { storage } from "../firebase/config";
+
 
 
 
@@ -8,10 +8,6 @@ import { storage } from "../firebase/config";
 const ImageTest = () => {
   const [profile_picture, setProfile_picture] = useState(null);
   const [url, setUrl] = useState(null);
-
-
-  console.log("Firebase Storage Bucket:", storage);
-  console.log(process.env.REACT_APP_STORAGE_BUCKET);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
