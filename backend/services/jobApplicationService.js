@@ -66,18 +66,18 @@ class JobApplicationService {
 
     async getJobApplicationsByOfferID(ID_offer) {
         const jobApplication = await JobApplication.findAll({
-            where: {
-                ID_offer
-            },
+            where: { ID_offer },
             include:
-                [{ model: User, attributes: ['ID_user', 'name'] },
+                [{ model: User, attributes: ['ID_user', 'name', 'phone', 'email'] },
                 { model: JobOffer, attributes: ['ID_offer', 'title'] },
                 { model: ApplicationStatus, attributes: ['ID_application_status', 'status'] }
 
                 ],
-            attributes: ['ID_application', 'application_date', 'comments'],
+            attributes: ['ID_application', 'application_date', 'comments']
         })
+
         if (!jobApplication) return 'job application does not exist'
+        return jobApplication
     }
 
     async updateJobApplication(id, data) {
