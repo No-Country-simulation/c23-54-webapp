@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const useLogin = () => {
 
     const [error, setError] = useState(null);
-    const { login, SetName, SetIdUser } = useContext(AuthContext);
+    const { login } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const UseloginUser = async (email, password) => {
@@ -16,9 +16,8 @@ const useLogin = () => {
             const response = await LoginUserService(email, password);
             if (response.status === 200) {
                 const data = await response.json();
-                login(data.token, data.user.ID_user);
-                SetName(data.user.name)
-                SetIdUser(data.user.ID_user)
+                console.log(data)
+                login(data.token);
                 localStorage.setItem('FirstLogin', 'Logeado');
                 navigate('/Home', { state: { logged: true, message: 'Logeado exitoso' } }); 
                 return true;
