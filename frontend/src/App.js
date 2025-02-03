@@ -13,23 +13,24 @@ import LandingPage from "./Pages/LandingPage/LandingPage";
 import ProtectedUser from "./RouteProtection/ProtectedUser";
 import RedirectIfAuthenticated from "./RouteProtection/RedirectIfAuthenticated ";
 import MisOfertas from "./Pages/MisOfertas/MisOfertas";
+import CreateJobOfferPage from "./Pages/JobOffer/CreateJobOfferPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <RedirectIfAuthenticated> <LandingPage/> </RedirectIfAuthenticated>, 
+    element: <RedirectIfAuthenticated> <LandingPage /> </RedirectIfAuthenticated>,
   },
   {
     path: "/Login",
-    element:<RedirectIfAuthenticated> <Login/> </RedirectIfAuthenticated>, 
+    element: <RedirectIfAuthenticated> <Login /> </RedirectIfAuthenticated>,
   },
   {
     path: "/Registrarse",
-    element:<RedirectIfAuthenticated> <Register /></RedirectIfAuthenticated>,
+    element: <RedirectIfAuthenticated> <Register /></RedirectIfAuthenticated>,
   },
   {
     path: "/Home",
-    element: <ProtectedUser> <Home /> </ProtectedUser> ,
+    element: <ProtectedUser> <Home /> </ProtectedUser>,
   },
   {
     path: '/Postulaciones',
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: '/MisOfertas',
     element:  <MisOfertas/>
+  },
+  {
+    path: '/crear/oferta_trabajo',
+    element: <ProtectedUser><CreateJobOfferPage /></ProtectedUser>
   },
   {
     path: "*",
