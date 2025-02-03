@@ -3,6 +3,15 @@ import { UserRound, MapPin, Laptop, Share2 } from "lucide-react";
 import BgButton from "../../BgButton/BgButton";
 
 const JobCard = ({ JobOffer }) => {
+
+    
+  function stripHtml(html) {
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    return div.innerText || div.textContent || "";
+  }
+
+
     return (
         <div className="offer__card__container"
             key={JobOffer.ID_offer}
@@ -41,7 +50,7 @@ const JobCard = ({ JobOffer }) => {
             <div className="offer__card__description__info">
                 {/* Si se guarda sin etiqueta <p>{JobOffer.description}</p> */}
                 {/* se se guerda con etiquet <div dangerouslySetInnerHTML={{ __html: JobOffer.description }} /> */}
-                <p>{JobOffer.description}</p>
+                <p>{stripHtml(JobOffer.description)}</p>
 
                 <div className="offer__card_description__buttons">
 

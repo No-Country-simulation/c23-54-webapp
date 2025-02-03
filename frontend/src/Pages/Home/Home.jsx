@@ -51,6 +51,9 @@ const Home = () => {
 
   }, [filterName, locationFilter])
 
+
+  
+
   return (
     <div className='Contenido'>
 
