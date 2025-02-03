@@ -12,6 +12,7 @@ import Applications from "./Pages/MisPostulaciones/Applications";
 import LandingPage from "./Pages/LandingPage/LandingPage";
 import ProtectedUser from "./RouteProtection/ProtectedUser";
 import RedirectIfAuthenticated from "./RouteProtection/RedirectIfAuthenticated ";
+import MisOfertas from "./Pages/MisOfertas/MisOfertas";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: '/Postulaciones',
     element:  <Applications/>
+  },  
+  {
+    path: '/MisOfertas',
+    element:  <MisOfertas/>
   },
   {
     path: "*",
