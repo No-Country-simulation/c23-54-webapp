@@ -6,21 +6,22 @@ const InfiniteScroll = ({ cards }) => {
     const [hasMore, setHasMore] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const CARDS_PER_PAGE = 10;
-    const loadedCardIds = useRef(new Set()); 
+    const loadedCardIds = useRef(new Set());
 
     useEffect(() => {
-        // Cargar las primeras tarjetas al montar el componente
-        loadMoreCards();
-    }, []);
+        // Resetear estado cuando `cards` cambia  el filtro
+        setVisibleCards([]);
+        setHasMore(true);
+        setCurrentPage(1);
+        loadedCardIds.current.clear();
+        loadMoreCards(1); 
+    }, [cards]); 
 
-    const loadMoreCards = () => {
-        const startIndex = (currentPage - 1) * CARDS_PER_PAGE;
-        const endIndex = currentPage * CARDS_PER_PAGE;
-
-        // Obtener las tarjetas adicionales
+    const loadMoreCards = (page = currentPage) => {
+        const startIndex = (page - 1) * CARDS_PER_PAGE;
+        const endIndex = page * CARDS_PER_PAGE;
         const nextCards = cards.slice(startIndex, endIndex);
 
-        // Filtrar las tarjetas que ya han sido cargadas
         const newCards = nextCards.filter(card => !loadedCardIds.current.has(card.ID_offer));
 
         if (newCards.length === 0) {
@@ -31,7 +32,7 @@ const InfiniteScroll = ({ cards }) => {
         newCards.forEach(card => loadedCardIds.current.add(card.ID_offer));
 
         setVisibleCards(prev => [...prev, ...newCards]);
-        setCurrentPage(prev => prev + 1);
+        setCurrentPage(page + 1);
     };
 
     useEffect(() => {
@@ -48,7 +49,7 @@ const InfiniteScroll = ({ cards }) => {
         return () => {
             window.removeEventListener("scroll", handleScroll);
         };
-    }, [hasMore, cards, currentPage]);
+    }, [hasMore, visibleCards]);
 
     return (
         <>
@@ -60,7 +61,7 @@ const InfiniteScroll = ({ cards }) => {
             ))}
 
             <div className="center">
-                {// HABRIA QUE AGREGAR UN SPINNER/LOADER
+                {// Agregar un spinner o loader aquí si se necesita
                 }
                 {!hasMore && <p>No hay más ofertas para mostrar.</p>}
             </div>

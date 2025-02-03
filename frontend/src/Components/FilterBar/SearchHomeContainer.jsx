@@ -5,7 +5,7 @@ import { useContext } from "react"
 import { AuthContext } from "../../Context/AuthContext"
 
 
-const SearchHomeContainer = () => {
+const SearchHomeContainer = ({SetFilterName, SetlocationFilter}) => {
     const { Role } = useContext(AuthContext)
     return (
         <div
@@ -15,6 +15,7 @@ const SearchHomeContainer = () => {
                 <SearchText
                     name={"title"}
                     placeholder={"Buscar por titulo"}
+                    funcSaveValue={(e) => SetFilterName(e.target.value)} 
                 >
 
                     <Search
@@ -26,6 +27,8 @@ const SearchHomeContainer = () => {
                 <SearchText
                     name={"location"}
                     placeholder={"Buscar por ubicación"}
+                    funcSaveValue={(e) => SetlocationFilter(e.target.value)} 
+
                 >
 
                     <MapPin
