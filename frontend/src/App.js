@@ -13,6 +13,7 @@ import LandingPage from "./Pages/LandingPage/LandingPage";
 import ProtectedUser from "./RouteProtection/ProtectedUser";
 import RedirectIfAuthenticated from "./RouteProtection/RedirectIfAuthenticated ";
 import CreateJobOfferPage from "./Pages/JobOffer/CreateJobOfferPage";
+import SingleJobOffer from "./Pages/JobOffer/SingleJobOffer";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
     path: '/crear/oferta_trabajo',
     element: <ProtectedUser><CreateJobOfferPage /></ProtectedUser>
 
+  },
+  {
+    path: '/ver/oferta_trabajo/:ID_offer',
+    element: <ProtectedUser> <SingleJobOffer /  > </ProtectedUser>
   },
   {
     path: "*",

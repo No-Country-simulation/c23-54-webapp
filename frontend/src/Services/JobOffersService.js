@@ -14,7 +14,11 @@ export const JobOffersService = () => {
             throw new Error("Error al obtener las ofertas de empleo");
         }
 
-        return response.json();
+        return {
+            response: response.json(),
+            status: response.status,
+            message: response.message
+        }
     }
 
     const CreateJobOffer = async (data) => {
@@ -47,5 +51,25 @@ export const JobOffersService = () => {
         };
     }
 
-    return { getAllOffers, CreateJobOffer }
+    const getOfferById = async (ID_offer) => {
+        const apiUrl = `${baseUrl}${endpointsUrls.RONE_JOB_OFFERS}/${ID_offer}`
+
+        const response = await fetch(apiUrl, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        if (!response) {
+            throw new Error("Error al obtener las ofertas de empleo");
+        }
+
+        return {
+            data: await response.json(),
+            status: response.status,
+            message: response.message
+        }
+    }
+
+    return { getAllOffers, CreateJobOffer, getOfferById }
 }

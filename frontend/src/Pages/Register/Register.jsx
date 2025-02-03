@@ -60,6 +60,7 @@ const registerSchemaStepTwo = yup.object().shape({
         .required("El tipo de usuario es obligatorio"),
     description: yup
         .string()
+        .required("Este campo es obligatorio")
 })
 
 
@@ -73,8 +74,6 @@ const Register = () => {
 
     const [showSuccessToast, setSuccessALertToast] = useState(false);
     const [messageToast, setMessageToast] = useState("");
-
-
 
     const navigate = useNavigate();
 
@@ -107,8 +106,6 @@ const Register = () => {
                 },
                 body: JSON.stringify(formData)
             })
-
-            console.log(formData);
 
             if (registerFetch.status === 200 || registerFetch.status === 201) {
                 setSuccessALertToast(true);

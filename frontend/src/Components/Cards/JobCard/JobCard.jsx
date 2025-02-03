@@ -1,15 +1,22 @@
 
 import { UserRound, MapPin, Laptop, Share2 } from "lucide-react";
 import BgButton from "../../BgButton/BgButton";
+import { useNavigate } from "react-router-dom";
 
 const JobCard = ({ JobOffer }) => {
 
-    
-  function stripHtml(html) {
-    const div = document.createElement("div");
-    div.innerHTML = html;
-    return div.innerText || div.textContent || "";
-  }
+    const navigate = useNavigate();
+
+    const stripHtml = (html) => {
+        const div = document.createElement("div");
+        div.innerHTML = html;
+        return div.innerText || div.textContent || "";
+    }
+
+
+    const redirectToOfferPage = (ID_offer) => {
+        navigate(`/ver/oferta_trabajo/${ID_offer}`)
+    }
 
 
     return (
@@ -48,8 +55,6 @@ const JobCard = ({ JobOffer }) => {
             <div className="divider-y"></div>
 
             <div className="offer__card__description__info">
-                {/* Si se guarda sin etiqueta <p>{JobOffer.description}</p> */}
-                {/* se se guerda con etiquet <div dangerouslySetInnerHTML={{ __html: JobOffer.description }} /> */}
                 <p>{stripHtml(JobOffer.description)}</p>
 
                 <div className="offer__card_description__buttons">
@@ -61,9 +66,8 @@ const JobCard = ({ JobOffer }) => {
                         />
                     </div>
 
-
                     <BgButton
-                        onClick={() => (console.log(JobOffer.ID_offer))}
+                        onClick={() => redirectToOfferPage(JobOffer.ID_offer)}
                         title={"Solicitar"}
                     />
                 </div>
