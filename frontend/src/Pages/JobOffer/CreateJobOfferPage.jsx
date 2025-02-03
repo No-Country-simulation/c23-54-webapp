@@ -14,6 +14,8 @@ import AlertToast from "../../Components/Alerts/Toasts/AlertToast";
 import SuccessToast from "../../Components/Alerts/Toasts/SuccessToast";
 import { useNavigate } from 'react-router-dom'
 import { object } from "underscore";
+import { useContext } from "react";
+import { AuthContext } from "../../Context/AuthContext";
 
 
 const createJobOffer = yup.object().shape({
@@ -51,6 +53,7 @@ const createJobOffer = yup.object().shape({
 })
 const CreateJobOfferPage = () => {
 
+    const { idUser } = useContext(AuthContext);
 
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -92,9 +95,15 @@ const CreateJobOfferPage = () => {
     const editor = useRef(null);
 
     const handleForm = async (data) => {
-
-        try {
-            const responseFetch = await CreateJobOffer(data);
+        if (!idUser) {
+            setErrorMessage("No hay usuario autenticado.");
+            return;
+        } try {
+            const offerData = {
+                ...data,
+                ID_user: idUser,
+            };
+            const responseFetch = await CreateJobOffer(offerData);
 
             if (responseFetch.status === 200 || responseFetch.status === 201) {
 
