@@ -7,16 +7,19 @@ import NotificacionesModal from '../Notificaciones/Notificaciones';
 import { AuthContext } from '../../Context/AuthContext';
 
 
+
 const Navbar = () => {
 
-
-    const {Name} = useContext(AuthContext)
-    const [url, setUrl] = useState('')
+    const { Name, idUser } = useContext(AuthContext);
+    const [ url, setUrl ] = useState('')
 
     useEffect(() => {
         const path = window.location.pathname.split('/')[1];
         setUrl(path);
     }, [])
+    useEffect(() => {
+        console.log("ID del usuario en contexto:", idUser);
+    }, [idUser]);
     return (
         <div className='bg-Secondary d-flex  justify-content-between '>
             <div className='col-6 d-flex align-items-center'>
@@ -26,7 +29,7 @@ const Navbar = () => {
             </div>
 
             <div className='d-flex justify-content-end align-items-center col-6'>
-                <NotificacionesModal />
+                <NotificacionesModal userId={idUser} />
                 <p className='p-0 mx-3 my-0 '>{Name}</p>
                 <img src={ProfileIcon} className='rounded-circle ' style={{maxWidth: '50px'}} width='20%' ></img>
                 <PerfilModal />

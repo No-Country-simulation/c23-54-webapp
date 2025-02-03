@@ -7,23 +7,22 @@ const InfiniteScroll = ({ cards }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const CARDS_PER_PAGE = 10;
-    const loadedCardIds = useRef(new Set()); 
+    const loadedCardIds = useRef(new Set());
 
     useEffect(() => {
-        if (cards.length > 0) {
-            loadMoreCards();
-        }
-    }, [cards]); // Se ejecuta cuando 'cards' cambia
+        // Resetear estado cuando `cards` cambia  el filtro
+        setVisibleCards([]);
+        setHasMore(true);
+        setCurrentPage(1);
+        loadedCardIds.current.clear();
+        loadMoreCards(1); 
+    }, [cards]); 
 
-    const loadMoreCards = () => {
-        if (isLoading) return;
-        setIsLoading(true);
-    
-        const startIndex = (currentPage - 1) * CARDS_PER_PAGE;
-        const endIndex = currentPage * CARDS_PER_PAGE;
+    const loadMoreCards = (page = currentPage) => {
+        const startIndex = (page - 1) * CARDS_PER_PAGE;
+        const endIndex = page * CARDS_PER_PAGE;
         const nextCards = cards.slice(startIndex, endIndex);
-    
-        // Filtrar solo las nuevas tarjetas que aún no han sido cargadas
+
         const newCards = nextCards.filter(card => !loadedCardIds.current.has(card.ID_offer));
     
         if (newCards.length === 0) {
@@ -33,8 +32,11 @@ const InfiniteScroll = ({ cards }) => {
             newCards.forEach(card => loadedCardIds.current.add(card.ID_offer));
             setCurrentPage(prev => prev + 1);
         }
-    
-        setIsLoading(false);
+
+        newCards.forEach(card => loadedCardIds.current.add(card.ID_offer));
+
+        setVisibleCards(prev => [...prev, ...newCards]);
+        setCurrentPage(page + 1);
     };
 
     useEffect(() => {
@@ -49,8 +51,10 @@ const InfiniteScroll = ({ cards }) => {
         };
 
         window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, [hasMore, isLoading]);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, [hasMore, visibleCards]);
 
     return (
         <>
@@ -62,7 +66,7 @@ const InfiniteScroll = ({ cards }) => {
             ))}
 
             <div className="center">
-                {// HABRIA QUE AGREGAR UN SPINNER/LOADER
+                {// Agregar un spinner o loader aquí si se necesita
                 }
                 {!hasMore && <p>No hay más ofertas para mostrar.</p>}
             </div>
