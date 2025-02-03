@@ -5,6 +5,7 @@ const InfiniteScroll = ({ cards }) => {
     const [visibleCards, setVisibleCards] = useState([]);
     const [hasMore, setHasMore] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
     const CARDS_PER_PAGE = 10;
     const loadedCardIds = useRef(new Set());
 
@@ -23,10 +24,13 @@ const InfiniteScroll = ({ cards }) => {
         const nextCards = cards.slice(startIndex, endIndex);
 
         const newCards = nextCards.filter(card => !loadedCardIds.current.has(card.ID_offer));
-
+    
         if (newCards.length === 0) {
             setHasMore(false);
-            return;
+        } else {
+            setVisibleCards(prev => [...prev, ...newCards]);
+            newCards.forEach(card => loadedCardIds.current.add(card.ID_offer));
+            setCurrentPage(prev => prev + 1);
         }
 
         newCards.forEach(card => loadedCardIds.current.add(card.ID_offer));
@@ -39,7 +43,8 @@ const InfiniteScroll = ({ cards }) => {
         const handleScroll = () => {
             if (
                 window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
-                hasMore
+                hasMore &&
+                !isLoading
             ) {
                 loadMoreCards();
             }

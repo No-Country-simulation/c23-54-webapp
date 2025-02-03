@@ -1,12 +1,21 @@
 import { MapPin, Search } from "lucide-react"
 import BgButton from "../BgButton/BgButton"
 import SearchText from "./SearchText"
+import { useNavigate } from "react-router-dom";
 import { useContext } from "react"
 import { AuthContext } from "../../Context/AuthContext"
 
 
 const SearchHomeContainer = ({SetFilterName, SetlocationFilter}) => {
     const { Role } = useContext(AuthContext)
+
+
+    const navigate = useNavigate();
+
+    const handleCreateOffer = () =>{
+
+        navigate('/crear/oferta_trabajo')
+    }
     return (
         <div
             className='search__container'
@@ -45,6 +54,15 @@ const SearchHomeContainer = ({SetFilterName, SetlocationFilter}) => {
                 />
             )}
 
+            {
+
+                // EL BOTON HAY QUE HACER EL RENDERIZADO SEGUN EL ROL
+
+            }
+            <BgButton
+                title={"Agregar Oferta"}
+                onClick={handleCreateOffer}
+            />
         </div>
     )
 }
