@@ -2,22 +2,17 @@ import { FetchOffersService } from "../../Services/FetchOffersService"
 
 const UseOffers = () =>{
 
-    const FetchallOffers = async() =>{
+    const FetchallOffers = async(userId) =>{
         try{
-            const userId = localStorage.getItem("userId");
             if (!userId) throw new Error("No hay usuario autenticado");
-
-            const response = await FetchOffersService(userId);
-            const data = await response.json();
-            return data;
-        }catch(error){
-            console.log(error)
+            return await FetchOffersService(userId); 
+        } catch (error) {
+            console.error(error);
             return [];
         }
-    }
+    };
 
-    return {FetchallOffers}
+    return { FetchallOffers };
+};
 
-}
-
-export default UseOffers
+export default UseOffers;

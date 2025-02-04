@@ -40,8 +40,8 @@ const JobCard = ({ JobOffer }) => {
 
             <div className="offer__card__description__info">
                 {/* Si se guarda sin etiqueta <p>{JobOffer.description}</p> */}
-                {/* se se guerda con etiquet <div dangerouslySetInnerHTML={{ __html: JobOffer.description }} /> */}
-                <p>{JobOffer.description}</p>
+                <div dangerouslySetInnerHTML={{ __html: JobOffer.description }} /> 
+                
 
                 <div className="offer__card_description__buttons">
 

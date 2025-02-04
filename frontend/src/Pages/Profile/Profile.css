@@ -1,0 +1,37 @@
+.profile_container{
+
+    border: solid #918E89 1px;
+    border-radius: 10px;
+}
+
+.profile-icon{
+    width: 90%;
+    max-width: 120px;
+    border-radius: 100%;
+    
+}
+
+.section1-line{
+    border-right: solid #918E89 1px;;
+}
+.section2-line{
+    border-right: solid #918E89 1px;;
+}
+
+
+.border-h3-profile{
+    border-bottom: solid #918E89 1px;
+}
+
+@media (max-width: 991px) {
+    .section2-line{
+        border-right: none;
+    }
+}
+
+
+@media (max-width: 766px) {
+    .section1-line{
+        border-right: none;
+    }
+}
