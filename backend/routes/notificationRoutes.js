@@ -22,6 +22,8 @@ class NotificationRoutes {
 
     router.get('/:id', controller.getNotificationById);
 
+    router.get('/user/:id', controller.getNotificationsByUserID);
+
     router.put('/:id', controller.updateNotification);
 
     router.delete('/:id', controller.deleteNotification);

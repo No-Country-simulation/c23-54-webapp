@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import UseMyapplications from '../../../Hooks/Myapplications/UseMyapplications'
+import UseMyapplications from '../../../Hooks/JobApplication/UseMyapplications'
 import './CardApplications.css'
 import img_aprobada from "../../../Assets/imagenes/Aprobada.png"
 import img_pendiente from "../../../Assets/imagenes/Pendiente.png"

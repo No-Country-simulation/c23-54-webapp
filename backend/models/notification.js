@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const User = require('./user');
-const JobOffer = require('./jobOffer');
+const { User, JobApplication } = require('./relationship')
 
 const Notification = sequelize.define('Notification', {
   ID_notification: {
@@ -16,11 +15,11 @@ const Notification = sequelize.define('Notification', {
       key: 'ID_user'
     }
   },
-  ID_offer: {
+  ID_application: {
     type: DataTypes.INTEGER,
     references: {
-      model: JobOffer,
-      key: 'ID_offer'
+      model: JobApplication,
+      key: 'ID_application'
     }
   },
   message: {

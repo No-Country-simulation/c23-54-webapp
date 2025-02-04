@@ -1,8 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const User = require('./user');
-const JobOffer = require('./jobOffer');
-const ApplicationStatus = require('./applicationStatus');
+const { User, JobOffer, ApplicationStatus } = require('./relationship');
 
 const JobApplication = sequelize.define('JobApplication', {
   ID_application: {
