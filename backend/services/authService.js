@@ -58,7 +58,7 @@ class AuthService {
 
             registerUserDto.password = this.encryptPassword(registerUserDto.password);
 
-            await this.cityService.cityExists(registerUserDto.ID_city);
+            await this.cityService.getCityByID(registerUserDto.ID_city);
 
             const user = await this.userService.createUser(registerUserDto);
             const token = await this.generateToken(user);

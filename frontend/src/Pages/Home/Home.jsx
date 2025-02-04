@@ -9,9 +9,8 @@ import SearchText from '../../Components/FilterBar/SearchText';
 import { MapPin, Pin, Search } from 'lucide-react';
 import BgButton from '../../Components/BgButton/BgButton';
 import SearchHomeContainer from '../../Components/FilterBar/SearchHomeContainer';
-import { JobOffersService } from '../../Services/FetchJobsOffersService';
 import UseJobOffers from '../../Hooks/JobOffers/UseJoboffers';
-
+  
 const Home = () => {
 
   const location = useLocation();
@@ -21,6 +20,10 @@ const Home = () => {
   const firstloged = localStorage.getItem('FirstLogin')
   const [showToast, setShowToast] = useState(false);
 
+  const [filterName, SetFilterName] = useState(''); 
+  const [locationFilter, SetlocationFilter] = useState(''); 
+
+  
   useEffect(() => {
     if (logged && firstloged === 'Logeado') {
       setShowToast(true);
@@ -33,14 +36,10 @@ const Home = () => {
   const [jobsOffers, setJobsOffers] = useState([]);
   //const { getAllOffers } = JobOffersService()
   const {FecthallJobOffers} = UseJobOffers();
-
   useEffect(() => {
-
     const fetchJobOffers = async () => {
       try {
-       // const data = await getAllOffers();
-        //setJobsOffers(data);
-        const data = await FecthallJobOffers();
+        const data = await FecthallJobOffers(filterName, locationFilter);
         setJobsOffers(data)
 
       } catch (e) {
@@ -50,7 +49,7 @@ const Home = () => {
 
    fetchJobOffers();
 
-  }, [])
+  }, [filterName, locationFilter])
 
   return (
     <div className='Contenido'>
@@ -62,7 +61,7 @@ const Home = () => {
           <SuccessToast message_toast={message} />
         )}
 
-        <SearchHomeContainer />
+        <SearchHomeContainer SetFilterName = {SetFilterName} SetlocationFilter = {SetlocationFilter}/>
 
         <div className='page__container__template home__container'>
 

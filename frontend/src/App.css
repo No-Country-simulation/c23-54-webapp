@@ -15,6 +15,9 @@
   --gray-0: #918E89;
   --gray-1: #E8E9EB;
 
+
+
+  --gray-2: #c8c9cb;
   --white-0: #FEFEFE;
 
 
@@ -104,6 +107,10 @@ p{
 .tip-text-obligatory{
   color: var(--red-0);
   font-size: 12px;
+}
+
+.item__container__size{
+  width: 100% !important;
 }
 
 .tip-text{
@@ -361,7 +368,64 @@ p{
 }
 
 
+/* CREATE OFFER PAGE */
+.create__offer__title{
+  font-size: 36px;
+  border: none;
+  color: var(--blue-1);
+  border-bottom: 1px solid var(--gray-2);
+}
 
+.create__offer__title::placeholder{
+  color: var(--gray-2);
+}
+
+.create__offer__title:focus{
+  outline: none;
+}
+
+.offer__extra__info__container{
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+}
+
+.offer__extra__item{
+  display: flex;
+  align-items: center;
+}
+
+.offer__body__info__container{
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+}
+
+.offer__extra__item > select {
+  width: 100%;
+}
+
+.offer__extra__item > label{
+  max-width: 8ch;
+}
+
+.create__job__button__container{
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.create__job__button__container > button{
+  width: 20%;
+}
 
 @keyframes slideIn {
   0% {
@@ -411,6 +475,13 @@ p{
 
 @media (width > 620px){
 
+.offer__extra__info__container{
+  display: flex;
+  align-items: start;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
   .offer__card__container{
     flex-direction: row;
   }
@@ -456,6 +527,11 @@ p{
   .page__container__template{
     min-height: calc(100vh - 20vh);
     max-width: 50%;
+  }
+
+  .item__container__size{
+    width: 33% !important;
+    flex: 1;
   }
 
   .page__container__template.home__container{
