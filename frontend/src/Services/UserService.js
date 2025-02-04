@@ -60,11 +60,7 @@ export const UserService = async () => {
                         "Documentó procesos y guías para usuarios finales."
                     ]
                 }
-            ],
-            "description": "descr",
-            "img": "descr",
-            "ID_city": 8,
-            "ID_role": 3
+            ]
         }
 
         return data;
