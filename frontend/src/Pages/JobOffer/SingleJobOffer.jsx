@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import { JobOffersService } from "../../Services/JobOffersService";
 import { Laptop, MapPin, UserRound } from "lucide-react";
+import UseJobApplication from "../../Hooks/JobApplication/UseJobApplication";
 
 
 const SingleJobOffer = () => {
@@ -10,6 +11,7 @@ const SingleJobOffer = () => {
     const { getOfferById } = JobOffersService();
     const [singleOffer, setSingleOffer] = useState();
 
+    const applyjob = UseJobApplication();
     useEffect(() => {
 
         const getData = async (ID_offer) => {
@@ -65,7 +67,9 @@ const SingleJobOffer = () => {
                 <div className="offer__card__description__info">
                 <p dangerouslySetInnerHTML={{ __html: singleOffer?.description }} />
                 </div>
-
+                <button className="bg-Primary btn-aplicar m-1 text-white" onClick={()=>(applyjob(ID_offer))}>
+                    Aplicar
+                </button>
             </div>
         </div>
     )

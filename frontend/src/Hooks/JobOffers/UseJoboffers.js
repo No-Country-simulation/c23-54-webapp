@@ -21,7 +21,6 @@ const UseJobOffers = () =>{
             });
 
     
-
             return filteredData;
 
         }catch(error){
