@@ -67,6 +67,12 @@ p{
   gap: 20px;
 }
 
+.btn-aplicar{
+  border-style: none;
+  padding: 5px 60px;
+  border-radius: 20px;
+}
+
 .button{
   padding: 10px 20px;
   border: none;
