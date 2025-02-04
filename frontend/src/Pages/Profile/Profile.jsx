@@ -34,8 +34,8 @@ const Profile = () => {
                     <h3>Experiencia</h3>
                 </div>
 
-                <ul className="px-2 ThirdText">
-                    {experience?.map((exp, index) => (
+                <ul className="px-2 ThirdText d-flex flex-column align-items-center" style={{ maxWidth: '600px', margin: '0 auto' }}>
+                {experience?.map((exp, index) => (
                         <li key={index} className="fw-bold" style={{ maxWidth: '200px' }}>
                             <p>
                                 <strong>{exp.title}</strong> - <em>{exp.company}</em> ({exp.period})
@@ -158,7 +158,7 @@ const Profile = () => {
                         </div>
 
 
-                        <div className="flex-fill mx-2">
+                        <div className="flex-fill mx-2 ">
                             <Experience experience={Profiledata?.experience} />
                         </div>
                     </div>
