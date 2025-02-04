@@ -1,23 +1,21 @@
-const Notification = require("../models/notification");
-const User = require("../models/user");
-const JobOffer = require("../models/jobOffer");
-const CustomError = require('../errors/custom.errors')
+const { User, Notification, JobApplication, JobOffer, ApplicationStatus } = require("../models/relationship");
+const CustomError = require('../errors/custom.errors');
 
 class NotificationService {
 
     async createNotification(data) {
-        const { ID_user, ID_offer, message, type, send_date, read } = data;
+        const { ID_user, ID_application, message, type, send_date, read } = data;
         const user = await User.findByPk(ID_user);
-        const offer = await JobOffer.findByPk(ID_offer);
-        if (!user || !offer) throw CustomError.badRequest("Notification does not exist");
+        const jobApplication = await JobApplication.findByPk(ID_application);
+        if (!user || !jobApplication) throw CustomError.badRequest("Notification does not exist");
         return await Notification.create({
             ID_user,
-            ID_offer,
+            ID_application,
             message,
             type,
             send_date,
             read
-            });
+        });
     }
 
     async getAllNotifications() {
@@ -32,13 +30,28 @@ class NotificationService {
         return notification;
     }
 
+    async getNotificationsByUserID(ID_user) {
+        const notifications = await Notification.findAll({
+            where: { ID_user },
+            attributes: ['message', 'read', 'send_date', 'type'],
+            include: [
+                {
+                    model: JobApplication, include:
+                        [{ model: JobOffer, attributes: ['ID_offer', 'title'] },
+                        { model: ApplicationStatus, attributes: ['ID_application_status', 'status'] }],
+                    attributes: ['ID_application', 'application_date']
+                }]
+        });
+        if (!notifications) throw CustomError.badRequest("Notifications does not exist");
+        return notifications;
+
+    }
+
+
     async updateNotification(id, data) {
-        const { message, type, send_date, read } = data;
+        const { read } = data;
         const notification = await Notification.findByPk(id);
         if (!notification) throw CustomError.badRequest("Notification does not exist");
-        notification.message = message || notification.message;
-        notification.type = type || notification.type;
-        notification.send_date = send_date || notification.send_date;
         notification.read = read || notification.read;
         await notification.save();
         return notification;

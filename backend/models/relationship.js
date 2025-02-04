@@ -6,6 +6,7 @@ const Modality = require('./modality')
 const User = require('./user');
 const JobApplication = require('./jobApplication');
 const ApplicationStatus = require('./applicationStatus');
+const Notification = require('./notification');
 
 // Country, City
 Country.hasMany(City, {
@@ -91,8 +92,26 @@ ApplicationStatus.hasMany(JobApplication, {
     sourceKey: 'ID_application_status'
 })
 
+// Notification, user, jobApplication
+Notification.belongsTo(User, {
+    foreignKey: 'ID_user',
+    sourceKey: 'ID_user'
+})
 
+User.hasMany(Notification, {
+    foreignKey: 'ID_user',
+    sourceKey: 'ID_user'
+})
 
+Notification.belongsTo(JobApplication, {
+    foreignKey: 'ID_application',
+    sourceKey: 'ID_application'
+})
+
+JobApplication.hasMany(Notification, {
+    foreignKey: 'ID_application',
+    sourceKey: 'ID_application'
+})
 
 module.exports = {
     City,
@@ -102,5 +121,6 @@ module.exports = {
     User,
     Modality,
     JobApplication,
-    ApplicationStatus
+    ApplicationStatus,
+    Notification
 };
