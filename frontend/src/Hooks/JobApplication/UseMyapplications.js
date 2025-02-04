@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { MyapplicationsService } from "../../Services/MyapplicationsService"
+import { jobApplicationService } from "../../Services/jobApplicationService";
 
 
 const UseMyapplications = () =>{
 
     const [data, setData] = useState();
-
+    const {MyapplicationsService} = jobApplicationService();
     const FetchMyaaplications = async (filter) =>{
 
         try{
@@ -13,8 +13,8 @@ const UseMyapplications = () =>{
             const data = await response.json();
 
             if (filter === true) {
-                setData(data.filter(offer => ['pending', 'read', 'in_revision', 'approved'].includes(offer.ApplicationStatus.status)));
-                return data.filter(offer => ['pending', 'read', 'in_revision', 'approved'].includes(offer.ApplicationStatus.status));
+                setData(data.filter(offer => ['Pendiente', 'Vista', 'En revisión', 'Aprobada'].includes(offer.ApplicationStatus.status)));
+                return data.filter(offer => ['Pendiente', 'Vista', 'En revisión', 'Aprobada'].includes(offer.ApplicationStatus.status));
             } 
             if (filter === false) {
                 setData(data.filter(offer => offer.ApplicationStatus.statuss === 'refused'))

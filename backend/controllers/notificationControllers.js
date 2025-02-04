@@ -9,6 +9,7 @@ class NotificationController {
     this.getNotificationById = this.getNotificationById.bind(this);
     this.updateNotification = this.updateNotification.bind(this);
     this.deleteNotification = this.deleteNotification.bind(this);
+    this.getNotificationsByUserID = this.getNotificationsByUserID.bind(this);
   }
 
   handleError(error, res) {
@@ -51,6 +52,19 @@ class NotificationController {
     }
   }
 
+  async getNotificationsByUserID(req, res) {
+    try {
+      const notifications = await this.notificationService.getNotificationsByUserID(req.params.id);
+      if (notifications) {
+        res.status(200).json(notifications);
+      } else {
+        res.status(404).json({ message: "Notifications not found" });
+      }
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  }
+
   async updateNotification(req, res) {
     try {
       const updatedNotification = await this.notificationService.updateNotification(req.params.id, req.body);
@@ -76,7 +90,7 @@ class NotificationController {
       this.handleError(error, res);
     }
   }
-  
+
 }
 
 module.exports = NotificationController;

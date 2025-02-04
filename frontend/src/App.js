@@ -14,6 +14,7 @@ import ProtectedUser from "./RouteProtection/ProtectedUser";
 import RedirectIfAuthenticated from "./RouteProtection/RedirectIfAuthenticated ";
 import MisOfertas from "./Pages/MisOfertas/MisOfertas";
 import CreateJobOfferPage from "./Pages/JobOffer/CreateJobOfferPage";
+import SingleJobOffer from "./Pages/JobOffer/SingleJobOffer";
 import ProtectedRecruiter from "./RouteProtection/ProtectedRecruiter";
 import Profile from "./Pages/Profile/Profile";
 
@@ -51,8 +52,8 @@ const router = createBrowserRouter([
     element: <ProtectedUser><Profile/></ProtectedUser>
   },
   {
-    path: "/ImageTest",
-    element: <ImageTest />,
+    path: '/ver/oferta_trabajo/:ID_offer',
+    element: <ProtectedUser> <SingleJobOffer /  > </ProtectedUser>
   },
   {
     path: "*",

@@ -1,8 +1,24 @@
 
 import { UserRound, MapPin, Laptop, Share2 } from "lucide-react";
 import BgButton from "../../BgButton/BgButton";
+import { useNavigate } from "react-router-dom";
 
 const JobCard = ({ JobOffer }) => {
+
+    const navigate = useNavigate();
+
+    const stripHtml = (html) => {
+        const div = document.createElement("div");
+        div.innerHTML = html;
+        return div.innerText || div.textContent || "";
+    }
+
+
+    const redirectToOfferPage = (ID_offer) => {
+        navigate(`/ver/oferta_trabajo/${ID_offer}`)
+    }
+
+
     return (
         <div className="offer__card__container"
             key={JobOffer.ID_offer}
@@ -52,9 +68,8 @@ const JobCard = ({ JobOffer }) => {
                         />
                     </div>
 
-
                     <BgButton
-                        onClick={() => (console.log(JobOffer.ID_offer))}
+                        onClick={() => redirectToOfferPage(JobOffer.ID_offer)}
                         title={"Solicitar"}
                     />
                 </div>

@@ -15,7 +15,6 @@ export const AuthProvider = ({ children }) => {
     if (storedToken) {
       login(storedToken);
     }
-
   }, [])
 
   const login = (token) => {
