@@ -50,6 +50,7 @@ const Notificaciones = ({ isOpen, onClose, notificaciones, anchorRef }) => {
 };
 
 const NotificacionesModal = ({userId: ID_user}) => {
+   
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [notificaciones, setNotificaciones] = useState([]);
     const [cantidadActualizaciones, setCantidadActualizaciones] = useState(0);

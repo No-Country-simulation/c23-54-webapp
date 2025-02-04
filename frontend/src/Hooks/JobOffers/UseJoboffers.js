@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { FetchJobOffersService } from "../../Services/FetchJobsOffersService"
 
 const UseJobOffers = () =>{
@@ -12,7 +11,7 @@ const UseJobOffers = () =>{
             if (!filterName.trim() && !locationFilter.trim()) {
                 return data;
             }
-
+            
             const filteredData = data.filter(offer => {
                 const matchesTitle = offer.title.toLowerCase().startsWith(filterName.toLowerCase());
                 const matchesCity = offer.City.name.toLowerCase().startsWith(locationFilter.toLowerCase());

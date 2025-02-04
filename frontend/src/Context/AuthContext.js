@@ -17,18 +17,17 @@ export const AuthProvider = ({ children }) => {
     }
   }, [])
 
-  const login = (token, userId) => {
+  const login = (token) => {
     const decoded = jwtDecode(token);
     const { id, name, role, exp } = decoded;
     localStorage.setItem("Token", token);
     SetToken(token);
+    console.log('id', id)
     SetIdUser(id);
     SetName(name);
     SetRole(role);
-    localStorage.setItem("idUser", token);
-    localStorage.setItem("idUser", userId);
 
-    SetIdUser(userId)
+    
     const expirationTime = exp * 1000 - Date.now();
 
     if (expirationTime > 0) {
@@ -48,7 +47,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ login, logout, Token, Role, Name, idUser, SetIdUser, SetName }}>
+    <AuthContext.Provider value={{ login, logout, Token, Role, Name, idUser }}>
       {children}
     </AuthContext.Provider>
   );

@@ -55,7 +55,9 @@ const JobCard = ({ JobOffer }) => {
             <div className="divider-y"></div>
 
             <div className="offer__card__description__info">
-                <p>{stripHtml(JobOffer.description)}</p>
+                {/* Si se guarda sin etiqueta <p>{JobOffer.description}</p> */}
+                <div dangerouslySetInnerHTML={{ __html: JobOffer.description }} /> 
+                
 
                 <div className="offer__card_description__buttons">
 

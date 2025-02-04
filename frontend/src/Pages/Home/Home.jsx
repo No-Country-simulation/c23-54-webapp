@@ -10,7 +10,7 @@ import { MapPin, Pin, Search } from 'lucide-react';
 import BgButton from '../../Components/BgButton/BgButton';
 import SearchHomeContainer from '../../Components/FilterBar/SearchHomeContainer';
 import UseJobOffers from '../../Hooks/JobOffers/UseJoboffers';
-
+  
 const Home = () => {
 
   const location = useLocation();

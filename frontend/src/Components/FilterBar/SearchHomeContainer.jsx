@@ -6,13 +6,13 @@ import { useContext } from "react"
 import { AuthContext } from "../../Context/AuthContext"
 
 
-const SearchHomeContainer = ({SetFilterName, SetlocationFilter}) => {
+const SearchHomeContainer = ({ SetFilterName, SetlocationFilter }) => {
     const { Role } = useContext(AuthContext)
 
 
     const navigate = useNavigate();
 
-    const handleCreateOffer = () =>{
+    const handleCreateOffer = () => {
 
         navigate('/crear/oferta_trabajo')
     }
@@ -24,7 +24,7 @@ const SearchHomeContainer = ({SetFilterName, SetlocationFilter}) => {
                 <SearchText
                     name={"title"}
                     placeholder={"Buscar por titulo"}
-                    funcSaveValue={(e) => SetFilterName(e.target.value)} 
+                    funcSaveValue={(e) => SetFilterName(e.target.value)}
                 >
 
                     <Search
@@ -36,7 +36,7 @@ const SearchHomeContainer = ({SetFilterName, SetlocationFilter}) => {
                 <SearchText
                     name={"location"}
                     placeholder={"Buscar por ubicación"}
-                    funcSaveValue={(e) => SetlocationFilter(e.target.value)} 
+                    funcSaveValue={(e) => SetlocationFilter(e.target.value)}
 
                 >
 
@@ -51,6 +51,7 @@ const SearchHomeContainer = ({SetFilterName, SetlocationFilter}) => {
             {Role === 2 && (
                 <BgButton
                     title={"Agregar Oferta"}
+                    onClick={handleCreateOffer}
                 />
             )}
 
@@ -59,10 +60,7 @@ const SearchHomeContainer = ({SetFilterName, SetlocationFilter}) => {
                 // EL BOTON HAY QUE HACER EL RENDERIZADO SEGUN EL ROL
 
             }
-            <BgButton
-                title={"Agregar Oferta"}
-                onClick={handleCreateOffer}
-            />
+
         </div>
     )
 }

@@ -12,8 +12,11 @@ import Applications from "./Pages/MisPostulaciones/Applications";
 import LandingPage from "./Pages/LandingPage/LandingPage";
 import ProtectedUser from "./RouteProtection/ProtectedUser";
 import RedirectIfAuthenticated from "./RouteProtection/RedirectIfAuthenticated ";
+import MisOfertas from "./Pages/MisOfertas/MisOfertas";
 import CreateJobOfferPage from "./Pages/JobOffer/CreateJobOfferPage";
 import SingleJobOffer from "./Pages/JobOffer/SingleJobOffer";
+import ProtectedRecruiter from "./RouteProtection/ProtectedRecruiter";
+import Profile from "./Pages/Profile/Profile";
 
 const router = createBrowserRouter([
   {
@@ -34,12 +37,19 @@ const router = createBrowserRouter([
   },
   {
     path: '/Postulaciones',
-    element: <Applications />
+    element:  <Applications/>
+  },  
+  {
+    path: '/MisOfertas',
+    element: <ProtectedRecruiter><MisOfertas/></ProtectedRecruiter> 
   },
   {
     path: '/crear/oferta_trabajo',
-    element: <ProtectedUser><CreateJobOfferPage /></ProtectedUser>
-
+    element: <ProtectedRecruiter><CreateJobOfferPage /></ProtectedRecruiter>
+  },
+  {
+    path: '/MiPerfil',
+    element: <ProtectedUser><Profile/></ProtectedUser>
   },
   {
     path: '/ver/oferta_trabajo/:ID_offer',

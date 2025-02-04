@@ -3,6 +3,7 @@ import './PerfilModal.css';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { ProfileIcon} from '../../Assets'
 import { AuthContext } from '../../Context/AuthContext';
+import { Link } from 'react-router-dom';
 
 const ProfileModal = ({ isOpen, onClose, anchorRef }) => {
 
@@ -35,7 +36,7 @@ const ProfileModal = ({ isOpen, onClose, anchorRef }) => {
                 <div className="profile-info">
                     <h3>Juan Pérez</h3>
                     <h4>Desarrollo FullStack</h4>
-                    <button className="view-profile-button">Ver Perfil</button>
+                    <Link to='/MiPerfil' className="view-profile-button text-decoration-none">Ver Perfil</Link>
                 </div>
             </div>
 
