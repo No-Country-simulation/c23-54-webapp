@@ -128,6 +128,7 @@ const Register = () => {
             setTimeout(() => {
                 setShowALertToast(false)
             }, 2000)
+            
         }
 
     }
