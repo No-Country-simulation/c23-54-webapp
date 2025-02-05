@@ -10,6 +10,7 @@ import AlertToast from "../../Components/Alerts/Toasts/AlertToast";
 import SuccessToast from "../../Components/Alerts/Toasts/SuccessToast";
 import RegisterFirstStep from "./FirstStep";
 import RegisterSecondStep from "./SecondStep";
+import { baseUrl, endpointsUrls } from "../../constants";
 
 
 const registerSchemaStepOne = yup.object().shape({
@@ -96,7 +97,7 @@ const Register = () => {
                 img: "https://www.clarin.com/img/2024/10/12/vrmXfT9Go_600x600__1.jpg"
             })
 
-            const registerApi = `${process.env.REACT_APP_SV_HOST}${process.env.REACT_APP_C_USER}`;
+            const registerApi = `${baseUrl}${endpointsUrls.C_USER_REGISTER}`;
 
             const registerFetch = await fetch(registerApi, {
                 method: "POST",
@@ -127,7 +128,7 @@ const Register = () => {
             setTimeout(() => {
                 setShowALertToast(false)
             }, 2000)
-            
+
         }
 
     }
