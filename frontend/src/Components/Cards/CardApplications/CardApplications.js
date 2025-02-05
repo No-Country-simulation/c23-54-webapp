@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import UseMyapplications from '../../../Hooks/JobApplication/UseMyapplications'
 import './CardApplications.css'
 import img_aprobada from "../../../Assets/imagenes/Aprobada.png"
@@ -7,17 +7,17 @@ import img_rechazada from "../../../Assets/imagenes/Rechazada.png"
 import img_revision from "../../../Assets/imagenes/Revision.png"
 import img_vista from "../../../Assets/imagenes/Vista.png"
 import { EllipsisVertical, Eye, Trash } from 'lucide-react'
+import { AuthContext } from '../../../Context/AuthContext'
 
 const CardApplications = ({ filter }) => {
-
+  const {idUser} = useContext(AuthContext)
   const { FetchMyaaplications, data } = UseMyapplications();
 
   const [openId, setOpenId] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      await FetchMyaaplications(filter);
-
+      await FetchMyaaplications(filter, idUser);
     }
     fetchData();
   }, [filter])

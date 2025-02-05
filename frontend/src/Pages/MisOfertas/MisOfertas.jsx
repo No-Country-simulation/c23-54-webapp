@@ -14,8 +14,7 @@ const MisOfertas = () => {
     // const {FetchallOffers} = UseOffers();
 
     const { idUser } = useContext(AuthContext);
-    console.log(idUser)
- 
+
     useEffect(() => {
 
         const fetchOffers = async () => {
