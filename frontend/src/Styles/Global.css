@@ -1,0 +1,38 @@
+
+.PrimaryColor{
+    color: #0C8BC1;
+}
+.PrimaryText{
+    color: #031D38;
+}
+.SecondaryText{
+    color: #FEFEFE;
+}
+
+.ThirdText{
+    color: #918E89;
+}
+
+.FourthText{
+    color: #000000;
+}
+
+.bg-Primary{
+    background-color: #0C8BC1;
+}
+
+.bg-Secondary{
+    background-color: #FEFEFE;
+}
+
+
+
+main {
+    flex: 1;
+}
+
+.Contenido {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}

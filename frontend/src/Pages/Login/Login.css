@@ -1,0 +1,15 @@
+
+.shadow-login {
+    box-shadow: 1px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.input-login{
+    width: 100%;
+    border: none;
+    border-bottom: #0C8BC1 1px solid;
+}
+
+.Eye_icon{
+    position: absolute;
+    right: 0;
+}
