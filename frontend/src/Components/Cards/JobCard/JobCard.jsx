@@ -2,9 +2,13 @@
 import { UserRound, MapPin, Laptop, Share2 } from "lucide-react";
 import BgButton from "../../BgButton/BgButton";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../../Context/AuthContext";
 
 const JobCard = ({ JobOffer }) => {
 
+    const { idUser, Name ,Role} = useContext(AuthContext);
+    
     const navigate = useNavigate();
 
     const stripHtml = (html) => {
@@ -64,10 +68,10 @@ const JobCard = ({ JobOffer }) => {
                             className=""
                         />
                     </div>
-
+                    
                     <BgButton
-                        onClick={() => redirectToOfferPage(JobOffer.ID_offer)}
-                        title={"Solicitar"}
+                        onClick={() => redirectToOfferPage(JobOffer.ID_offer)} 
+                        title={JobOffer.User?.name === Name ? "Ver Postulación" : "Solicitar"}
                     />
                 </div>
             </div>
