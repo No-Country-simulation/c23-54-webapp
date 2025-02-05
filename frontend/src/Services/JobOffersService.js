@@ -71,5 +71,26 @@ export const JobOffersService = () => {
         }
     }
 
-    return { getAllOffers, CreateJobOffer, getOfferById }
+
+    const getApplicantsForOfferById = async (ID_offer) => {
+        const apiUrl = `${baseUrl}${endpointsUrls.RALL_JOB_APLICATIONS_BY_OFFER}/${ID_offer}`
+
+        const response = await fetch(apiUrl, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        if (!response) {
+            throw new Error("Error al obtener los postulantes del empleo");
+        }
+
+        return {
+            data: await response.json(),
+            status: response.status,
+            message: response.message
+        }
+    }
+
+    return { getAllOffers, CreateJobOffer, getOfferById, getApplicantsForOfferById }
 }

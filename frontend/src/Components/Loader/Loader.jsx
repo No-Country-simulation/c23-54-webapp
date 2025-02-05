@@ -1,9 +1,11 @@
 
-const Loader = () => {
+const Loader = ({
+    message = "Cargando..."
+}) => {
     return (
         <div class="loader-container">
             <div class="spinner"></div>
-            <div>Cargando...</div>
+            <div>{message}</div>
         </div>
     )
 }

@@ -111,6 +111,12 @@ p{
   box-shadow: var(--shadow-b-1);
 }
 
+.non-styled{
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+}
 
 .button-blue{
   color: var(--white-0);
@@ -254,8 +260,6 @@ p{
   gap: 10px;
   width: 100%;
   padding: 20px;
-  min-height: 300px;
-  max-height: 360px;
   overflow: hidden;
 }
 
@@ -285,6 +289,10 @@ p{
   color: var(--blue-1);
 }
 
+.card__offer__icon.applicant__hover:hover{
+  color: var(--blue-0);
+}
+
 .divider-y{
   width: 100%;
   border-left: 1px solid var(--gray-0);
@@ -299,14 +307,12 @@ p{
   border-radius: var(--radius-5);
 }
 
-.offer__card__description__info{
-}
-
 .offer__card__description__info  p{
   margin: 10px 0;
   word-break: break-all;
   text-wrap: wrap;
   color: var(--gray-0);
+  max-height: 50px;
 }
 
 .offer__card_description__buttons{
@@ -494,8 +500,68 @@ p{
   padding: 20px;
 }
 
+.single__offer__main__container{
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+
 .button__container{
   text-align: right;
+}
+
+
+.applicant__main__container{
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+.applicant__list__container{
+  background-color: var(--white-0);
+  padding: 20px;
+  box-shadow: var(--shadow-b-1);
+  border-radius: var(--radius-5);
+  border: 1px solid var(--gray-0)
+}
+
+.applicant__container{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 20px 0;
+  gap: 20px;
+}
+
+.applicant__primary{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+}
+
+.applicant__img{
+  height: 40px;
+  aspect-ratio: 4/3;
+}
+
+.applicant__img img{
+  width: 100%;
+  border-radius: 100%;
+
+}
+
+.applicant_secondary{
+  width: 100%;
+}
+
+.applicant_secondary p{
+  word-break: break-all;
+  text-align: left;
 }
 
 @keyframes slideIn {
@@ -590,6 +656,17 @@ p{
     overflow: hidden;
     min-height: 60%;
     width: 100%;
+  }
+
+  .single__offer__main__container{
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 20px;
+  }
+
+  .applicant__list__container{
+    width: fit-content !important;
+    height: 100% !important;
   }
 }
 

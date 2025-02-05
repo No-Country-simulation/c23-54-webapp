@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useContext, useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import { JobOffersService } from "../../Services/JobOffersService";
 import { Calendar, CircleDollarSign, Laptop, MapPin, UserRound } from "lucide-react";
@@ -6,6 +6,7 @@ import UseJobApplication from "../../Hooks/JobApplication/UseJobApplication";
 import Navbar from "../../Components/Navbar/Navbar";
 import AlertToast from "../../Components/Alerts/Toasts/AlertToast";
 import Loader from "../../Components/Loader/Loader";
+import { AuthContext } from "../../Context/AuthContext";
 
 
 const SingleJobOffer = () => {
@@ -14,13 +15,16 @@ const SingleJobOffer = () => {
     const { getOfferById } = JobOffersService();
     const [singleOffer, setSingleOffer] = useState();
 
+    const { Role, idUser } = useContext(AuthContext)
+
     const { applyjob, error } = UseJobApplication();
-
-
 
     const [isLoading, setIsLoading] = useState(true)
     const [errorLoading, setErrorLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
+
+    const ApplicationsList = lazy(() => import('../../Components/ApplicationsTable/ApplicationsList'));
+
     useEffect(() => {
         const getData = async (ID_offer) => {
             if (isLoading) {
@@ -57,8 +61,8 @@ const SingleJobOffer = () => {
             <nav><Navbar /> </nav>
 
             {!isLoading ? (
+                <div className="page__container single__offer__main__container">
 
-                <div className="page__container">
                     <div className="page__container__template single__offer">
                         <div className="offer__card__general__info">
                             <h6>{singleOffer?.title}</h6>
@@ -138,16 +142,40 @@ const SingleJobOffer = () => {
                             />
                         )}
 
-                        <div className="button__container">
-                            <button className="bg-Primary btn-aplicar m-1 text-white" onClick={() => (applyjob(ID_offer))}>
-                                Aplicar
-                            </button>
-                        </div>
+                        {
+                            (Role === 2 && (
+                                <div className="button__container">
+                                    <button className="bg-Primary btn-aplicar m-1 text-white" onClick={() => (applyjob(ID_offer))}>
+                                        Aplicar
+                                    </button>
+                                </div>
+                            ))
+                        }
+
 
 
                     </div>
 
-                </div>
+                    {/* UNCOMMENT CUANDO AGREGUEN EL ID DE USUARIO EN LA REPSUESTA
+
+                    {Role === 3 && idUser === singleOffer?.ID_user && (
+                        <>
+                            <Suspense fallback={<Loader message='Cargando Postulantes' />}>
+                                <ApplicationsList ID_offer={ID_offer} />
+                            </Suspense>
+
+                        </>
+                    )}
+
+                    */}
+
+                    <>
+                        <Suspense fallback={<Loader message='Cargando Postulantes' />}>
+                            <ApplicationsList ID_offer={ID_offer} />
+                        </Suspense>
+
+                    </>
+                </div >
             ) :
                 <Loader />
             }
