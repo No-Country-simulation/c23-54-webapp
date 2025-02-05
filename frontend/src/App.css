@@ -47,11 +47,40 @@ p{
   word-break: break-all;
 }
 
+.bold{
+  font-weight: 600;
+  color: var(--blue-0);
+}
+
 .center{
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(12, 139, 193, 0.2);
+  border-top-color: #0C8BC1;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
+
 
 /* GLOBALS */
 
@@ -63,14 +92,13 @@ p{
   flex-direction: column;
   align-items: center;
   margin: 5vh 0;
-
   gap: 20px;
 }
 
 .btn-aplicar{
   border-style: none;
   padding: 5px 60px;
-  border-radius: 20px;
+  border-radius: var(--radius-5);
 }
 
 .button{
@@ -226,6 +254,9 @@ p{
   gap: 10px;
   width: 100%;
   padding: 20px;
+  min-height: 300px;
+  max-height: 360px;
+  overflow: hidden;
 }
 
 .offer__card__general__info > h6{
@@ -431,6 +462,40 @@ p{
 
 .create__job__button__container > button{
   width: 20%;
+}
+
+.offer__info__primary{
+    display: flex;
+    justify-content: flex-start;
+    width: fit-content;
+    gap: 20px;
+}
+
+.offer__info__secondary{
+  width: fit-content;
+  margin-top: 20px;
+}
+
+.offer__description{
+  min-height: 35vh;
+  margin: 40px 0;
+  padding: 0 10px;
+}
+
+.offer__card__range__salary{
+  width: fit-content;
+}
+
+.single__offer{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 20px;
+}
+
+.button__container{
+  text-align: right;
 }
 
 @keyframes slideIn {

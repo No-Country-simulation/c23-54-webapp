@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import { JobOffersService } from "../../Services/JobOffersService";
-import { Laptop, MapPin, UserRound } from "lucide-react";
+import { Calendar, CircleDollarSign, Laptop, MapPin, UserRound } from "lucide-react";
 import UseJobApplication from "../../Hooks/JobApplication/UseJobApplication";
 import Navbar from "../../Components/Navbar/Navbar";
 import AlertToast from "../../Components/Alerts/Toasts/AlertToast";
+import Loader from "../../Components/Loader/Loader";
 
 
 const SingleJobOffer = () => {
@@ -14,74 +15,143 @@ const SingleJobOffer = () => {
     const [singleOffer, setSingleOffer] = useState();
 
     const { applyjob, error } = UseJobApplication();
+
+
+
+    const [isLoading, setIsLoading] = useState(true)
+    const [errorLoading, setErrorLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
     useEffect(() => {
-
         const getData = async (ID_offer) => {
+            if (isLoading) {
+                const response = await getOfferById(ID_offer)
 
-            const response = await getOfferById(ID_offer)
+                if (response.status === 400 || response.status === 403) {
+                    setIsLoading(false);
+                    setErrorLoading(true);
+                    setErrorMessage("Ha ocurrido un error al cargar la oferta de empleo, intente nuevamente más tarde")
+                    return
+                }
 
-            if (response.status === 400 || response.status === 403) {
-                return
+                setIsLoading(false);
+                setSingleOffer(response.data)
             }
 
-            setSingleOffer(response.data)
         }
 
         getData(ID_offer)
     }, [ID_offer])
 
+    const formatDate = (dateToFormat) => {
+        const date = new Date(dateToFormat);
+
+        const month = date.getMonth();
+        const day = date.getDate();
+        const year = date.getFullYear();
+
+        return `${day}-${month}-${year}`;
+    }
 
     return (
-        <div className="Contenido">
+        <>
             <nav><Navbar /> </nav>
 
-            <div className="page__container">
-                <div className="page__container__template">
-                    <div className="offer__card__general__info">
-                        <h6>{singleOffer?.title}</h6>
-                    </div>
+            {!isLoading ? (
 
-                    {/* INFO EXTRA */}
-                    <div className="offer__card__general__info__extra">
-                        <div className="offer__item__info">
-                            <UserRound
-                                className="card__offer__icon"
-                            />
-                            <p>{singleOffer?.User.name}</p>
+                <div className="page__container">
+                    <div className="page__container__template single__offer">
+                        <div className="offer__card__general__info">
+                            <h6>{singleOffer?.title}</h6>
                         </div>
-                        <div className="offer__item__info">
-                            <MapPin
-                                className="card__offer__icon"
 
-                            />
-                            <p>{singleOffer?.City.name}</p>
+                        {/* INFO EXTRA */}
+                        <div className="offer__info__container">
+
+                            <div className="offer__info__primary">
+                                <div className="offer__item__info">
+                                    <UserRound
+                                        className="card__offer__icon"
+                                    />
+                                    <p>{singleOffer?.User.name}</p>
+                                </div>
+                                <div className="offer__item__info">
+                                    <MapPin
+                                        className="card__offer__icon"
+
+                                    />
+                                    <p>{singleOffer?.City.name}</p>
+                                </div>
+                                <div className="offer__item__info">
+                                    <Laptop
+                                        className="card__offer__icon"
+                                    />
+                                    <p>{singleOffer?.Modality.name}</p>
+
+                                </div>
+                            </div>
+
+                            <div className="offer__info__secondary">
+                                <div className="offer__item__info">
+                                    <Calendar
+                                        className="card__offer__icon"
+                                    />
+                                    <p>Disponible hasta: {formatDate(singleOffer?.deadline)}</p>
+                                </div>
+
+                            </div>
+
                         </div>
-                        <div className="offer__item__info">
-                            <Laptop
-                                className="card__offer__icon"
-                            />
-                            <p>{singleOffer?.Modality.name}</p>
+
+                        {/* FIN INFO EXTRA */}
+
+                        <div className="offer__description">
+                            <p dangerouslySetInnerHTML={{ __html: singleOffer?.description }} />
+                        </div>
+
+                        <div className="offer__card__range__salary">
+
+
+                            <div className="offer__item__info">
+
+                                <CircleDollarSign
+                                    className="card__offer__icon"
+                                />
+                                Rango Salarial Disponible:
+                                <p className="bold">
+                                    {`${singleOffer?.salary_range_min}/${singleOffer?.salary_range_max}`}
+                                </p>
+                            </div>
+
 
                         </div>
-                    </div>
 
-                    {/* FIN INFO EXTRA */}
-                    {error &&
-                        <>
-                            <AlertToast  message_toast='Ya has enviado tu postulación'></AlertToast>
-                        </>
-                    }
-                    <div className="offer__card__description__info">
-                        <p dangerouslySetInnerHTML={{ __html: singleOffer?.description }} />
+                        {error &&
+                            <>
+                                <AlertToast message_toast='Ya has enviado tu postulación'></AlertToast>
+                            </>
+                        }
+
+
+                        {errorLoading && (
+                            <AlertToast
+                                message_toast={errorMessage}
+                            />
+                        )}
+
+                        <div className="button__container">
+                            <button className="bg-Primary btn-aplicar m-1 text-white" onClick={() => (applyjob(ID_offer))}>
+                                Aplicar
+                            </button>
+                        </div>
+
+
                     </div>
-                    <button className="bg-Primary btn-aplicar m-1 text-white" onClick={() => (applyjob(ID_offer))}>
-                        Aplicar
-                    </button>
 
                 </div>
-            </div>
-
-        </div>
+            ) :
+                <Loader />
+            }
+        </>
     )
 }
 

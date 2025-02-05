@@ -88,7 +88,6 @@ const Register = () => {
     };
 
     const finalStepSubmit = async (data) => {
-
         try {
             setFormData({
                 ...formData,
