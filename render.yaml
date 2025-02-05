@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: backend
+    env: node
+    plan: free  # O cambia a un plan pago si lo necesitas
+    rootDir: backend  # Especifica la carpeta donde está el backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 10000  # Render asigna un puerto dinámico
+      - key: DATABASE_URL
+        sync: false  # Configura manualmente en Render si usas una base de datos
