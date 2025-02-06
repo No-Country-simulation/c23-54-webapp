@@ -89,8 +89,8 @@ const NotificacionesModal = () => {
         const fetchNotificaciones = async () => {
             try {
                 const response = await MyapplicationsService(idUser);
-                // console.log("Solicitudes del usuario:", data);
                 const data = await response.json();
+                // console.log("Solicitudes del usuario:", data);
                 const nuevasNotificaciones = data.map(
                     (solicitud) =>
                         `Actualización de Postulación #${solicitud.JobOffer?.ID_offer}: Estado (${solicitud.ApplicationStatus?.status})`

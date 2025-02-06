@@ -168,13 +168,14 @@ const SingleJobOffer = () => {
                     )}
 
                     */}
+                    {Role === 2 &&
+                        <>
+                            <Suspense fallback={<Loader message='Cargando Postulantes' />}>
+                                <ApplicationsList ID_offer={ID_offer} />
+                            </Suspense>
 
-                    <>
-                        <Suspense fallback={<Loader message='Cargando Postulantes' />}>
-                            <ApplicationsList ID_offer={ID_offer} />
-                        </Suspense>
-
-                    </>
+                        </>
+                    }
                 </div >
             ) :
                 <Loader />
