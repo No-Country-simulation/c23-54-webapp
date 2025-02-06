@@ -52,7 +52,7 @@ class JobOfferService {
         const jobOffer = await JobOffer.findByPk(id, {
             attributes: ['ID_offer', 'title', 'description', 'salary_range_min', 'salary_range_max', 'publication_date', 'deadline', 'status'],
             include:
-                [{ model: User, attributes: ['name'] },
+                [{ model: User, attributes: ['name', 'ID_user'] },
                 { model: Modality },
                 { model: JobCategory },
                 { model: City, include: { model: Country }, attributes: ['ID_city', 'name'] },

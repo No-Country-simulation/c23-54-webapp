@@ -68,7 +68,7 @@ class JobApplicationService {
         const jobApplication = await JobApplication.findAll({
             where: { ID_offer },
             include:
-                [{ model: User, attributes: ['ID_user', 'name', 'phone', 'email'] },
+                [{ model: User, attributes: ['ID_user', 'name', 'phone', 'email', 'img'] },
                 { model: JobOffer, attributes: ['ID_offer', 'title'] },
                 { model: ApplicationStatus, attributes: ['ID_application_status', 'status'] }
 

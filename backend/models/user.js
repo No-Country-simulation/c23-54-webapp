@@ -71,7 +71,31 @@ const User = sequelize.define('User', {
       key: 'ID_role',
       defaultValue: 3
     },
-  }
+  },
+  linkedin: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  site: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  facebook: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  instagram: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  skills: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  experience: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
 }, {
   tableName: 'Users', // Table name in the database
   timestamps: false,

@@ -15,7 +15,13 @@ class UserEntity {
         description,
         img,
         ID_city,
-        ID_role
+        ID_role,
+        linkedin,
+        site,
+        facebook,
+        instagram,
+        skills,
+        experience
 
     ) {
         this.ID_user = ID_user;
@@ -31,6 +37,12 @@ class UserEntity {
         this.img = img;
         this.ID_city = ID_city;
         this.ID_role = ID_role;
+        this.linkedin = linkedin;
+        this.site = site;
+        this.facebook = facebook;
+        this.instagram = instagram;
+        this.skills = skills;
+        this.experience = experience;
     }
 
     static fromObject(object) {
@@ -46,7 +58,14 @@ class UserEntity {
             description,
             img,
             ID_city,
-            ID_role, } = object;
+            ID_role,
+            linkedin,
+            site,
+            facebook,
+            instagram,
+            skills,
+            experience,
+        } = object;
 
         if (!ID_user) {
             throw CustomError.badRequest('Missing ID_user');
@@ -99,7 +118,6 @@ class UserEntity {
             throw CustomError.badRequest('Missing ID_role');
         }
 
-
         return new UserEntity(ID_user,
             name,
             email,
@@ -112,7 +130,14 @@ class UserEntity {
             description,
             img,
             ID_city,
-            ID_role,);
+            ID_role,
+            linkedin,
+            site,
+            facebook,
+            instagram,
+            skills,
+            experience,
+        );
 
 
     }
