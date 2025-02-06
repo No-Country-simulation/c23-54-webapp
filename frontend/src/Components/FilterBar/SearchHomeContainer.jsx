@@ -55,12 +55,6 @@ const SearchHomeContainer = ({ SetFilterName, SetlocationFilter }) => {
                 />
             )}
 
-            {
-
-                // EL BOTON HAY QUE HACER EL RENDERIZADO SEGUN EL ROL
-
-            }
-
         </div>
     )
 }
