@@ -84,7 +84,7 @@ class JobApplicationService {
         const { status } = data;
         const jobApplication = await JobApplication.findByPk(id);
         if (!jobApplication) throw CustomError.badRequest("job application does not exist");
-        jobApplication.status = status || jobApplication.status;
+        jobApplication.ID_application_status = status || jobApplication.ID_application_status;
         await jobApplication.save();
         return jobApplication;
     }
