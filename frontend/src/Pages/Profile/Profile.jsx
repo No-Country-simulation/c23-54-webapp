@@ -22,10 +22,10 @@ const Profile = () => {
     }, [])
 
     const Experience = ({ experience }) => {
-        const [expanded, setExpanded] = useState(false);
+        const [expandedIndex, setExpandedIndex] = useState(null); 
 
-        const toggleExpand = () => {
-            setExpanded(!expanded);
+        const toggleExpand = (index) => {
+            setExpandedIndex(expandedIndex === index ? null : index); 
         };
 
         return (
@@ -34,13 +34,13 @@ const Profile = () => {
                     <h3>Experiencia</h3>
                 </div>
 
-                <ul className="px-2 ThirdText">
+                <ul className="px-2 ThirdText d-flex flex-column align-items-center" >
                     {experience?.map((exp, index) => (
                         <li key={index} className="fw-bold" style={{ maxWidth: '200px' }}>
                             <p>
                                 <strong>{exp.title}</strong> - <em>{exp.company}</em> ({exp.period})
                             </p>
-                            {expanded && (
+                            {expandedIndex === index &&  (
                                 <ul>
                                     {exp.tasks.map((task, taskIndex) => (
                                         <li key={taskIndex}>{task}</li>
@@ -48,8 +48,8 @@ const Profile = () => {
                                 </ul>
                             )}
 
-                            <button onClick={toggleExpand} className="btn btn-link">
-                                {expanded ? 'Ver menos' : 'Ver más'}
+                            <button onClick={() => toggleExpand(index)} className="btn btn-link">
+                                {expandedIndex === index ? 'Ver menos' : 'Ver más'}
                             </button>
                         </li>
                     ))}
@@ -158,7 +158,7 @@ const Profile = () => {
                         </div>
 
 
-                        <div className="flex-fill mx-2">
+                        <div className="flex-fill mx-2 ">
                             <Experience experience={Profiledata?.experience} />
                         </div>
                     </div>

@@ -13,7 +13,7 @@ export const jobApplicationService = () =>{
         if(!response){
             throw new Error("Error al postularse")
         }
-        console.log(response.json())
+        
         return response.json();
     }
 
