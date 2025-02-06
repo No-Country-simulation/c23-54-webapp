@@ -1,9 +1,9 @@
 
 
 
-export const UserService = async () => {
+export const UserService = async (ID_user) => {
 
-    try {
+    try {  
         const data = {
             "ID_user": 4,
             "name": "Nestor",

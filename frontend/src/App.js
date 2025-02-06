@@ -48,7 +48,7 @@ const router = createBrowserRouter([
     element: <ProtectedRecruiter><CreateJobOfferPage /></ProtectedRecruiter>
   },
   {
-    path: '/MiPerfil',
+    path: '/MiPerfil/:ID_user',
     element: <ProtectedUser><Profile/></ProtectedUser>
   },
   {
