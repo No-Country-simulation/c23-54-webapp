@@ -12,7 +12,13 @@ class RegisterUserDTO {
         description,
         img,
         ID_city,
-        ID_role
+        ID_role,
+        linkedin,
+        site,
+        facebook,
+        instagram,
+        skills,
+        experience
     ) {
         this.name = name;
         this.email = email;
@@ -23,6 +29,12 @@ class RegisterUserDTO {
         this.img = img;
         this.ID_city = ID_city;
         this.ID_role = ID_role;
+        this.linkedin = linkedin;
+        this.site = site;
+        this.facebook = facebook;
+        this.instagram = instagram;
+        this.skills = skills;
+        this.experience = experience;
     }
 
     static create(object) {
@@ -36,7 +48,13 @@ class RegisterUserDTO {
             description,
             img,
             ID_city,
-            ID_role
+            ID_role,
+            linkedin,
+            site,
+            facebook,
+            instagram,
+            skills,
+            experience,
         } = object;
 
         if (!name) return ['Missing name'];
@@ -59,7 +77,14 @@ class RegisterUserDTO {
             description,
             img,
             ID_city,
-            ID_role
+            ID_role,
+            linkedin,
+            site,
+            facebook,
+            instagram,
+            skills,
+            experience,
+
         )]
     }
 }

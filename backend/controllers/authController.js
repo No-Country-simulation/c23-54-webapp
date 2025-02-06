@@ -24,8 +24,6 @@ class AuthController {
 
     registerUser = (req, res) => {
 
-        console.log(req.body)
-
         const user = {
             email: req.body.email,
             password: req.body.password,
@@ -35,7 +33,14 @@ class AuthController {
             description: req.body.description,
             img: req.body.img,
             ID_city: req.body.ID_city,
-            ID_role: req.body.ID_role
+            ID_role: req.body.ID_role,
+            linkedin: req.body.linkedin,
+            site: req.body.site,
+            facebook: req.body.facebook,
+            instagram: req.body.instagram,
+            skills: req.body.skills,
+            experience: req.body.experience
+
         }
 
         const [error, registerUserDto] = RegisterUserDTO.create(user);
