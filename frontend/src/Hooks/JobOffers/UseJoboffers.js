@@ -23,7 +23,6 @@ const UseJobOffers = () =>{
             return filteredData;
 
         }catch(error){
-            console.log("Error:", error)
         }
     }
 

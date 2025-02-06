@@ -28,6 +28,7 @@ const Home = () => {
     if (logged && firstloged === 'Logeado') {
       setShowToast(true);
       localStorage.removeItem('FirstLogin');
+
     }
   }, [logged, firstloged]);
 

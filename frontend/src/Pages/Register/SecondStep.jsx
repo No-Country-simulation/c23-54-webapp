@@ -3,6 +3,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import ErrorMessage from "../../Components/Alerts/ErrorMessage/ErrorMessage";
 import BgButton from "../../Components/BgButton/BgButton";
 import { useEffect, useRef, useState } from "react";
+import { baseUrl, endpointsUrls } from "../../constants";
 
 
 const RegisterSecondStep = ({
@@ -26,9 +27,9 @@ const RegisterSecondStep = ({
 
         const getDataForSelects = async () => {
 
-            const countriesApi = fetch(`${process.env.REACT_APP_SV_HOST}${process.env.REACT_APP_RALL_COUNTRIES}`);
-            const citiesApi = fetch(`${process.env.REACT_APP_SV_HOST}${process.env.REACT_APP_RALL_CITIES}`);
-            const rolesApi = fetch(`${process.env.REACT_APP_SV_HOST}${process.env.REACT_APP_RALL_ROLES}`);
+            const countriesApi = fetch(`${baseUrl}${endpointsUrls.RALL_COUNTRIES}`);
+            const citiesApi = fetch(`${baseUrl}${endpointsUrls.RALL_CITIES}`);
+            const rolesApi = fetch(`${baseUrl}${endpointsUrls.RALL_ROLES}`);
 
             setIsLoading(true);
 
@@ -252,7 +253,7 @@ const RegisterSecondStep = ({
                         className="input-label"
                         htmlFor="phone">
                         Telefono
-                        <span className="tip-text"> (Opcional)</span>
+                        <span className="tip-text-obligatory"> *(Obligatorio)</span>
                     </label>
 
                     <input
@@ -276,7 +277,7 @@ const RegisterSecondStep = ({
                         className="input-label"
                         htmlFor="address">
                         Dirección
-                        <span className="tip-text"> (Opcional)</span>
+                        <span className="tip-text-obligatory"> *(Obligatorio)</span>
                     </label>
 
                     <input
@@ -302,7 +303,7 @@ const RegisterSecondStep = ({
                         className="input-label"
                         htmlFor="description">
                         Cuenta al mundo sobre ti!
-                        <span className="tip-text"> (Opcional)</span>
+                        <span className="tip-text-obligatory"> *(Obligatorio)</span>
                     </label>
 
                     <Controller

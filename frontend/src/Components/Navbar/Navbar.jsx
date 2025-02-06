@@ -16,9 +16,8 @@ const Navbar = () => {
     useEffect(() => {
         const path = window.location.pathname.split('/')[1];
         setUrl(path);
-
+    
     }, [])
-
     return (
         <div className='bg-Secondary d-flex  justify-content-between '>
             <div className='col-6 d-flex align-items-center'>

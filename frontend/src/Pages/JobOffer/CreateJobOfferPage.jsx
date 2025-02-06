@@ -13,7 +13,6 @@ import { JobOffersService } from "../../Services/JobOffersService";
 import AlertToast from "../../Components/Alerts/Toasts/AlertToast";
 import SuccessToast from "../../Components/Alerts/Toasts/SuccessToast";
 import { useNavigate } from 'react-router-dom'
-import { object } from "underscore";
 import { useContext } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 
@@ -24,8 +23,7 @@ const createJobOffer = yup.object().shape({
         .required("El titulo es obligatorio"),
     description: yup
         .string()
-        .required("La descripción es obligatoria")
-        .max(366, "La cantidad maxima de caracteres debe ser 366"),
+        .required("La descripción es obligatoria"),
     salary_range_min: yup
         .number()
         .typeError("El salario debe expresarse en numeros")

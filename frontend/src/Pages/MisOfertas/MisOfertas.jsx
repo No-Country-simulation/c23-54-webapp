@@ -50,12 +50,7 @@ const MisOfertas = () => {
                         <p>No hay ofertas disponibles</p>
                     )}
                 </div>
-                <div className="offer__card_description__buttons">
-                    <BgButton
-                        onClick={() => (console.log("Crear oferta"))}
-                        title={"Crear una nueva oferta"}
-                    />
-                </div>
+        
             </main >
         </div >
     );
