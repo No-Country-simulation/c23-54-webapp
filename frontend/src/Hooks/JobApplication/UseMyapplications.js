@@ -1,43 +1,3 @@
-// import { useState } from "react";
-// import { jobApplicationService } from "../../Services/jobApplicationService";
-
-
-// const UseMyapplications = () =>{
-
-//     const [data, setData] = useState();
-//     const {MyapplicationsService} = jobApplicationService();
-
-//     const FetchMyaaplications = async ( filter, idUser) =>{
-
-//         try{
-//             const data = await MyapplicationsService(idUser);
-//             if (filter === true) {
-//                 const filteredData = data.filter(offer =>
-//                     ['Pendiente', 'Vista', 'En revisión', 'Aprobada'].includes(offer.ApplicationStatus.status)
-//                 );
-//                 setData(filteredData);
-//                 return filteredData;
-//             }
-            
-//             if (filter === false) {
-//                 const filteredData = data.filter(offer => offer.ApplicationStatus.status === 'Rechazada');
-//                 setData(filteredData);
-//                 return filteredData;
-//             }
-
-//             setData(data);
-//             return data;
-//         }catch(error){
-//             console.error("Error en FetchMyaaplications:", error);
-//             return [];
-//         }
-//     }
-
-//     return {FetchMyaaplications, data}
-// }
-
-// export default UseMyapplications;
-
 import { useState } from "react";
 import { jobApplicationService } from "../../Services/jobApplicationService";
 
@@ -47,7 +7,7 @@ const UseMyapplications = () =>{
     const [data, setData] = useState();
     const {MyapplicationsService} = jobApplicationService();
 
-    const FetchMyaaplications = async (filter, idUser) =>{
+    const FetchMyApplications = async (filter, idUser) =>{
 
         try{
             const response = await MyapplicationsService(idUser);
@@ -68,7 +28,7 @@ const UseMyapplications = () =>{
         }
     }
 
-    return {FetchMyaaplications, data}
+    return {FetchMyApplications, data}
 }
 
 export default UseMyapplications;
