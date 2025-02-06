@@ -7,8 +7,8 @@ import { AuthContext } from "../../../Context/AuthContext";
 
 const JobCard = ({ JobOffer }) => {
 
-    const { idUser, Name ,Role} = useContext(AuthContext);
-    
+    const { idUser, Name, Role } = useContext(AuthContext);
+
     const navigate = useNavigate();
 
     const stripHtml = (html) => {
@@ -68,10 +68,10 @@ const JobCard = ({ JobOffer }) => {
                             className=""
                         />
                     </div>
-                    
+
                     <BgButton
-                        onClick={() => redirectToOfferPage(JobOffer.ID_offer)} 
-                        title={JobOffer.User?.name === Name ? "Ver Postulación" : "Solicitar"}
+                        onClick={() => redirectToOfferPage(JobOffer.ID_offer)}
+                        title={JobOffer.User?.ID_user === idUser ? "Ver Oferta" : "Ver Oferta"}
                     />
                 </div>
             </div>
