@@ -3,15 +3,17 @@ import Navbar from '../../Components/Navbar/Navbar'
 import './Profile.css'
 import { ProfileIcon } from '../../Assets'
 import UseProfileUser from '../../Hooks/UseProfileUser/UseProfileUser'
+import { useParams } from 'react-router-dom'
 
 const Profile = () => {
     const { FecthProfile } = UseProfileUser()
+    const { ID_user } = useParams();
 
     const [Profiledata, SetProfileData] = useState();
     useEffect(() => {
         const fecthdataprofile = async () => {
             try {
-                const data = await FecthProfile();
+                const data = await FecthProfile(ID_user);
                 console.log(data)
                 SetProfileData(data);
             } catch {
