@@ -8,19 +8,35 @@ import img_revision from "../../../Assets/imagenes/Revision.png"
 import img_vista from "../../../Assets/imagenes/Vista.png"
 import { EllipsisVertical, Eye, Trash } from 'lucide-react'
 import { AuthContext } from '../../../Context/AuthContext'
+import { Link } from 'react-router-dom'
+import { UseDelteApplication } from '../../../Hooks/JobApplication/UseDelteApplication'
 
 const CardApplications = ({ filter }) => {
   const {idUser} = useContext(AuthContext)
-  const { FetchMyaaplications, data } = UseMyapplications();
-
+  const { FetchMyApplications } = UseMyapplications();
+  const [data, setData] = useState();
   const [openId, setOpenId] = useState(null);
-
+  const {DelteApplication} = UseDelteApplication();
   useEffect(() => {
     const fetchData = async () => {
-      await FetchMyaaplications(filter, idUser);
-    }
+      if (idUser) {  
+        const response = await FetchMyApplications(filter, idUser);
+        setData(response);
+      }
+    };
     fetchData();
-  }, [filter])
+  }, [filter, idUser]); 
+
+  const DeleteHandler = async(ID_application) =>{
+      try{
+        await DelteApplication(ID_application);
+        const response = await FetchMyApplications(filter, idUser);
+        setData(response);
+      }catch{
+
+      }
+
+  }
   return (
 
     <div>
@@ -56,20 +72,19 @@ const CardApplications = ({ filter }) => {
             </div>
             {openId === item.ID_application &&
               <div className='Myapplications_Display px-3 py-1 mx-3' >
-                <div className='Myapplications_Display_icon'>
+                <button className='Myapplications_Display_icon bg-transparent p-0 m-0 border-0' onClick={()=>{DeleteHandler(item.ID_application)}} >
                   <Trash width='20px' />
                   <p>Eliminar</p>
-                </div>
-                <div className='Myapplications_Display_icon'>
+                </button>
+                <Link className='Myapplications_Display_icon text-black text-decoration-none' to={`/ver/oferta_trabajo/${item.JobOffer?.ID_offer}`}>
                   <Eye width='20px' />
                   <p>Ver aviso</p>
-                </div>
+                </Link>
               </div>
             }
           </div>
         </div>
       ))}
-
 
     </div>
   )

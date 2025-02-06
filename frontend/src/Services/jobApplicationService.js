@@ -35,5 +35,25 @@ export const jobApplicationService = () =>{
 
         }
     }
-    return {postjobApplication, MyapplicationsService}
+
+    const DeleteApplicationsService = async (ID_application) =>{
+
+        try{
+
+
+            const response = await fetch(`http://localhost:3001/api/jobApplications//${ID_application}`, {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+            return response;
+
+
+
+        }catch(error){
+
+        }
+    }
+    return {postjobApplication, MyapplicationsService, DeleteApplicationsService}
 }
