@@ -2,10 +2,15 @@ import React, { useState } from 'react'
 import Navbar from '../../Components/Navbar/Navbar'
 import './Applications.css'
 import CardApplications from '../../Components/Cards/CardApplications/CardApplications';
+import SuccessToast from '../../Components/Alerts/Toasts/SuccessToast';
+import { useLocation } from 'react-router-dom';
 const Applications = () => {
 
+     const location = useLocation();
     const [filter, setFilter] = useState(null);
-    return (   
+    const { logged, message } = location.state || {};
+
+    return (
 
         <div className='Contenido'>
             <nav><Navbar /></nav>
@@ -24,6 +29,10 @@ const Applications = () => {
                         </div>
 
                     </div>
+
+                    {logged && (
+                        <SuccessToast message_toast={message} />
+                    )}
 
                 </div>
             </main>
