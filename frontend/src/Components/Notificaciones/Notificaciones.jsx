@@ -86,20 +86,20 @@ const NotificacionesModal = () => {
                 const response = await MyapplicationsService(idUser);
                 const data = await response.json();
                 const nuevasNotificaciones = data.map(
-                    (solicitud) =>   
-                <>
-                    <div className="notificacion-item" style={{ fontSize: "1.0em", color: "black" }}>
-                            •  Actualización de Postulación
-                    </div>
-                        {`#${solicitud.JobOffer?.ID_offer}: Estado (${solicitud.ApplicationStatus?.status})`}
-                        <br/>
-                        .
-                </> 
+                    (solicitud) =>
+                        <>
+                            <div className="notificacion-item" style={{ fontSize: "1.0em", color: "black" }}>
+                                •  Actualización de Postulación
+                            </div>
+                            {`#${solicitud.JobOffer?.ID_offer}: Estado (${solicitud.ApplicationStatus?.status})`}
+                            <br />
+                            .
+                        </>
                 );
 
                 if (JSON.stringify(nuevasNotificaciones) !== JSON.stringify(prevNotificacionesRef.current)) {
                     setNotificaciones(nuevasNotificaciones);
-                    prevNotificacionesRef.current = nuevasNotificaciones; 
+                    prevNotificacionesRef.current = nuevasNotificaciones;
                 }
             } catch (error) {
                 console.error("Error al cargar las notificaciones:", error);
@@ -109,55 +109,55 @@ const NotificacionesModal = () => {
         fetchNotificaciones();
 
         const interval = setInterval(fetchNotificaciones, 60000);
-            return () => clearInterval(interval);
-        }, [idUser]);
+        return () => clearInterval(interval);
+    }, [idUser]);
 
-        // useEffect(() => {
-        //     if (!isProfileOpen) {
-        //         setNotificaciones([]); // 💡 Limpia las notificaciones al cerrar el modal
-        //     }
-        // }, [isProfileOpen]);
+    // useEffect(() => {
+    //     if (!isProfileOpen) {
+    //         setNotificaciones([]); // 💡 Limpia las notificaciones al cerrar el modal
+    //     }
+    // }, [isProfileOpen]);
 
-        // const marcarComoLeida = async (id) => {
-        //     try {
-        //         await fetch(`http://localhost:3001/api/notifications/user/30`, {
-        //             method: "PUT",
-        //             headers: {
-        //                 "Content-Type": "application/json",
-        //             },
-        //             body: JSON.stringify({ read: true }),
-        //         });
+    // const marcarComoLeida = async (id) => {
+    //     try {
+    //         await fetch(`http://localhost:3001/api/notifications/user/30`, {
+    //             method: "PUT",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             body: JSON.stringify({ read: true }),
+    //         });
 
-        //         setNotificaciones((prevNotificaciones) =>
-        //             prevNotificaciones.filter((noti) => noti.ID_notification !== id)
-        //         );
-        //     } catch (error) {
-        //         console.error("Error al marcar notificación como leída:", error);
-        //     }
-        // };
+    //         setNotificaciones((prevNotificaciones) =>
+    //             prevNotificaciones.filter((noti) => noti.ID_notification !== id)
+    //         );
+    //     } catch (error) {
+    //         console.error("Error al marcar notificación como leída:", error);
+    //     }
+    // };
 
-        // useEffect(() => {
-        //     console.log("Notificaciones cargadas:", notificaciones);
-        //     if (isProfileOpen) {
-        //         notificaciones.forEach((noti) => {
-        //             if (!noti.read) {
-        //                 console.log("Marcando como leída:", noti.ID_notification);
-        //                 marcarComoLeida(noti.ID_notification);
-        //             }
-        //         });
-        //     }
-        // }, [isProfileOpen]);
+    // useEffect(() => {
+    //     console.log("Notificaciones cargadas:", notificaciones);
+    //     if (isProfileOpen) {
+    //         notificaciones.forEach((noti) => {
+    //             if (!noti.read) {
+    //                 console.log("Marcando como leída:", noti.ID_notification);
+    //                 marcarComoLeida(noti.ID_notification);
+    //             }
+    //         });
+    //     }
+    // }, [isProfileOpen]);
 
-        return (
-            <div style={{ position: "relative" }}>
-                <Bell
-                    onClick={handleOpenProfile}
-                    ref={buttonRef}
-                    style={{ cursor: "pointer", fontSize: "24px", color: "#333" }}
-                />
-                <Notificaciones isOpen={isProfileOpen} notificaciones={notificaciones} anchorRef={buttonRef} />
-            </div>
-        );
-    };
+    return (
+        <div style={{ position: "relative" }}>
+            <Bell
+                onClick={handleOpenProfile}
+                ref={buttonRef}
+                style={{ cursor: "pointer", fontSize: "24px", color: "#333" }}
+            />
+            <Notificaciones isOpen={isProfileOpen} notificaciones={notificaciones} anchorRef={buttonRef} />
+        </div>
+    );
+};
 
 export default NotificacionesModal;
