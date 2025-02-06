@@ -1,3 +1,6 @@
+import { endpointsUrls } from "../constants";
+import api from "./api";
+
 export const LoginUserService = async (email, password) => {
     try {
         //PREGUNTAR COMO SE HACE
@@ -7,14 +10,8 @@ export const LoginUserService = async (email, password) => {
             email: email,
             password:  password
         };
-
-        const response = await fetch("http://localhost:3001/api/auth/login", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        });        
+        const response = await api.post(endpointsUrls.R_ONE_USER_LOGIN, formData);
+       
         
         return response; 
     } catch (error) {

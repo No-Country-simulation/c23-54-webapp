@@ -71,7 +71,7 @@ const JobCard = ({ JobOffer }) => {
                     
                     <BgButton
                         onClick={() => redirectToOfferPage(JobOffer.ID_offer)} 
-                        title={JobOffer.User?.name === Name ? "Ver Postulación" : "Solicitar"}
+                        title={JobOffer.User?.name === Name ? "Ver Postulación" : "Ver Oferta"}
                     />
                 </div>
             </div>

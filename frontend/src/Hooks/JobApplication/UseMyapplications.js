@@ -11,7 +11,7 @@ const UseMyapplications = () =>{
 
         try{
             const response = await MyapplicationsService(idUser);
-            const data = await response.json();
+            const data = await response.data;
 
             if (filter === true) {
                 setData(data.filter(offer => ['Pendiente', 'Vista', 'En revisión', 'Aprobada'].includes(offer.ApplicationStatus.status)));

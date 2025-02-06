@@ -1,32 +1,24 @@
+import { baseUrl, endpointsUrls } from "../constants"
+import api from "./api";
+
+
 export const jobApplicationService = () =>{
 
     const postjobApplication = async (formData) =>{
+        const API_BASE_URL = baseUrl;
 
 
-        const response = await fetch("http://localhost:3001/api/jobApplications", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        });
+        const response = await api.post(`${baseUrl}${endpointsUrls.C_JOB_APPLICATION}`, formData);
         if(!response){
             throw new Error("Error al postularse")
         }
         
-        return response.json();
+        return response.data;
     }
 
     const MyapplicationsService = async (idUser) =>{
         try{
-
-
-            const response = await fetch(`http://localhost:3001/api/jobApplications/user/${idUser}`, {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            });
+            const response = await api.get(`${baseUrl}${endpointsUrls.R_JOB_APPLICATIONS_BY_USER}/${idUser}`);
             return response;
 
 
@@ -41,12 +33,7 @@ export const jobApplicationService = () =>{
         try{
 
 
-            const response = await fetch(`http://localhost:3001/api/jobApplications//${ID_application}`, {
-                method: "DELETE",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            });
+            const response = await api.delete(`${baseUrl}${endpointsUrls.D_JOB_APPLICATION}/${ID_application}`);
             return response;
 
 
