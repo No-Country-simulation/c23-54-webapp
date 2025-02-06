@@ -12,6 +12,7 @@ import { AuthContext } from '../../../Context/AuthContext'
 const CardApplications = ({ filter }) => {
   const {idUser} = useContext(AuthContext)
   const { FetchMyaaplications, data } = UseMyapplications();
+  console.log(data)
 
   const [openId, setOpenId] = useState(null);
 
