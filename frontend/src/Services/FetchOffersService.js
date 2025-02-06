@@ -1,5 +1,6 @@
 
 import { baseUrl, endpointsUrls } from "../constants.js";
+import api from "./api.js";
 
 export const FetchOffersService = async (userId) => {
 
@@ -13,13 +14,10 @@ export const FetchOffersService = async (userId) => {
     const apiUrl = `${baseUrl}${endpointsUrls.RALL_JOB_OFFERS}/user/${userId}`;
     
     try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) {
-            throw new Error("Error al obtener las ofertas de empleo");
-        }
-        const data = await response.json();
+        const response = await api.get(apiUrl);
 
-        return data;
+        return response.data; 
+ 
     } catch (error) {
         console.error(error);
         return [];

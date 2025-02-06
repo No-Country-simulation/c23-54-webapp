@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../Context/AuthContext";
 import { baseUrl, endpointsUrls } from "../constants";
+import api from "./api";
 
 export const JobOffersService = () => {
     const { Token, idUser } = useContext(AuthContext);
@@ -8,14 +9,14 @@ export const JobOffersService = () => {
     const getAllOffers = async () => {
         const apiUrl = `${baseUrl}${endpointsUrls.RALL_JOB_OFFERS}`
 
-        const response = await fetch(apiUrl)
+        const response = await api.get(apiUrl)
 
         if (!response) {
             throw new Error("Error al obtener las ofertas de empleo");
         }
 
         return {
-            response: response.json(),
+            response: response.data,
             status: response.status,
             message: response.message
         }
@@ -31,21 +32,14 @@ export const JobOffersService = () => {
             ID_user: idUser
         }
 
-        const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${Token}`
-            },
-            body: JSON.stringify(dataTocreate)
-        })
+        const response = await api.post(apiUrl, {dataTocreate})
 
         if (!response) {
             throw new Error("Error al obtener las ofertas de empleo");
         }
 
         return {
-            response: response.json(),
+            response: response.data,
             status: response.status,
             message: response.message
         };
@@ -54,18 +48,14 @@ export const JobOffersService = () => {
     const getOfferById = async (ID_offer) => {
         const apiUrl = `${baseUrl}${endpointsUrls.RONE_JOB_OFFERS}/${ID_offer}`
 
-        const response = await fetch(apiUrl, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
+        const response = await api.get(apiUrl)
 
         if (!response) {
             throw new Error("Error al obtener las ofertas de empleo");
         }
 
         return {
-            data: await response.json(),
+            data: await response.data,
             status: response.status,
             message: response.message
         }
@@ -75,18 +65,14 @@ export const JobOffersService = () => {
     const getApplicantsForOfferById = async (ID_offer) => {
         const apiUrl = `${baseUrl}${endpointsUrls.RALL_JOB_APLICATIONS_BY_OFFER}/${ID_offer}`
 
-        const response = await fetch(apiUrl, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
+        const response = await api.get(apiUrl)
 
         if (!response) {
             throw new Error("Error al obtener los postulantes del empleo");
         }
 
         return {
-            data: await response.json(),
+            data: await response.data,
             status: response.status,
             message: response.message
         }

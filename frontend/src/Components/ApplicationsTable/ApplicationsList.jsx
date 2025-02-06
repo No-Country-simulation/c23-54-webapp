@@ -19,7 +19,6 @@ const ApplicationsList = ({
 
         const fetchApplicantsData = async () => {
             const response = await getApplicantsForOfferById(ID_offer);
-
             if (!response) {
                 setErrorMessage(errorMessage)
             };

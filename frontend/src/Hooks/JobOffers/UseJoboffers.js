@@ -5,7 +5,7 @@ const UseJobOffers = () =>{
     const FecthallJobOffers = async (filterName, locationFilter) =>{
         try{
             const response = await  FetchJobOffersService()
-            const data = await response.json();
+            const data = await response.data;
           
 
             if (!filterName.trim() && !locationFilter.trim()) {
