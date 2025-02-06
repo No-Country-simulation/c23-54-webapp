@@ -15,7 +15,7 @@ const useLogin = () => {
         try {
             const response = await LoginUserService(email, password);
             if (response.status === 200) {
-                const data = await response.json();
+                const data = await response.data;
                 login(data.token);
                 localStorage.setItem('FirstLogin', 'Logeado');
                 navigate('/Home', { state: { logged: true, message: 'Logeado exitoso' } }); 
