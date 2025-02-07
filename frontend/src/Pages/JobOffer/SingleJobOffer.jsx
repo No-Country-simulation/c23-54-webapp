@@ -1,7 +1,7 @@
 import { lazy, Suspense, useContext, useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import { JobOffersService } from "../../Services/JobOffersService";
-import { Calendar, CircleDollarSign, Laptop, MapPin, UserRound } from "lucide-react";
+import { Calendar, CircleDollarSign, Laptop, MapPin, User, UserRound } from "lucide-react";
 import UseJobApplication from "../../Hooks/JobApplication/UseJobApplication";
 import Navbar from "../../Components/Navbar/Navbar";
 import AlertToast from "../../Components/Alerts/Toasts/AlertToast";
@@ -55,6 +55,7 @@ const SingleJobOffer = () => {
 
         return `${day}-${month}-${year}`;
     }
+
 
     return (
         <>
@@ -143,7 +144,7 @@ const SingleJobOffer = () => {
                         )}
 
                         {
-                            (Role === 2 && (
+                            (Role === 3 && (
                                 <div className="button__container">
                                     <button className="bg-Primary btn-aplicar m-1 text-white" onClick={() => (applyjob(ID_offer))}>
                                         Aplicar
@@ -156,9 +157,9 @@ const SingleJobOffer = () => {
 
                     </div>
 
-                    {/* UNCOMMENT CUANDO AGREGUEN EL ID DE USUARIO EN LA REPSUESTA
+                    {/* UNCOMMENT CUANDO AGREGUEN EL ID DE USUARIO EN LA REPSUESTA */}
 
-                    {Role === 3 && idUser === singleOffer?.ID_user && (
+                    {Role === 2 && idUser === singleOffer?.User.ID_user && (
                         <>
                             <Suspense fallback={<Loader message='Cargando Postulantes' />}>
                                 <ApplicationsList ID_offer={ID_offer} />
@@ -167,15 +168,15 @@ const SingleJobOffer = () => {
                         </>
                     )}
 
-                    */}
-                    {Role === 2 &&
+                   
+                    {/* {Role === 2 &&
                         <>
                             <Suspense fallback={<Loader message='Cargando Postulantes' />}>
                                 <ApplicationsList ID_offer={ID_offer} />
                             </Suspense>
 
                         </>
-                    }
+                    } */}
                 </div >
             ) :
                 <Loader />

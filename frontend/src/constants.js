@@ -14,5 +14,7 @@ export const endpointsUrls = {
     RALL_COUNTRIES: '/countries',
     C_JOB_APPLICATION: '/jobApplications',
     R_JOB_APPLICATIONS_BY_USER: '/jobApplications/user',
-    D_JOB_APPLICATION: '/jobApplications'
+    D_JOB_APPLICATION: '/jobApplications',
+    RALL_APPLICATION_STATUSES: "/applicationStatuses" 
+    
 };

@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 const ProfileModal = ({ isOpen, onClose, anchorRef }) => {
 
-    const {logout} = useContext(AuthContext);
+    const {logout, idUser} = useContext(AuthContext);
     if (!isOpen) return null;
 
     const modalStyles = anchorRef?.current
@@ -36,7 +36,7 @@ const ProfileModal = ({ isOpen, onClose, anchorRef }) => {
                 <div className="profile-info">
                     <h3>Juan Pérez</h3>
                     <h4>Desarrollo FullStack</h4>
-                    <Link to='/MiPerfil' className="view-profile-button text-decoration-none">Ver Perfil</Link>
+                    <Link to={`/MiPerfil/${idUser}`} className="view-profile-button text-decoration-none">Ver Perfil</Link>
                 </div>
             </div>
 

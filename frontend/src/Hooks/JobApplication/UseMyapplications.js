@@ -18,8 +18,8 @@ const UseMyapplications = () =>{
                 return data.filter(offer => ['Pendiente', 'Vista', 'En revisión', 'Aprobada'].includes(offer.ApplicationStatus.status));
             } 
             if (filter === false) {
-                setData(data.filter(offer => offer.ApplicationStatus.statuss === 'refused'))
-                return data.filter(offer => offer.ApplicationStatus.status === 'refused');
+                setData(data.filter(offer => offer.ApplicationStatus.statuss === 'Rechazada'))
+                return data.filter(offer => offer.ApplicationStatus.status === 'Rechazada');
             }
             setData(data)
             return data

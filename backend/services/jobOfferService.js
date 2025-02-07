@@ -1,7 +1,12 @@
 const { User, JobOffer, JobCategory, Modality, City, Country } = require('../models/relationship')
 const CustomError = require('../errors/custom.errors')
+const JobApplicationService = require('./jobApplicationService')
 
 class JobOfferService {
+
+    constructor() {
+        this.jobApplicationService = new JobApplicationService();
+    }
 
     async createJobOffer(data) {
         const { ID_user, title, description, salary_range_min, salary_range_max, publication_date, deadline, ID_city, status, ID_modality, ID_job_category } = data;
@@ -39,6 +44,7 @@ class JobOfferService {
                     where: { status: 'open' }
                 }
             );
+            // this.jobApplicationService.canApply();
             if (!jobJobOffers) throw CustomError.badRequest("job offer does not exist");
             return jobJobOffers;
 

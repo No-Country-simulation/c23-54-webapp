@@ -14,7 +14,6 @@ const Profile = () => {
         const fecthdataprofile = async () => {
             try {
                 const data = await FecthProfile(ID_user);
-                console.log(data)
                 SetProfileData(data);
             } catch {
 

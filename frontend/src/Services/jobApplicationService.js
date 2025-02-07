@@ -18,6 +18,7 @@ export const jobApplicationService = () =>{
 
     const MyapplicationsService = async (idUser) =>{
         try{
+            
             const response = await api.get(`${baseUrl}${endpointsUrls.R_JOB_APPLICATIONS_BY_USER}/${idUser}`);
             return response;
 
@@ -42,5 +43,21 @@ export const jobApplicationService = () =>{
 
         }
     }
-    return {postjobApplication, MyapplicationsService, DeleteApplicationsService}
+
+    const UpdateApplicationsService = async (applicationId, updatedData) =>{
+
+        const formData =
+        {
+            ID_application_status: updatedData
+        }
+        try{
+            const response = await api.put(`${baseUrl}${endpointsUrls.D_JOB_APPLICATION}/${applicationId}`, formData);
+            return response.data;
+
+        }catch(error){
+            throw error; 
+
+        }
+    }
+    return {postjobApplication, MyapplicationsService, DeleteApplicationsService, UpdateApplicationsService}
 }
