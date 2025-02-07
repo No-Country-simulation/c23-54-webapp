@@ -19,12 +19,10 @@ const MisOfertas = () => {
 
         const fetchOffers = async () => {
             if (!idUser) {
-                console.log("No hay usuario autenticado.");
                 return; 
             }
             const ofertas = await FetchOffersService(idUser);
             
-            console.log(ofertas)
             setOffers(ofertas);
         //     try {
         //         const data = await FetchallOffers(idUser);

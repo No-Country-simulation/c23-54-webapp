@@ -80,11 +80,16 @@ class JobApplicationService {
         return jobApplication
     }
 
+    async canApply(ID_offer, ID_user) {
+        const canApply = await JobApplication.findAll({ where: ID_offer, ID_user })
+        return console.log(canApply);
+    }
+
     async updateJobApplication(id, data) {
-        const { status } = data;
+        const { ID_application_status } = data;
         const jobApplication = await JobApplication.findByPk(id);
         if (!jobApplication) throw CustomError.badRequest("job application does not exist");
-        jobApplication.ID_application_status = status || jobApplication.ID_application_status;
+        jobApplication.ID_application_status = ID_application_status || jobApplication.ID_application_status;
         await jobApplication.save();
         return jobApplication;
     }
